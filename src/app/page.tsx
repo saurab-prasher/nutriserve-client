@@ -9,7 +9,7 @@ import HeroSection from "./components/HeroSection";
 
 export default function Home() {
   return (
-    <div>
+    <div className='max-w-screen-lg m-auto'>
       <HeroSection />
     </div>
   );

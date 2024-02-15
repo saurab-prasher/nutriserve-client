@@ -8,8 +8,8 @@ export default function Navbar() {
 
   return (
     <header className='bg-gray-100'>
-      <div className='container mx-auto flex items-center justify-between p-5'>
-        <Link href='/'>Logo</Link>
+      <div className='container mx-auto flex items-center justify-between p-6'>
+        <Link href='/'>Omnifood</Link>
         <nav className={`${isNavOpen ? "block" : "hidden"} md:block`}>
           <ul className='flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10'>
             <li>
@@ -39,14 +39,14 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='#pricing'
+                href='/pricing'
               >
                 Pricing
               </Link>
             </li>
             <li>
               <Link
-                className='bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-150 ease-in-out'
+                className='bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-700 transition duration-150 ease-in-out'
                 href='register'
               >
                 Try for free

@@ -16,7 +16,7 @@ const HeroSection = () => {
               nutritional needs. We have delivered 250,000+ meals last year!
             </p>
             <a
-              href='#cta'
+              href='login'
               className='bg-green-500 text-white py-2 px-4 rounded-full mr-2'
             >
               Start eating well
