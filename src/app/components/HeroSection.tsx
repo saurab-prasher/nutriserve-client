@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className='text-center py-12 px-4'>
+      <section className='text-center py-24 px-4'>
         <div className='max-w-screen-xl mx-auto'>
           <div className='mb-8'>
             <h1 className='text-4xl font-bold mb-4'>
@@ -17,13 +17,13 @@ const HeroSection = () => {
             </p>
             <a
               href='login'
-              className='bg-green-500 text-white py-2 px-4 rounded-full mr-2'
+              className='bg-orange-500 text-white py-2 px-4 rounded-md mr-2'
             >
               Start eating well
             </a>
             <a
               href='#how'
-              className='bg-transparent border-2 border-green-500 text-green-500 py-2 px-4 rounded-full'
+              className='bg-transparent border-2 border-orange-500 hover:bg-orange-500 hover:text-white text-orange-500 py-2 px-4 rounded-md transition duration-150 ease-in-out'
             >
               Learn more ↓
             </a>

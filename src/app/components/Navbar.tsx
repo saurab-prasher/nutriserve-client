@@ -15,7 +15,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='#how'
+                href='how'
               >
                 How it works
               </Link>
@@ -23,7 +23,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='meals'
+                href='/meals'
               >
                 Meals
               </Link>
@@ -31,7 +31,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='#testimonials'
+                href='testimonials'
               >
                 Testimonials
               </Link>
@@ -39,7 +39,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='/pricing'
+                href='pricing'
               >
                 Pricing
               </Link>
