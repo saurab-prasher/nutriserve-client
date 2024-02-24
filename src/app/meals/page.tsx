@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 type NutritionalValues = {
   calories: number;
@@ -56,6 +58,10 @@ function MealsPage() {
     setExpandedMeal(mealId === expandedMeal ? null : mealId);
   };
 
+  const handleAddToWishlist = (mealId: string) => {
+    // wishlist functionality
+  };
+
   return (
     <div className="max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {paginatedMeals?.map((meal) => (
@@ -98,12 +104,20 @@ function MealsPage() {
                 </div>
               </div>
             ) : (
-              <button
-                className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none"
-                onClick={() => handleViewRecipe(meal._id)}
-              >
-                View Recipe
-              </button>
+              <div className="flex items-center justify-between">
+                <button
+                  className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none"
+                  onClick={() => handleViewRecipe(meal._id)}
+                >
+                  View Recipe
+                </button>
+                <button
+                  className="text-red-500 focus:outline-none"
+                  onClick={() => handleAddToWishlist(meal._id)}
+                >
+                  <FontAwesomeIcon icon={faHeart} />
+                </button>
+              </div>
             )}
           </div>
         </div>
