@@ -22,8 +22,11 @@ type MealsListProps = {
   meals: Meal[];
 };
 
+const ITEMS_PER_PAGE = 9;
+
 function MealsPage() {
   const [meals, setMeals] = useState<MealsListProps>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +38,18 @@ function MealsPage() {
     fetchData();
   }, []);
 
+  const totalItems = meals?.length || 0;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+  const paginatedMeals = meals?.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   const [expandedMeal, setExpandedMeal] = useState<string | null>(null);
 
   const handleViewRecipe = (mealId: string) => {
@@ -43,7 +58,7 @@ function MealsPage() {
 
   return (
     <div className="max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {meals?.map((meal) => (
+      {paginatedMeals?.map((meal) => (
         <div
           key={meal._id}
           className="bg-white rounded-lg shadow-md overflow-hidden"
@@ -93,6 +108,27 @@ function MealsPage() {
           </div>
         </div>
       ))}
+
+      <div className="flex justify-center mt-8 mb-8 pb-24px">
+        <nav className="flex" aria-label="Pagination">
+          <ul className="flex list-none">
+            {Array.from(Array(totalPages).keys()).map((pageNumber) => (
+              <li key={pageNumber}>
+                <button
+                  onClick={() => handlePageChange(pageNumber + 1)}
+                  className={`${
+                    currentPage === pageNumber + 1
+                      ? "bg-orange-500 text-white"
+                      : "text-orange-500 hover:text-blue-800"
+                  } px-3 py-1 rounded-md focus:outline-none`}
+                >
+                  {pageNumber + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 }
