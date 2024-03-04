@@ -7,17 +7,40 @@ export default function Navbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <header className='bg-gray-100'>
-      <div className='container mx-auto flex items-center justify-between p-6'>
-        <Link href='/'>Omnifood</Link>
+    <header>
+      <div className='container mx-auto flex items-center justify-between'>
+        <Link href='/'>
+          <Image
+            src='/images/logo/logo-nutriserve.png'
+            alt='NutriServe logo'
+            width={150}
+            height={150}
+          />
+        </Link>
         <nav className={`${isNavOpen ? "block" : "hidden"} md:block`}>
           <ul className='flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10'>
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='wishlist'
+                href='/'
               >
-                Wishlist
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/about'
+              >
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/how-it-works'
+              >
+                How It Works
               </Link>
             </li>
             <li>
@@ -25,31 +48,39 @@ export default function Navbar() {
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
                 href='/meals'
               >
-                Meals
+                Meal Plans
               </Link>
             </li>
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='testimonials'
+                href='/faqs'
               >
-                Testimonials
+                FAQs
               </Link>
             </li>
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='pricing'
+                href='/blog'
               >
-                Pricing
+                Blog
               </Link>
             </li>
             <li>
               <Link
-                className='bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-700 transition duration-150 ease-in-out'
-                href='register'
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/contact'
               >
-                Try for free
+                Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link
+                className='bg-[#4CAF50] text-white py-2 px-4 rounded hover:bg-orange-700 transition duration-150 ease-in-out'
+                href='/login'
+              >
+                Sign In
               </Link>
             </li>
           </ul>
@@ -57,13 +88,7 @@ export default function Navbar() {
         <button
           onClick={() => setIsNavOpen(!isNavOpen)}
           className='md:hidden focus:outline-none'
-        >
-          {/* {isNavOpen ? (
-              <XIcon className='h-6 w-6' />
-            ) : (
-              <MenuIcon className='h-6 w-6' />
-            )} */}
-        </button>
+        ></button>
       </div>
     </header>
   );
