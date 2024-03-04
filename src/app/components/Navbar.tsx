@@ -38,7 +38,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='/how-it-works'
+                href='/pricing'
               >
                 How It Works
               </Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='/faqs'
+                href='/faq'
               >
                 FAQs
               </Link>

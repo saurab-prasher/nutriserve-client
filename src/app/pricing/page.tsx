@@ -57,4 +57,63 @@ const PricingCard = () => {
   );
 };
 
-export default PricingCard;
+const HowItWorks = () => {
+  return (
+    <div className='max-w-4xl mx-auto px-4 py-8'>
+      <h2 className='text-3xl font-semibold text-center text-gray-800 mb-8'>
+        How It Works
+      </h2>
+
+      {/* Step 1 */}
+      <div className='mb-8'>
+        <h3 className='text-xl font-semibold text-gray-700 mb-4'>
+          Step 1: Choose Your Plan
+        </h3>
+        <p className='text-gray-600 mb-4'>
+          Select the perfect nutrition plan for your lifestyle. We offer a
+          variety of plans, from starter to complete, to fit your dietary needs
+          and goals.
+        </p>
+        <PricingCard />
+      </div>
+
+      {/* Step 2 */}
+      <div className='mb-8'>
+        <h3 className='text-xl font-semibold text-gray-700 mb-4'>
+          Step 2: Customize Your Meals
+        </h3>
+        <p className='text-gray-600'>
+          Customize your meals from our wide range of healthy options, tailored
+          to your preferences and nutritional needs. You can change your meal
+          choices at any time.
+        </p>
+      </div>
+
+      {/* Step 3 */}
+      <div className='mb-8'>
+        <h3 className='text-xl font-semibold text-gray-700 mb-4'>
+          Step 3: Schedule Your Delivery
+        </h3>
+        <p className='text-gray-600'>
+          Choose a delivery schedule that works for you. We offer flexible
+          delivery options to ensure you always have fresh and delicious meals
+          ready when you are.
+        </p>
+      </div>
+
+      {/* Step 4 */}
+      <div>
+        <h3 className='text-xl font-semibold text-gray-700 mb-4'>
+          Step 4: Enjoy and Achieve Your Goals
+        </h3>
+        <p className='text-gray-600'>
+          Enjoy your delicious, chef-prepared meals. Follow your personalized
+          meal plan, achieve your health goals, and start living a healthier
+          lifestyle today!
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default HowItWorks;

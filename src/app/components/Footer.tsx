@@ -1,14 +1,18 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
     <footer className='bg-gray-100 text-gray-700 pt-10'>
       <div className='max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-5 gap-10'>
         <div className='space-y-4'>
-          <Link className='text-xl font-bold' href='/'>
-            Logo
-          </Link>
+          <Image
+            src='/images/logo/logo-nutriserve.png'
+            alt='NutriServe logo'
+            width={100}
+            height={100}
+          />
 
           <div className='flex space-x-3'>
             <Link href='#'>Instagram</Link>
