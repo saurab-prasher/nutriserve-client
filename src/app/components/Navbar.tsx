@@ -38,7 +38,7 @@ export default function Navbar() {
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='/pricing'
+                href='/howitworks'
               >
                 How It Works
               </Link>

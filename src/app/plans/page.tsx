@@ -1,8 +1,12 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
 
 const Plans = () => {
+  const [numberOfPeoples, setNumberOfPeople] = useState(2);
+  const [recipesPerWeek, setRecipesPerWeek] = useState(3);
   return (
-    <div className='flex flex-col gap-8 shadow-md w-8/12 m-auto py-12 px-48'>
+    <div className='flex flex-col gap-8 shadow-md w-8/12 m-auto py-12 px-48 mb-12'>
       <h2 className='text-4xl text-center font-light tracking-wide mb-2'>
         Choose your plan size
       </h2>
@@ -17,10 +21,24 @@ const Plans = () => {
           <span className=' block w-3/6 font-light'>Number of people</span>
 
           <div className='flex w-9/12'>
-            <button className='border w-3/6 py-2 bg-custom-green rounded-sm text-white border-custom-green'>
+            <button
+              onClick={() => setNumberOfPeople(2)}
+              className={`border cursor-pointer w-3/6 py-2 rounded-sm ${
+                numberOfPeoples === 2
+                  ? "bg-custom-green text-white"
+                  : "color-main"
+              }`}
+            >
               2
             </button>
-            <button className='border w-3/6 border-custom-green rounded-sm'>
+            <button
+              onClick={() => setNumberOfPeople(4)}
+              className={`border cursor-pointer w-3/6 border-custom-green rounded-sm ${
+                numberOfPeoples === 4
+                  ? "bg-custom-green text-white"
+                  : "color-main"
+              }`}
+            >
               4
             </button>
           </div>
@@ -29,13 +47,28 @@ const Plans = () => {
           <span className='font-light'>Recipes per week</span>
 
           <div className='flex'>
-            <button className='border w-36 py-2  rounded-sm  border-custom-green'>
+            <button
+              onClick={() => setRecipesPerWeek(3)}
+              className={`border w-36 py-2 cursor-pointer rounded-sm border-custom-green ${
+                recipesPerWeek === 3 ? "bg-custom-green text-white" : ""
+              }`}
+            >
               3
             </button>
-            <button className='border w-36 bg-custom-green text-white border-custom-green rounded-sm'>
+            <button
+              onClick={() => setRecipesPerWeek(4)}
+              className={`border cursor-pointer w-36 rounded-sm border-custom-green ${
+                recipesPerWeek === 4 ? "bg-custom-green text-white" : ""
+              }`}
+            >
               4
             </button>
-            <button className='border w-36 border-custom-green rounded-sm'>
+            <button
+              onClick={() => setRecipesPerWeek(5)}
+              className={`border cursor-pointer w-36 rounded-sm border-custom-green ${
+                recipesPerWeek === 5 ? "bg-custom-green text-white" : ""
+              }`}
+            >
               5
             </button>
           </div>
@@ -46,8 +79,12 @@ const Plans = () => {
         <div className='price-summary border border-gray-200 rounded-sm p-4 border-b-0 rounded-b-none'>
           <div className='flex flex-col gap-2 price-summary-header border-b border-gray-300'>
             <h5 className='font-semibold'>Price Summary</h5>
-            <p className='font-thin block'>5 meals for 2 people per week</p>
-            <p className='font-thin block pb-2'>10 total servings</p>
+            <p className='font-thin block'>
+              {recipesPerWeek} meals for {numberOfPeoples} people per week
+            </p>
+            <p className='font-thin block pb-2'>
+              {recipesPerWeek * numberOfPeoples} total servings
+            </p>
           </div>
 
           <div className=' flex gap-2 flex-col price-summary-description'>
@@ -71,9 +108,12 @@ const Plans = () => {
           </div>
         </div>
 
-        <button className='border w-full bg-custom-green py-2 text-md text-white border-custom-green rounded-sm'>
+        <Link
+          href='/login'
+          className='border block w-full text-center bg-custom-green py-2 text-md text-white border-custom-green rounded-sm'
+        >
           Select this plan
-        </button>
+        </Link>
       </div>
     </div>
   );
