@@ -51,14 +51,7 @@ export default function Navbar() {
                 Meal Plans
               </Link>
             </li>
-            <li>
-              <Link
-                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                href='/faq'
-              >
-                FAQs
-              </Link>
-            </li>
+
             <li>
               <Link
                 className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
