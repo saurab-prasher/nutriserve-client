@@ -8,7 +8,7 @@ export default function Navbar() {
 
   return (
     <header>
-      <div className='container mx-auto flex items-center justify-between'>
+      <div className='mx-auto flex items-center justify-between px-6'>
         <Link href='/'>
           <Image
             src='/images/logo/logo-nutriserve.png'
@@ -77,7 +77,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                className='bg-[#4CAF50] text-white py-2 px-4 rounded hover:bg-orange-700 transition duration-150 ease-in-out'
+                className='mx-auto cursor-pointer text-center font-bold border m-auto bg-custom-green py-4 px-6 text-md text-white border-custom-green rounded-sm mb-4'
                 href='/login'
               >
                 Sign In

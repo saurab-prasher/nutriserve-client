@@ -29,7 +29,7 @@ const HeroSection = () => {
 
           <Link
             className='mt-4 bg-[#FFA726] text-base text-[#f4f4f4] px-4 py-2  inline-block rounded hover:bg-[#d19844] transition duration-200'
-            href='/login'
+            href='/plans'
           >
             Get Started
           </Link>

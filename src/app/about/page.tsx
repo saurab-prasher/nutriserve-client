@@ -31,8 +31,8 @@ const AboutUs = () => {
             <p className='mb-4'>
               NutriServe is dedicated to empowering individuals to make
               informed, health-conscious decisions about their meals and
-              lifestyle. Founded in [Year], we've grown from a small team of
-              nutrition enthusiasts to a leading provider in nutritional
+              lifestyle. Founded in [Year], we&apos;ve grown from a small team
+              of nutrition enthusiasts to a leading provider in nutritional
               planning and advice.
             </p>
             <h2

@@ -9,3 +9,11 @@ Accent Color: Bright Orange (#FFA726) - Adds a sense of fun and energy.
 Secondary Color: Cool Blue (#29B6F6) - Reflects trust and reliability.
 Background: Light Grey (#F5F5F5) - Keeps the design clean and modern.
 Text Color: Dark Grey (#424242) - Ensures readability. */
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

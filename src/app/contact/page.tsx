@@ -8,7 +8,7 @@ const ContactUs = () => {
     message: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -16,7 +16,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     // Here, you would typically handle the form submission,
     // like sending the data to an API or email service.

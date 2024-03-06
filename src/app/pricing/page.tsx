@@ -5,7 +5,9 @@ const PricingCard = () => {
       <div className='bg-white shadow-lg rounded-lg p-6 flex-1'>
         <h3 className='text-lg font-semibold text-gray-700'>STARTER</h3>
         <p className='text-4xl font-bold my-4'>$399</p>
-        <p className='text-gray-500'>per month. That's just $13 per meal!</p>
+        <p className='text-gray-500'>
+          per month. That&apos;s just $13 per meal!
+        </p>
         <ul className='my-6'>
           <li className='text-gray-700 my-2 flex items-center'>
             <span className='text-green-500 mr-2'>✓</span> 1 meal per day
@@ -33,7 +35,9 @@ const PricingCard = () => {
         </div>
         <h3 className='text-lg font-semibold text-gray-700'>COMPLETE</h3>
         <p className='text-4xl font-bold my-4'>$649</p>
-        <p className='text-gray-500'>per month. That's just $11 per meal!</p>
+        <p className='text-gray-500'>
+          per month. That&apos;s just $11 per meal!
+        </p>
         <ul className='my-6'>
           <li className='text-gray-700 my-2 flex items-center'>
             <span className='text-green-500 mr-2'>✓</span> 2 meals per day

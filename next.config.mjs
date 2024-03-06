@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ];
   },
+
+  images: {
+    // Add the domain from which you want to allow images
+    domains: ["therecipecritic.com", "fedandfit.com"],
+  },
 };
 
 export default nextConfig;

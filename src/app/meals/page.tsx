@@ -63,32 +63,32 @@ function MealsPage() {
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className='max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
       {paginatedMeals?.map((meal) => (
         <div
           key={meal._id}
-          className="bg-white rounded-lg shadow-md overflow-hidden"
+          className='bg-white rounded-lg shadow-md overflow-hidden'
         >
           <img
             src={meal.imageUrl}
             alt={meal.name}
-            className="w-full h-40 object-cover object-center"
+            className='w-full h-40 object-cover object-center'
           />
-          <div className="p-4">
-            <h2 className="text-lg font-semibold mb-2">{meal.name}</h2>
-            <p className="text-gray-700 mb-4">{meal.description}</p>
+          <div className='p-4'>
+            <h2 className='text-lg font-semibold mb-2'>{meal.name}</h2>
+            <p className='text-gray-700 mb-4'>{meal.description}</p>
             {expandedMeal === meal._id ? (
               <div>
-                <p className="text-gray-600 mb-2">Category: {meal.category}</p>
-                <div className="mb-2">
+                <p className='text-gray-600 mb-2'>Category: {meal.category}</p>
+                <div className='mb-2'>
                   <strong>Ingredients:</strong>
-                  <ul className="list-disc pl-5">
+                  <ul className='list-disc pl-5'>
                     {meal.ingredients.map((ingredient, index) => (
                       <li key={index}>{ingredient}</li>
                     ))}
                   </ul>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
                   <p>
                     <strong>Calories:</strong> {meal.nutritionalValues.calories}
                   </p>
@@ -104,15 +104,15 @@ function MealsPage() {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center justify-between">
+              <div className='flex items-center justify-between'>
                 <button
-                  className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none"
+                  className='bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none'
                   onClick={() => handleViewRecipe(meal._id)}
                 >
                   View Recipe
                 </button>
                 <button
-                  className="text-red-500 focus:outline-none"
+                  className='text-red-500 focus:outline-none'
                   onClick={() => handleAddToWishlist(meal._id)}
                 >
                   <FontAwesomeIcon icon={faHeart} />
@@ -123,9 +123,9 @@ function MealsPage() {
         </div>
       ))}
 
-      <div className="flex justify-center mt-8 mb-8 pb-24px">
-        <nav className="flex" aria-label="Pagination">
-          <ul className="flex list-none">
+      <div className='flex justify-center mt-8 mb-8 pb-24px'>
+        <nav className='flex' aria-label='Pagination'>
+          <ul className='flex list-none'>
             {Array.from(Array(totalPages).keys()).map((pageNumber) => (
               <li key={pageNumber}>
                 <button
