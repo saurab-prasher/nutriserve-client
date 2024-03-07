@@ -1,69 +1,86 @@
 import React from "react";
+import Image from "next/image";
 
 const AboutUs = () => {
   return (
-    <div>
-      {" "}
-      <div
-        className='bg-gray-100 p-5 h-screen'
-        style={{ backgroundColor: "#F5F5F5" }}
-      >
-        {" "}
-        {/* Background */}
-        <div className='max-w-4xl mx-auto'>
-          <h1 className='text-3xl font-bold mb-6' style={{ color: "#424242" }}>
-            About Us
-          </h1>{" "}
-          {/* Text Color */}
-          <div
-            className='bg-white p-6 rounded-lg shadow-lg'
-            style={{ color: "#424242" }}
-          >
-            {" "}
-            {/* Card */}
-            <h2
-              className='text-2xl font-bold mb-4'
-              style={{ color: "#4CAF50" }}
-            >
-              Who We Are
-            </h2>{" "}
-            {/* Main Color */}
-            <p className='mb-4'>
-              NutriServe is dedicated to empowering individuals to make
-              informed, health-conscious decisions about their meals and
-              lifestyle. Founded in [Year], we&apos;ve grown from a small team
-              of nutrition enthusiasts to a leading provider in nutritional
-              planning and advice.
-            </p>
-            <h2
-              className='text-2xl font-bold mb-4'
-              style={{ color: "#FFA726" }}
-            >
-              Our Mission
-            </h2>{" "}
-            {/* Accent Color */}
-            <p className='mb-4'>
-              Our mission is to make nutritional information accessible and
-              understandable, helping our users achieve their health and
-              wellness goals through personalized, actionable plans.
-            </p>
-            <h2
-              className='text-2xl font-bold mb-4'
-              style={{ color: "#29B6F6" }}
-            >
-              Why Choose Us
-            </h2>{" "}
-            {/* Secondary Color */}
-            <p>
-              We believe in providing holistic, science-backed nutritional
-              advice. Our platform is designed to be user-friendly, supportive,
-              and integrated with the latest in nutritional science and
-              technology.
-            </p>
+    <section className="relative">
+      <div className="relative h-max">
+        <Image
+          src="/images/about-us.png"
+          alt="Sample Image"
+          layout="responsive"
+          width={1200}
+          height={800}
+        />
+      </div>
+
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-normal">
+        <div className="text-black pl-40">
+          <h1 className="text-4xl md:text-xl font-bold">Our Mission</h1>
+          <p className="text-lg md:text-xl mt-4">
+            We change the way people eat forever
+          </p>
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 left-0 w-full ">
+        <div className="flex justify-center gap-8">
+          <div className="max-w-sm rounded overflow-hidden shadow-lg">
+            <div className="px-6 py-4 bg-white">
+              <h2
+                className="text-2xl font-bold mb-4"
+                style={{ color: "#4CAF50" }}
+              >
+                Who We Are
+              </h2>
+              <p className="text-gray-700 text-base">
+                NutriServe is dedicated to empowering individuals to make
+                informed, health-conscious decisions about their meals and
+                lifestyle. Founded in [Year], we've grown from a small team of
+                nutrition enthusiasts to a leading provider in nutritional
+                planning and advice.
+              </p>
+            </div>
+          </div>
+
+          <div className="max-w-sm rounded overflow-hidden shadow-lg">
+            <div className="px-6 py-4 bg-white">
+              <h2
+                className="text-2xl font-bold mb-4"
+                style={{ color: "#FFA726" }}
+              >
+                Our Mission
+              </h2>
+              <p className="text-gray-700 text-base">
+                NutriServe is dedicated to empowering individuals to make
+                informed, health-conscious decisions about their meals and
+                lifestyle. Founded in [Year], we've grown from a small team of
+                nutrition enthusiasts to a leading provider in nutritional
+                planning and advice.
+              </p>
+            </div>
+          </div>
+
+          <div className="max-w-sm rounded overflow-hidden shadow-lg">
+            <div className="px-6 py-4 bg-white">
+              <h2
+                className="text-2xl font-bold mb-4"
+                style={{ color: "#29B6F6" }}
+              >
+                Why Choose Us
+              </h2>
+              <p className="text-gray-700 text-base">
+                NutriServe is dedicated to empowering individuals to make
+                informed, health-conscious decisions about their meals and
+                lifestyle. Founded in [Year], we've grown from a small team of
+                nutrition enthusiasts to a leading provider in nutritional
+                planning and advice.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
