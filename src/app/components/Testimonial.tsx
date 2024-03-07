@@ -17,7 +17,7 @@ const Testimonial = () => {
 
   return (
     <div className='container mx-auto py-8'>
-      <div className='text-center'>
+      <div className='text-center mb-12'>
         <h1 className='text-4xl font-medium mb-4'>
           Snapshots of our community
         </h1>
@@ -35,11 +35,10 @@ const Testimonial = () => {
         interval={5000}
         centerMode={true}
         centerSlidePercentage={50}
-        className='mb-6 shadow-md p-4 mx-4'
       >
         {testimonials.map((testimonial, index) => (
-          <div key={index} className=' shadow-sm p-4'>
-            <div className='flex items-center gap-4 mb-4'>
+          <div key={index} className='bg-slate-200 shadow-sm p-4 mx-8 h-72'>
+            <div>
               <div className='w-14 h-14 block bg-gray-700 rounded-full'>
                 <Image
                   alt='avatar image'

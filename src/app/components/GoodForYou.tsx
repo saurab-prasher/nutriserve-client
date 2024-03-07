@@ -45,7 +45,7 @@ const GoodForYou = () => {
 
           <Link
             className='mt-12 block cursor-pointer text-center w-full font-bold border m-auto bg-custom-green py-2 px-6 text-md text-white border-custom-green rounded-sm mb-4'
-            href='/login'
+            href='/plans'
           >
             Get Offer
           </Link>

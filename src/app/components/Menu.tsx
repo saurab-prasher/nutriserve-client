@@ -34,12 +34,11 @@ const Menu = () => {
         interval={5000}
         centerMode={true}
         centerSlidePercentage={50}
-        className='mb-6 shadow-md p-4 mx-4'
+        className='mb-16'
       >
         {meals.map((meal) => {
-          console.log(meal);
           return (
-            <div className='h-96' key={meal._id}>
+            <div className='shadow-sm p-4 mx-8 h-72' key={meal._id}>
               <Image
                 height={100}
                 width={100}

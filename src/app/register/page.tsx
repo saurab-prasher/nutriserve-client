@@ -1,58 +1,23 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { MyContext } from "../context/Context";
+import axios from "axios";
 
-type FormValues = {
-  username: string;
-  email: string;
-  password: string;
-};
 const Register = () => {
-  const [formValues, setFormValues] = useState<FormValues>({
-    username: "",
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState<FormValues>({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const {
+    handleRegisterSubmit,
+    handleEmailChange,
+    handlePasswordChange,
+    email,
+    password,
+    firstName,
+    lastName,
+    handleFirstNameChange,
+    handleLastNameChange,
+  } = useContext(MyContext);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
-  const validateForm = () => {
-    let isValid = true;
-    let errors: FormValues = { username: "", email: "", password: "" };
-
-    if (!formValues.username) {
-      isValid = false;
-      errors.username = "Username is required";
-    }
-
-    if (!formValues.email) {
-      isValid = false;
-      errors.email = "Email is required";
-    }
-
-    if (!formValues.password) {
-      isValid = false;
-      errors.password = "Password is required";
-    }
-
-    setErrors(errors);
-    return isValid;
-  };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log(formValues);
-      // Submit form logic here
-    }
-  };
   return (
     <div className='flex min-h-screen bg-gray-50 justify-center items-center'>
       <div className='max-w-md w-full space-y-8'>
@@ -70,9 +35,41 @@ const Register = () => {
             </Link>
           </p>
         </div>
-        <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
+        <form onSubmit={handleRegisterSubmit} className='mt-8 space-y-6'>
           <input type='hidden' name='remember' value='true' />
           <div className='rounded-md shadow-sm -space-y-px'>
+            <div>
+              <label htmlFor='firstname' className='sr-only'>
+                First Name
+              </label>
+              <input
+                id='firstname'
+                name='firstname'
+                type='text'
+                autoComplete='email'
+                required
+                value={firstName}
+                onChange={(e) => handleFirstNameChange(e)}
+                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                placeholder='first name'
+              />
+            </div>
+            <div>
+              <label htmlFor='email' className='sr-only'>
+                Last Name
+              </label>
+              <input
+                id='lastname'
+                name='lastname'
+                type='text'
+                autoComplete='lastname'
+                required
+                value={lastName}
+                onChange={(e) => handleLastNameChange(e)}
+                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                placeholder='last name'
+              />
+            </div>
             <div>
               <label htmlFor='email' className='sr-only'>
                 Email address
@@ -83,10 +80,10 @@ const Register = () => {
                 type='email'
                 autoComplete='email'
                 required
+                value={email}
+                onChange={(e) => handleEmailChange(e)}
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Email address'
-                value={formValues.email}
-                onChange={handleInputChange}
               />
             </div>
             <div>
@@ -99,26 +96,10 @@ const Register = () => {
                 type='password'
                 autoComplete='new-password'
                 required
+                value={password}
+                onChange={(e) => handlePasswordChange(e)}
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Password'
-                value={formValues.password}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label htmlFor='confirmPassword' className='sr-only'>
-                Confirm Password
-              </label>
-              <input
-                id='confirmPassword'
-                name='confirmPassword'
-                type='password'
-                autoComplete='new-password'
-                required
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
-                placeholder='Confirm Password'
-                value={formValues.confirmPassword}
-                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -126,7 +107,7 @@ const Register = () => {
           <div>
             <button
               type='submit'
-              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-green hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
             >
               Register
             </button>

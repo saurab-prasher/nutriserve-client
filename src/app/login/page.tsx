@@ -1,37 +1,18 @@
 "use client";
-import { useState } from "react";
+import { useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 
+import { MyContext } from "../context/Context";
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const {
+    handleEmailChange,
+    handlePasswordChange,
+    handleLoginSubmit,
+    email,
+    password,
+  } = useContext(MyContext);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log(email, password);
-    try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      localStorage.setItem("token", data.token);
-      router.push("/");
-    } catch (error) {
-      setError("Failed to login");
-    }
-  };
+  console.log(handleLoginSubmit);
 
   return (
     <div className='flex min-h-screen bg-gray-50 justify-center items-center'>
@@ -50,7 +31,7 @@ export default function Login() {
             </Link>
           </p>
         </div>
-        <form className='mt-8 space-y-6' onSubmit={handleLogin}>
+        <form className='mt-8 space-y-6' onSubmit={handleLoginSubmit}>
           <input type='hidden' name='remember' value='true' />
           <div className='rounded-md shadow-sm -space-y-px'>
             <div>
@@ -61,8 +42,9 @@ export default function Login() {
                 id='email-address'
                 name='email'
                 type='email'
+                value={email}
                 autoComplete='email'
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleEmailChange(e)}
                 required
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Email address'
@@ -77,8 +59,9 @@ export default function Login() {
                 name='password'
                 type='password'
                 autoComplete='current-password'
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handlePasswordChange(e)}
                 required
+                value={password}
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Password'
               />
@@ -115,7 +98,7 @@ export default function Login() {
           <div>
             <button
               type='submit'
-              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
+              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-green hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'
             >
               Sign in
             </button>
