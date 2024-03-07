@@ -1,10 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import axios from "axios";
 
 const Plans = () => {
-  const [numberOfPeoples, setNumberOfPeople] = useState(2);
+  const [numberOfPeople, setNumberOfPeople] = useState(2);
   const [recipesPerWeek, setRecipesPerWeek] = useState(3);
+  const [pricingPlans, setPricingPlans] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [pricePerServing, setPricePerServing] = useState(0);
+  const [shippingPrice, setShippingPrice] = useState(0);
+
+  useEffect(() => {
+    const fetchPricing = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/pricing"); // Use your actual backend URL
+        setPricingPlans(response.data);
+      } catch (error) {
+        console.error("Error fetching pricing data:", error);
+      }
+    };
+
+    fetchPricing();
+  }, []);
+
+  useEffect(() => {
+    // Calculate the total price based on the fetched pricing plans
+    const selectedPlan = pricingPlans.find(
+      (plan) =>
+        plan.numberOfPeople === numberOfPeople &&
+        plan.recipesPerWeek === recipesPerWeek
+    );
+
+    if (selectedPlan) {
+      setPricePerServing(selectedPlan.pricePerServing);
+      setShippingPrice(selectedPlan.shipping);
+      setTotalPrice(
+        selectedPlan.pricePerServing * numberOfPeople * recipesPerWeek +
+          selectedPlan.shipping
+      );
+    }
+  }, [numberOfPeople, recipesPerWeek, pricingPlans]);
+
   return (
     <div className='flex flex-col gap-8 shadow-md w-8/12 m-auto py-12 px-48 mb-12'>
       <h2 className='text-4xl text-center font-light tracking-wide mb-2'>
@@ -24,7 +61,7 @@ const Plans = () => {
             <button
               onClick={() => setNumberOfPeople(2)}
               className={`border cursor-pointer w-3/6 py-2 rounded-sm ${
-                numberOfPeoples === 2
+                numberOfPeople === 2
                   ? "bg-custom-green text-white"
                   : "color-main"
               }`}
@@ -34,7 +71,7 @@ const Plans = () => {
             <button
               onClick={() => setNumberOfPeople(4)}
               className={`border cursor-pointer w-3/6 border-custom-green rounded-sm ${
-                numberOfPeoples === 4
+                numberOfPeople === 4
                   ? "bg-custom-green text-white"
                   : "color-main"
               }`}
@@ -80,10 +117,10 @@ const Plans = () => {
           <div className='flex flex-col gap-2 price-summary-header border-b border-gray-300'>
             <h5 className='font-semibold'>Price Summary</h5>
             <p className='font-thin block'>
-              {recipesPerWeek} meals for {numberOfPeoples} people per week
+              {recipesPerWeek} meals for {numberOfPeople} people per week
             </p>
             <p className='font-thin block pb-2'>
-              {recipesPerWeek * numberOfPeoples} total servings
+              {recipesPerWeek * numberOfPeople} total servings
             </p>
           </div>
 

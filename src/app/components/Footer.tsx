@@ -21,8 +21,8 @@ const Footer = () => {
           </div>
 
           <p className='text-sm'>
-            Copyright &copy; <span className='year'>2023</span> by Omnifood Inc.
-            All rights reserved.
+            Copyright &copy; <span className='year'>2024</span> by NutriServe
+            Inc. All rights reserved.
           </p>
         </div>
         <div className='space-y-2'>
@@ -54,7 +54,7 @@ const Footer = () => {
           <h3 className='font-semibold'>Company</h3>
           <ul className='space-y-1'>
             <li>
-              <Link href='#'>About Omnifood</Link>
+              <Link href='#'>About NutriServe</Link>
             </li>
             <li>
               <Link href='#'>For Business</Link>

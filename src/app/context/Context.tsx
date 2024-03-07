@@ -37,6 +37,7 @@ export const MyContextProvider = ({ children }) => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
   async function handleRegisterSubmit(e) {
     e.preventDefault();
 
@@ -56,19 +57,22 @@ export const MyContextProvider = ({ children }) => {
         }
       );
 
+      console.log(data);
       if (data?.msg === "SUCCESS") {
-        setLoggedInUser(data.user);
+        setLoggedInUser(data.user); // Update UI based on logged-in user
+        localStorage.setItem("token", data.token); // Consider security implications
+        setEmail("");
+        setPassword("");
+        setError("");
+        router.push("/plans");
+      } else {
+        // Handle cases where the message is not "SUCCESS"
+        setError("Registration failed. Please try again.");
       }
-
-      console.log(setLoggedInUser);
-      localStorage.setItem("token", data.token);
-
-      setEmail("");
-      setPassword("");
-      setError("");
-      router.push("/plans");
     } catch (error) {
-      setError("Failed to login");
+      setError(
+        `Failed to register: ${error.response?.data?.error || error.message}`
+      );
     }
   }
 

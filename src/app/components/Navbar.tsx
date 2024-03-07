@@ -73,7 +73,7 @@ export default function Navbar() {
             <li>
               {!loggedInUser ? (
                 <Link
-                  className='mx-auto cursor-pointer text-center font-bold border m-auto py-4 px-6 text-md text-custom-green border-custom-green rounded-sm mb-4'
+                  className='mx-auto cursor-pointer text-center font-bold border m-auto py-2 px-4 text-md text-custom-green border-custom-green rounded-sm mb-4 hover:bg-custom-green hover:text-white'
                   href='/login'
                 >
                   Sign In
@@ -90,7 +90,9 @@ export default function Navbar() {
                   <span className='font-bold'>{loggedInUser?.firstname}</span>
                   <button
                     onClick={handleLogout}
-                    className='cursor-pointer text-center font-bold py-2 px-4 text-md text-custom-green border border-custom-green rounded-sm'
+                    className='cursor-pointer text-center font-bold py-2 px-4 text-md text-custom-green border border-custom-green rounded-sm
+                    hover:bg-custom-green hover:text-white
+                    '
                   >
                     Log Out
                   </button>
