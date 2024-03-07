@@ -52,7 +52,7 @@ const Register = () => {
                   id='firstname'
                   name='firstname'
                   type='text'
-                  autoComplete='email'
+                  autoComplete='firstname'
                   required
                   value={firstName}
                   onChange={(e) => handleFirstNameChange(e)}
@@ -100,7 +100,7 @@ const Register = () => {
                   id='password'
                   name='password'
                   type='password'
-                  autoComplete='new-password'
+                  autoComplete='password'
                   required
                   value={password}
                   onChange={(e) => handlePasswordChange(e)}

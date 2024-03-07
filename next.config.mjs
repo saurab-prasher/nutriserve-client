@@ -12,7 +12,17 @@ const nextConfig = {
 
   images: {
     // Add the domain from which you want to allow images
-    domains: ["therecipecritic.com", "fedandfit.com"],
+    domains: [
+      "therecipecritic.com",
+      "fedandfit.com",
+      "littlespicejar.com",
+      "www.skinnytaste.com",
+      "www.eatingwell.com",
+      "emeals-menubuilder.s3.amazonaws.com",
+      "joyfoodsunshine.com",
+      "img.taste.com.au",
+      "www.tasteofhome.com",
+    ],
   },
 };
 

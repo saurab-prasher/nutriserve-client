@@ -10,6 +10,8 @@ export const MyContextProvider = ({ children }) => {
   const [age, setAge] = useState(1);
   const happyBirthday = () => setAge(age + 1);
 
+  // State for storing selected recipes
+  const [selectedRecipes, setSelectedRecipes] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const [email, setEmail] = useState("");
@@ -114,6 +116,20 @@ export const MyContextProvider = ({ children }) => {
     setError(""); // Clear any errors
     router.push("/login"); // Redirect to login page after logout
   }
+
+  // Function to add a meal to the selected recipes
+  const handleSelectMeal = (selectedMeal) => {
+    // Check if the meal is already in the selected recipes
+
+    const isAlreadySelected = selectedRecipes.some(
+      (meal) => meal._id === selectedMeal._id
+    );
+
+    console.log(selectedRecipes);
+    if (!isAlreadySelected) {
+      setSelectedRecipes([...selectedRecipes, selectedMeal]);
+    }
+  };
   return (
     <MyContext.Provider
       value={{
@@ -125,12 +141,15 @@ export const MyContextProvider = ({ children }) => {
         handlePasswordChange,
         handleError,
         email,
+        handleSelectMeal,
         handleLoginSubmit,
         password,
         handleLogout,
         firstName,
         lastName,
         loggedInUser,
+
+        selectedRecipes,
         handleFirstNameChange,
         handleLastNameChange,
       }}
