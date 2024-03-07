@@ -71,6 +71,14 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
+              <Link
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/search'
+              >
+                Search
+              </Link>
+            </li>
+            <li>
               {!loggedInUser ? (
                 <Link
                   className='mx-auto cursor-pointer text-center font-bold border m-auto py-2 px-4 text-md text-custom-green border-custom-green rounded-sm mb-4 hover:bg-custom-green hover:text-white'
