@@ -17,8 +17,6 @@ export default function Navbar() {
 
   useEffect(() => {
     setRecipeCount(selectedRecipes?.length);
-
-    console.log(recipeCount);
   }, [selectedRecipes]);
 
   return (
