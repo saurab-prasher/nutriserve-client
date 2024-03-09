@@ -18,6 +18,7 @@ export const MyContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [likedMealIds, setLikedMealIds] = useState([]);
 
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -76,6 +77,16 @@ export const MyContextProvider = ({ children }) => {
         `Failed to register: ${error.response?.data?.error || error.message}`
       );
     }
+  }
+
+  async function fetchLikedmeals() {
+    console.log(loggedInUser);
+    const res = await fetch(
+      `http://localhost:5000/api/wishlist/${loggedInUser?.userId}`
+    );
+    const data = await res.json();
+    console.log(data.likedMeals);
+    setLikedMealIds(data.likedMeals);
   }
 
   // Login submission
@@ -147,8 +158,9 @@ export const MyContextProvider = ({ children }) => {
         handleLogout,
         firstName,
         lastName,
+        likedMealIds,
         loggedInUser,
-
+        fetchLikedmeals,
         selectedRecipes,
         handleFirstNameChange,
         handleLastNameChange,
