@@ -15,7 +15,10 @@ const Plans = () => {
     const fetchPricing = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/pricing"); // Use your actual backend URL
+
+        console.log(response);
         setPricingPlans(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching pricing data:", error);
       }
@@ -126,15 +129,17 @@ const Plans = () => {
 
           <div className=' flex gap-2 flex-col price-summary-description'>
             <div className='flex justify-between pt-2'>
-              <p className='font-thin'>Box price</p> <span>$124.90</span>
+              <p className='font-thin'>Box price</p> <span>${totalPrice}</span>
             </div>
 
             <div className='flex justify-between'>
-              <p className='font-thin'>Price per serving</p> <span>$12.49</span>
+              <p className='font-thin'>Price per serving</p>{" "}
+              <span>${pricePerServing}</span>
             </div>
 
             <div className='flex justify-between'>
-              <p className='font-thin'>Shipping price</p> <span>$10.99</span>
+              <p className='font-thin'>Shipping price</p>{" "}
+              <span>${shippingPrice}</span>
             </div>
           </div>
         </div>
