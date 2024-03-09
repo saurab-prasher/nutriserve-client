@@ -2,8 +2,6 @@
 import { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { MyContext } from "../context/Context";
 
 export default function Navbar() {
@@ -17,49 +15,51 @@ export default function Navbar() {
 
   useEffect(() => {
     setRecipeCount(selectedRecipes?.length);
+
+    console.log(recipeCount);
   }, [selectedRecipes]);
 
   return (
     <header>
-      <div className="mx-auto flex items-center justify-between px-12">
-        <Link href="/">
+      <div className='mx-auto flex items-center justify-between px-20'>
+        <Link href='/'>
           <Image
-            src="/images/logo/logo-nutriserve.png"
-            alt="NutriServe logo"
+            src='/images/logo/logo-nutriserve.png'
+            alt='NutriServe logo'
             width={150}
             height={150}
           />
         </Link>
         <nav className={`${isNavOpen ? "block" : "hidden"} md:block`}>
-          <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10">
+          <ul className='flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10'>
             <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/'
               >
                 Home
               </Link>
             </li>
             <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/about"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/about'
               >
                 About Us
               </Link>
             </li>
             <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/howitworks"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/howitworks'
               >
                 How It Works
               </Link>
             </li>
             <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/meals"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/meals'
               >
                 Meal Plans
               </Link>
@@ -67,107 +67,84 @@ export default function Navbar() {
 
             <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/blog"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/blog'
               >
                 Blog
               </Link>
             </li>
             <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/contact"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/contact'
               >
                 Contact Us
               </Link>
             </li>
-            <div className="cart relative">
-              <Link href="/checkout">
+            <div className='cart relative'>
+              <Link href='/checkout'>
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
                   strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-8 h-8"
+                  stroke='currentColor'
+                  className='w-8 h-8'
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z'
                   />
                 </svg>
 
-                <span className=" text-white text-center py-[4px] px-2 rounded-full bg-custom-green absolute w-8 h-8 top-[-14px] left-4">
+                <span className=' text-white text-center py-[4px] px-2 rounded-full bg-custom-green absolute w-8 h-8 top-[-14px] left-4'>
                   {recipeCount}
                 </span>
               </Link>
             </div>
             {/* <li>
               <Link
-                className="text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out"
-                href="/wishlist"
+                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                href='/search'
               >
-                <div className="flex items-center justify-between ">
-                  Wishlist
-                  <button
-                    className="text-red-500 focus:outline-none pl-2"
-                    onClick={() => handleAddToWishlist(meal._id)}
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
-                  </button>
-                </div>
+                Search
               </Link>
             </li> */}
             <li className='relative'>
               {!loggedInUser ? (
                 <Link
-                  className="mx-auto cursor-pointer text-center font-bold border m-auto py-2 px-4 text-md text-custom-green border-custom-green rounded-sm mb-4 hover:bg-custom-green hover:text-white"
-                  href="/login"
+                  className='mx-auto cursor-pointer text-center font-bold border m-auto py-2 px-4 text-md text-custom-green border-custom-green rounded-sm mb-4 hover:bg-custom-green hover:text-white'
+                  href='/login'
                 >
                   Sign In
                 </Link>
               ) : (
-                <div className="flex items-center space-x-3">
-                  <Image
-                    src={loggedInUser?.avatar || "/images/avatar-img.webp"} // Replace "/
-                    alt="User Avatar"
-                    className="h-8 w-8 rounded-full object-cover" // Adjust the size as needed
-                    width={60}
-                    height={60}
-                  />
-                  <span className="font-bold">{loggedInUser?.firstname}</span>
-                  <button
-                    onClick={handleLogout}
-                    className="cursor-pointer text-center font-bold py-2 px-4 text-md text-custom-green border border-custom-green rounded-sm
-                    hover:bg-custom-green hover:text-white
-                    "
+                <div
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  className='flex gap-2 cursor-pointer'
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke-width='1.5'
+                    stroke='currentColor'
+                    className='w-6 h-6'
                   >
-                    Log Out
-                  </button>
-                </div>
-              )}
-            </li>
-
-            <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke-width='1.5'
-                stroke='currentColor'
-                class='w-6 h-6'
-              >
-                <path
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  d='M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z'
-                />
-              </svg>
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      d='M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z'
+                    />
+                  </svg>
 
                   <div className=' z-100 '>
                     <div className='flex items-end gap-2  '>
-                      <span className=''>{loggedInUser?.firstname}</span>
+                      <span className='capitalize'>
+                        {loggedInUser?.firstname}
+                      </span>
                       {isHovered ? (
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -201,8 +178,8 @@ export default function Navbar() {
                       )}
                     </div>
                     {isHovered && (
-                      <div className='absolute top-4 -left-16 w-60 h-fit mt-2 p-6 bg-white z-50 shadow-md flex flex-col rounded-sm gap-6 border-y-0'>
-                        <div className='flex gap-2'>
+                      <div className='absolute top-4 -left-16 w-60 h-fit mt-2 p-5 shadow-xl rounded-md bg-white z-50  flex flex-col gap-5'>
+                        <div className='flex gap-4 mt-6 hover:text-custom-green'>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -225,7 +202,7 @@ export default function Navbar() {
                           <p>Account Settings</p>
                         </div>
 
-                        <div className='flex gap-2'>
+                        <div className='flex gap-4 hover:text-custom-green'>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -244,7 +221,45 @@ export default function Navbar() {
                           <p>Favorite Recipes</p>
                         </div>
 
-                        <div className='flex gap-2 border-t-2 py-4'>
+                        <div className='flex gap-4 hover:text-custom-green'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke-width='1.5'
+                            stroke='currentColor'
+                            className='w-6 h-6'
+                          >
+                            <path
+                              stroke-linecap='round'
+                              stroke-linejoin='round'
+                              d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z'
+                            />
+                          </svg>
+
+                          <p>Favorite Recipes</p>
+                        </div>
+
+                        <div className='flex gap-4 hover:text-custom-green'>
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke-width='1.5'
+                            stroke='currentColor'
+                            className='w-6 h-6'
+                          >
+                            <path
+                              stroke-linecap='round'
+                              stroke-linejoin='round'
+                              d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z'
+                            />
+                          </svg>
+
+                          <p>Favorite Recipes</p>
+                        </div>
+
+                        <div className='flex gap-4 border-t-[1px] pt-6'>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -259,12 +274,9 @@ export default function Navbar() {
                               d='M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15'
                             />
                           </svg>
-
                           <button
                             onClick={handleLogout}
-                            className='cursor-pointer text-center text-md text-custom-green  
-                  
-                  '
+                            className='cursor-pointer'
                           >
                             Log Out
                           </button>
