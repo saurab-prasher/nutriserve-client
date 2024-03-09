@@ -16,18 +16,31 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here, you would typically handle the form submission,
-    // like sending the data to an API or email service.
-    console.log(formData); // For demonstration purposes
-    alert("Thank you for contacting us!");
-    // Reset form after submission
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
+    try {
+      const response = await fetch("http://localhost:5000/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        alert("Thank you for contacting us!");
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+    } catch (error) {
+      console.error("Failed to submit message:", error.message);
+      alert("Failed to submit message. Please try again later.");
+    }
   };
 
   return (

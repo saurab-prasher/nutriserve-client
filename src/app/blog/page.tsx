@@ -1,32 +1,24 @@
+"use client";
 import React from "react";
-
-// Placeholder data for blog posts
-const blogPosts = [
-  {
-    id: 1,
-    title: "The Benefits of Eating Healthy",
-    summary:
-      "Discover the long-term benefits of maintaining a healthy diet and how it can improve your overall well-being.",
-    date: "March 1, 2024",
-  },
-  {
-    id: 2,
-    title: "5 Easy Recipes to Start Your Morning",
-    summary:
-      "Kickstart your day with these simple and nutritious breakfast ideas.",
-    date: "March 5, 2024",
-  },
-  {
-    id: 3,
-    title: "Understanding Macronutrients",
-    summary:
-      "Learn about the roles of proteins, fats, and carbohydrates in your diet.",
-    date: "March 10, 2024",
-  },
-  // Add more blog posts as needed
-];
+import { useState, useEffect } from "react";
 
 const BlogPage = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/blogPosts"); // Replace with your API endpoint
+        const data = await response.json();
+        setBlogPosts(data);
+      } catch (error) {
+        console.error("Error fetching blog posts:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className='bg-gray-100 min-h-screen p-8'>
       <div className='max-w-4xl mx-auto'>
