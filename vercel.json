@@ -1,0 +1,3 @@
+{
+  "ignore": "echo 'Ignore all builds' && exit 1"
+}
