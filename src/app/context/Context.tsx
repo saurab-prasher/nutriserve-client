@@ -12,6 +12,7 @@ export const MyContextProvider = ({ children }) => {
 
   // State for storing selected recipes
   const [selectedRecipes, setSelectedRecipes] = useState([]);
+  const [likedRecipes, setlikedRecipes] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const [email, setEmail] = useState("");
@@ -141,6 +142,37 @@ export const MyContextProvider = ({ children }) => {
       setSelectedRecipes([...selectedRecipes, selectedMeal]);
     }
   };
+
+  // Function to add a meal to the liked list
+  const handlelikedMeal = async (likedMeal) => {
+    // Check if the meal is already in the selected recipes
+
+    const isAlreadySelected = likedRecipes.some(
+      (meal) => meal._id === likedMeal._id
+    );
+
+    if (!isAlreadySelected) {
+      setlikedRecipes([...likedRecipes, likedMeal._id]);
+    }
+    if (loggedInUser) {
+      const userId = loggedInUser.userId;
+      const mealId = likedMeal._id;
+      console.log(likedMeal._id);
+      const { data } = await axios.post(
+        "http://localhost:5000/api/wishlist",
+        {
+          userId,
+          mealId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  };
+
   return (
     <MyContext.Provider
       value={{
@@ -153,6 +185,7 @@ export const MyContextProvider = ({ children }) => {
         handleError,
         email,
         handleSelectMeal,
+        handlelikedMeal,
         handleLoginSubmit,
         password,
         handleLogout,
@@ -160,7 +193,7 @@ export const MyContextProvider = ({ children }) => {
         lastName,
         likedMealIds,
         loggedInUser,
-        fetchLikedmeals,
+        likedRecipes,
         selectedRecipes,
         handleFirstNameChange,
         handleLastNameChange,

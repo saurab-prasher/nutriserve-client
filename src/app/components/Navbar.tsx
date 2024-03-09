@@ -8,7 +8,8 @@ import { MyContext } from "../context/Context";
 
 export default function Navbar() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const { loggedInUser, handleLogout, selectedRecipes } = useContext(MyContext);
+  const { loggedInUser, handleLogout, selectedRecipes, likedRecipes } =
+    useContext(MyContext);
   const [recipeCount, setRecipeCount] = useState(0);
 
   useEffect(() => {
@@ -108,10 +109,7 @@ export default function Navbar() {
               >
                 <div className="flex items-center justify-between ">
                   Wishlist
-                  <button
-                    className="text-red-500 focus:outline-none pl-2"
-                    onClick={() => handleAddToWishlist(meal._id)}
-                  >
+                  <button className="text-red-500 focus:outline-none pl-2">
                     <FontAwesomeIcon icon={faHeart} />
                   </button>
                 </div>

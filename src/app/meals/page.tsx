@@ -36,6 +36,7 @@ function MealsPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchBy, setSearchBy] = useState<string>("name");
+  const { handlelikedMeal } = useContext(MyContext);
 
   const [isVisible, setIsVisible] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState(null); // For the meal to display in the modal
@@ -61,40 +62,6 @@ function MealsPage() {
   const handleViewRecipe = (meal) => {
     setSelectedMeal(meal);
     setShowModal(true);
-  };
-
-  const handleAddToWishlist = async (meal, mealId: string) => {
-    try {
-      // Fetch the user's email from your authentication system or session
-      const userEmail = "chandrikakvenu@gmail.com"; // Replace with the actual user's email
-      console.log(loggedInUser);
-      // Send a POST request to the backend endpoint to add the meal to the wishlist
-      const { data } = await axios.post(
-        "http://localhost:5000/api/wishlist",
-        {
-          user: loggedInUser?.userId,
-          email: userEmail,
-          meal: meal,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(data);
-
-      if (data.success) {
-        console.log("Meal added to wishlist successfully");
-      }
-
-      // Check if the request was successful
-
-      //   console.error("Failed to add meal to wishlist:", response.statusText);
-      // }
-    } catch (error) {
-      console.error("Error adding meal to wishlist:", error.message);
-    }
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,9 +136,12 @@ function MealsPage() {
                 </button>
                 <button
                   className="text-gray-500 focus:outline-none bg-transparent text-xl"
-                  onClick={() => handleAddToWishlist(meal, meal._id)}
+                  onClick={() => handlelikedMeal(meal)}
                 >
-                  <FontAwesomeIcon icon={faHeart} />
+                  <FontAwesomeIcon
+                    className="transition-colors hover:text-red-500"
+                    icon={faHeart}
+                  />
                 </button>
               </div>
             </div>
