@@ -25,13 +25,16 @@ const BlogPage = () => {
         <h1 className='text-4xl font-bold text-gray-800 mb-12'>
           NutriServe Blog
         </h1>
-        {blogPosts.map((post) => (
-          <div key={post.id} className='bg-white p-6 rounded-lg shadow-md mb-8'>
+        {blogPosts.map((post: any) => (
+          <div
+            key={post?._id}
+            className='bg-white p-6 rounded-lg shadow-md mb-8'
+          >
             <h2 className='text-2xl font-semibold text-gray-700 mb-3'>
-              {post.title}
+              {post?.title}
             </h2>
-            <p className='text-gray-600 mb-4'>{post.summary}</p>
-            <div className='text-gray-500 text-sm'>{post.date}</div>
+            <p className='text-gray-600 mb-4'>{post?.summary}</p>
+            <div className='text-gray-500 text-sm'>{post?.date}</div>
           </div>
         ))}
       </div>

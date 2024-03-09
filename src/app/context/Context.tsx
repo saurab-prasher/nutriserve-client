@@ -3,17 +3,102 @@ import React from "react";
 import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-export const MyContext = createContext("");
+// export const MyContext = createContext("");
+interface NutritionalValues {
+  calories: number;
+  protein: string;
+  carbs: string;
+  fat: string;
+}
 
-export const MyContextProvider = ({ children }) => {
+interface Meal {
+  _id: string;
+  name: string;
+  description: string;
+  category: string;
+  ingredients: string[];
+  mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack";
+  nutritionalValues: NutritionalValues;
+  imageUrl?: string;
+}
+
+interface User {
+  userId: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string; // Note: You might not always want to include this in frontend types
+  preferences: string[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface MyContextType {
+  name: string;
+  age: number;
+  happyBirthday: () => void;
+  handleRegisterSubmit: (e: React.FormEvent) => Promise<void>;
+  handleEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleError: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  email: string;
+  handleSelectMeal: (selectedMeal: Meal) => void;
+  handlelikedMeal: (likedMeal: Meal) => Promise<void>;
+  handleLoginSubmit: (e: React.FormEvent) => Promise<void>;
+  password: string;
+  handleLogout: () => void;
+  firstName: string;
+  lastName: string;
+  likedMealIds: string[];
+  loggedInUser: User | null;
+  likedRecipes: string[]; // Assuming just the IDs, adjust if it's full recipes
+  selectedRecipes: Meal[];
+  handleFirstNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleLastNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+// This will be used to initialize context
+const defaultContextValue: MyContextType = {
+  name: "",
+  age: 1,
+  happyBirthday: () => {},
+  handleRegisterSubmit: async (e) => {},
+  handleEmailChange: (e) => {},
+  handlePasswordChange: (e) => {},
+  handleError: (e) => {},
+  email: "",
+  handleSelectMeal: (selectedMeal) => {},
+  handlelikedMeal: async (likedMeal) => {},
+  handleLoginSubmit: async (e) => {},
+  password: "",
+  handleLogout: () => {},
+  firstName: "",
+  lastName: "",
+  likedMealIds: [],
+  loggedInUser: null,
+  likedRecipes: [],
+  selectedRecipes: [],
+  handleFirstNameChange: (e) => {},
+  handleLastNameChange: (e) => {},
+};
+
+interface MyContextProviderProps {
+  children: React.ReactNode;
+}
+
+export const MyContext = createContext<MyContextType>(defaultContextValue);
+
+export const MyContextProvider: React.FC<MyContextProviderProps> = ({
+  children,
+}) => {
   const [name, setName] = useState("John Doe");
   const [age, setAge] = useState(1);
   const happyBirthday = () => setAge(age + 1);
 
   // State for storing selected recipes
-  const [selectedRecipes, setSelectedRecipes] = useState([]);
-  const [likedRecipes, setlikedRecipes] = useState([]);
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
+  const [likedRecipes, setlikedRecipes] = useState<any>([]);
+  const [loggedInUser, setLoggedInUser] = useState<any>();
 
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -24,25 +109,25 @@ export const MyContextProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
   };
-  const handleError = (e) => {
+  const handleError = (e: any) => {
     setError(e.target.value);
   };
 
-  const handleFirstNameChange = (e) => {
+  const handleFirstNameChange = (e: any) => {
     setFirstName(e.target.value);
   };
 
-  const handleLastNameChange = (e) => {
+  const handleLastNameChange = (e: any) => {
     setLastName(e.target.value);
   };
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: any) => {
     setPassword(e.target.value);
   };
 
-  async function handleRegisterSubmit(e) {
+  async function handleRegisterSubmit(e: any) {
     e.preventDefault();
 
     try {
@@ -73,7 +158,7 @@ export const MyContextProvider = ({ children }) => {
         // Handle cases where the message is not "SUCCESS"
         setError("Registration failed. Please try again.");
       }
-    } catch (error) {
+    } catch (error: any) {
       setError(
         `Failed to register: ${error.response?.data?.error || error.message}`
       );
@@ -91,7 +176,7 @@ export const MyContextProvider = ({ children }) => {
   }
 
   // Login submission
-  async function handleLoginSubmit(e) {
+  async function handleLoginSubmit(e: any) {
     e.preventDefault();
     try {
       const { data } = await axios.post(
@@ -123,18 +208,18 @@ export const MyContextProvider = ({ children }) => {
     // Remove token from storage and clear user state
     localStorage.removeItem("token");
     setEmail("");
-    setLoggedInUser(null);
+    setLoggedInUser(undefined);
     setPassword("");
     setError(""); // Clear any errors
     router.push("/login"); // Redirect to login page after logout
   }
 
   // Function to add a meal to the selected recipes
-  const handleSelectMeal = (selectedMeal) => {
+  const handleSelectMeal = (selectedMeal: any) => {
     // Check if the meal is already in the selected recipes
 
     const isAlreadySelected = selectedRecipes.some(
-      (meal) => meal._id === selectedMeal._id
+      (meal: any) => meal._id === selectedMeal._id
     );
 
     console.log(selectedRecipes);
@@ -144,11 +229,11 @@ export const MyContextProvider = ({ children }) => {
   };
 
   // Function to add a meal to the liked list
-  const handlelikedMeal = async (likedMeal) => {
+  const handlelikedMeal = async (likedMeal: any) => {
     // Check if the meal is already in the selected recipes
 
     const isAlreadySelected = likedRecipes.some(
-      (meal) => meal._id === likedMeal._id
+      (meal: any) => meal._id === likedMeal._id
     );
 
     if (!isAlreadySelected) {

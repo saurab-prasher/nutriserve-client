@@ -3,8 +3,9 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Carousel } from "react-responsive-carousel";
+import { Meal } from "../types";
 const Menu = () => {
-  const [meals, setMeals] = useState([]);
+  const [meals, setMeals] = useState<Meal[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Menu = () => {
         centerSlidePercentage={50}
         className='mb-16'
       >
-        {meals.map((meal) => {
+        {meals?.map((meal) => {
           return (
             <div className='shadow-sm p-4 mx-8 h-72' key={meal._id}>
               <Image

@@ -32,14 +32,16 @@ type MealsListProps = {
 const ITEMS_PER_PAGE = 9;
 
 function MealsPage() {
-  const [meals, setMeals] = useState<MealsListProps>();
+  const [meals, setMeals] = useState<Meal[]>([]);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchBy, setSearchBy] = useState<string>("name");
   const { handlelikedMeal } = useContext(MyContext);
 
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedMeal, setSelectedMeal] = useState(null); // For the meal to display in the modal
+  const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
+
   const [showModal, setShowModal] = useState(false); // To toggle the modal
   const { loggedInUser } = useContext(MyContext);
   useEffect(() => {
@@ -59,7 +61,7 @@ function MealsPage() {
     setCurrentPage(pageNumber);
   };
 
-  const handleViewRecipe = (meal) => {
+  const handleViewRecipe = (meal: Meal) => {
     setSelectedMeal(meal);
     setShowModal(true);
   };
@@ -92,54 +94,54 @@ function MealsPage() {
   );
 
   return (
-    <div className="max-w-screen-lg mx-auto ">
-      <fieldset className="border border-grey-500 h-[68px] rounded-lg flex items-center mt-1 w-full">
-        <legend className="text-sm text-black text-opacity-60 px-1">
+    <div className='max-w-screen-lg mx-auto '>
+      <fieldset className='border border-grey-500 h-[68px] rounded-lg flex items-center mt-1 w-full'>
+        <legend className='text-sm text-black text-opacity-60 px-1'>
           Search for meals
         </legend>
         <input
-          type="text"
-          className="px-3 py-2 w-full"
+          type='text'
+          className='px-3 py-2 w-full'
           onChange={handleSearch}
         />
         <select
-          className="px-3 py-2 text-black font-bold ml-2"
+          className='px-3 py-2 text-black font-bold ml-2'
           onChange={handleSearchByChange}
           value={searchBy}
         >
-          <option value="name">Name</option>
-          <option value="category">Category</option>
-          <option value="ingredient">Ingredient</option>
+          <option value='name'>Name</option>
+          <option value='category'>Category</option>
+          <option value='ingredient'>Ingredient</option>
         </select>
       </fieldset>
 
-      <div className="max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {paginatedMeals?.map((meal) => (
+      <div className='max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        {paginatedMeals?.map((meal: any) => (
           <div
             key={meal._id}
-            className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+            className='bg-white rounded-lg shadow-md overflow-hidden cursor-pointer'
           >
             <img
               src={meal.imageUrl}
               alt={meal.name}
-              className="w-full h-40 object-cover object-center"
+              className='w-full h-40 object-cover object-center'
             />
-            <div className="p-4">
-              <h2 className="text-lg font-semibold mb-2">{meal.name}</h2>
-              <p className="text-gray-700 mb-4">{meal.description}</p>
-              <div className="flex justify-between">
+            <div className='p-4'>
+              <h2 className='text-lg font-semibold mb-2'>{meal.name}</h2>
+              <p className='text-gray-700 mb-4'>{meal.description}</p>
+              <div className='flex justify-between'>
                 <button
-                  className="bg-orange-500 text-white px-4 py-2 rounded-md mr-4"
+                  className='bg-orange-500 text-white px-4 py-2 rounded-md mr-4'
                   onClick={() => handleViewRecipe(meal)}
                 >
                   Details
                 </button>
                 <button
-                  className="text-gray-500 focus:outline-none bg-transparent text-xl"
+                  className='text-gray-500 focus:outline-none bg-transparent text-xl'
                   onClick={() => handlelikedMeal(meal)}
                 >
                   <FontAwesomeIcon
-                    className="transition-colors hover:text-red-500"
+                    className='transition-colors hover:text-red-500'
                     icon={faHeart}
                   />
                 </button>
@@ -149,13 +151,13 @@ function MealsPage() {
         ))}
       </div>
 
-      {showModal && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50 ">
-          <div className="bg-white rounded-lg w-5/12 max-h-[90%]  relative">
+      {showModal && selectedMeal && (
+        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50 '>
+          <div className='bg-white rounded-lg w-5/12 max-h-[90%]  relative'>
             <SingleMeal meal={selectedMeal} />
             <button
               onClick={() => setShowModal(false)}
-              className=" text-custom-green bg-white px-4 py-2 rounded-full focus:outline-none absolute right-5 top-5 hover:bg-custom-green hover:text-white font-thin text-xl"
+              className=' text-custom-green bg-white px-4 py-2 rounded-full focus:outline-none absolute right-5 top-5 hover:bg-custom-green hover:text-white font-thin text-xl'
             >
               X
             </button>

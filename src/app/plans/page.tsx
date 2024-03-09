@@ -6,7 +6,7 @@ import axios from "axios";
 const Plans = () => {
   const [numberOfPeople, setNumberOfPeople] = useState(2);
   const [recipesPerWeek, setRecipesPerWeek] = useState(3);
-  const [pricingPlans, setPricingPlans] = useState([]);
+  const [pricingPlans, setPricingPlans] = useState<any>([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [pricePerServing, setPricePerServing] = useState(0);
   const [shippingPrice, setShippingPrice] = useState(0);
@@ -30,7 +30,7 @@ const Plans = () => {
   useEffect(() => {
     // Calculate the total price based on the fetched pricing plans
     const selectedPlan = pricingPlans.find(
-      (plan) =>
+      (plan: any) =>
         plan.numberOfPeople === numberOfPeople &&
         plan.recipesPerWeek === recipesPerWeek
     );

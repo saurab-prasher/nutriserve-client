@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { MyContext } from "../context/Context";
+import { Meal } from "../types";
 
-const SingleMeal = ({ meal }) => {
+const SingleMeal = ({ meal }: any) => {
   const { handleSelectMeal } = useContext(MyContext);
 
   return (
@@ -50,7 +51,7 @@ const SingleMeal = ({ meal }) => {
       <div className='ingredients px-4 py-4'>
         <p className='text-xl tracking-wide mb-4'>Ingredients</p>
         <ul className='grid grid-cols-3 gap-2'>
-          {meal.ingredients.map((ingredient, index) => (
+          {meal.ingredients.map((ingredient: any, index: number) => (
             <li className='capitalize text-sm border-b pb-2 w-48' key={index}>
               {ingredient}
             </li>
@@ -70,14 +71,14 @@ const SingleMeal = ({ meal }) => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(meal.nutritionalValues).map(
-              ([key, value], index) => (
-                <tr key={index} className='bg-white border-b'>
-                  <td className='py-2 px-12 capitalize'>{key}</td>
-                  <td className='py-2 px-12'>{value}</td>
-                </tr>
-              )
-            )}
+            {Object.entries(
+              meal.nutritionalValues as Record<string, number | string>
+            ).map(([key, value], index) => (
+              <tr key={index} className='bg-white border-b'>
+                <td className='py-2 px-12 capitalize'>{key}</td>
+                <td className='py-2 px-12'>{value}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

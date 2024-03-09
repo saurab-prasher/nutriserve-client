@@ -2,12 +2,12 @@
 import React, { useState, useContext } from "react";
 
 import { MyContext } from "../context/Context";
-// Props are expected to be passed down from a parent component or through a global state manager like Redux or Context API
+
 const CheckoutPage = () => {
   const { selectedRecipes } = useContext(MyContext);
+  console.log(selectedRecipes);
   const calculateTotal = () => {
-    // This is a placeholder for any calculation, for example, summing up the prices of the selected recipes if they have associated costs
-    return selectedRecipes.length; // Simple example, replace with actual calculation
+    return selectedRecipes.length;
   };
 
   return (

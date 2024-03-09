@@ -27,7 +27,7 @@ type MealsListProps = {
 const ITEMS_PER_PAGE = 9;
 
 function MealsPage() {
-  const [meals, setMeals] = useState<MealsListProps>();
+  const [meals, setMeals] = useState<Meal[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchBy, setSearchBy] = useState<string>("name");
@@ -45,7 +45,7 @@ function MealsPage() {
   const totalItems = meals?.length || 0;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-    const handlePageChange = (pageNumber: number) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -88,22 +88,24 @@ function MealsPage() {
 
   return (
     <div>
-      <div className="max-w-screen-lg mx-auto flex justify-between items-center px-4">
-        <fieldset className="border border-grey-500 h-[68px] rounded-lg flex items-center mt-1 w-full">
-          <legend className="text-sm text-black text-opacity-60 px-1">Search for meals</legend>
+      <div className='max-w-screen-lg mx-auto flex justify-between items-center px-4'>
+        <fieldset className='border border-grey-500 h-[68px] rounded-lg flex items-center mt-1 w-full'>
+          <legend className='text-sm text-black text-opacity-60 px-1'>
+            Search for meals
+          </legend>
           <input
-              type="text"
-              className="px-3 py-2 w-full"
-              onChange={handleSearch}
+            type='text'
+            className='px-3 py-2 w-full'
+            onChange={handleSearch}
           />
           <select
-              className="px-3 py-2 text-black font-bold ml-2"
-              onChange={handleSearchByChange}
-              value={searchBy}
+            className='px-3 py-2 text-black font-bold ml-2'
+            onChange={handleSearchByChange}
+            value={searchBy}
           >
-            <option value="name">Name</option>
-            <option value="category">Category</option>
-            <option value="ingredient">Ingredient</option>
+            <option value='name'>Name</option>
+            <option value='category'>Category</option>
+            <option value='ingredient'>Ingredient</option>
           </select>
         </fieldset>
       </div>
@@ -123,7 +125,9 @@ function MealsPage() {
               <p className='text-gray-700 mb-4'>{meal.description}</p>
               {expandedMeal === meal._id ? (
                 <div>
-                  <p className='text-gray-600 mb-2'>Category: {meal.category}</p>
+                  <p className='text-gray-600 mb-2'>
+                    Category: {meal.category}
+                  </p>
                   <div className='mb-2'>
                     <strong>Ingredients:</strong>
                     <ul className='list-disc pl-5'>
@@ -134,7 +138,8 @@ function MealsPage() {
                   </div>
                   <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
                     <p>
-                      <strong>Calories:</strong> {meal.nutritionalValues.calories}
+                      <strong>Calories:</strong>{" "}
+                      {meal.nutritionalValues.calories}
                     </p>
                     <p>
                       <strong>Protein:</strong> {meal.nutritionalValues.protein}
@@ -188,7 +193,6 @@ function MealsPage() {
             </nav>
           </div>
         )}
-
       </div>
     </div>
   );

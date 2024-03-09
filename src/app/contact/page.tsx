@@ -16,7 +16,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:5000/contact", {
@@ -37,9 +37,8 @@ const ContactUs = () => {
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
-    } catch (error) {
-      console.error("Failed to submit message:", error.message);
-      alert("Failed to submit message. Please try again later.");
+    } catch (e) {
+      console.log("Failed to submit message. Please try again later.");
     }
   };
 
