@@ -6,16 +6,16 @@ import React, { useState } from "react";
 const MEAL_TYPES = ["Breakfast", "Lunch", "Dinner", "Snack"];
 const CATEGORIES = ["Vegan", "Vegetarian", "Meat", "Dessert"]; // Assuming these are your categories
 
-const MealFilters = ({ onFilterChange }) => {
+const MealFilters = ({ onFilterChange }: any) => {
   const [activeMealType, setActiveMealType] = useState("");
   const [activeCategory, setActiveCategory] = useState("");
 
-  const handleMealTypeClick = (type) => {
+  const handleMealTypeClick = (type: any) => {
     setActiveMealType(type);
     onFilterChange({ mealType: type, category: activeCategory });
   };
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category: any) => {
     setActiveCategory(category);
     onFilterChange({ mealType: activeMealType, category });
   };

@@ -20,14 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={poppins.className}>
-        <MyContextProvider>
+    <MyContextProvider>
+      <html lang='en'>
+        <body className={poppins.className}>
           <Navbar />
           {children}
           <Footer />
-        </MyContextProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </MyContextProvider>
   );
 }

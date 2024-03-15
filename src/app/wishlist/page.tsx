@@ -8,20 +8,20 @@ const Wishlist = () => {
 
   const [meals, setMeals] = useState([]);
 
-  useEffect(() => {
-    const fetchAllMeals = async () => {
-      const mealData: any = await Promise.all(
-        likedRecipes.map((mealId) =>
-          fetch(`${serverUrl}/api/meals/${mealId}`).then((res) => res.json())
-        )
-      );
-      setMeals(mealData);
-    };
+  // useEffect(() => {
+  //   const fetchAllMeals = async () => {
+  //     const mealData: any = await Promise.all(
+  //       likedRecipes.map((mealId) =>
+  //         fetch(`${serverUrl}/api/meals/${mealId}`).then((res) => res.json())
+  //       )
+  //     );
+  //     setMeals(mealData);
+  //   };
 
-    if (likedRecipes.length > 0) {
-      fetchAllMeals();
-    }
-  }, [likedRecipes, serverUrl]);
+  //   if (likedRecipes.length > 0) {
+  //     fetchAllMeals();
+  //   }
+  // }, [likedRecipes, serverUrl]);
 
   const calculateTotal = () => {
     return likedRecipes.length;

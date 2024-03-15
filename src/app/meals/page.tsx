@@ -98,7 +98,7 @@ function MealsPage() {
   //   return true;
   // });
 
-  const handleFilterChange = (newFilters) => {
+  const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
 
     const { mealType, category } = newFilters;

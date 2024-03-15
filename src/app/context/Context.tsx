@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -97,7 +97,6 @@ export const MyContext = createContext<MyContextType>(defaultContextValue);
 export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   children,
 }) => {
-  // State for storing selected recipes
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
   const [likedRecipes, setlikedRecipes] = useState<any>([]);
   const [loggedInUser, setLoggedInUser] = useState<any>();
@@ -110,6 +109,49 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const response = await axios.get(`${serverUrl}/users/auth/verify`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setLoggedInUser(response.data.user);
+        } else {
+          setLoggedInUser(null);
+        }
+      } catch (error) {
+        console.error("Error verifying user:", error);
+        setLoggedInUser(null);
+      }
+    };
+
+    if (!loggedInUser) verifyUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUser, setLoggedInUser, serverUrl]);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Define the function inside the effect to avoid issues with missing dependencies
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${serverUrl}/users/auth/user`, {
+          withCredentials: true,
+        });
+
+        setLoggedInUser(response.data.user);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serverUrl]); // Empty dependency array means this runs once on component mount
+  // State for storing selected recipes
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
