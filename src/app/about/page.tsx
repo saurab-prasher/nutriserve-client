@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 const AboutUs = () => {
   return (
@@ -9,7 +9,7 @@ const AboutUs = () => {
           src='/images/about-us.png'
           alt='Sample Image'
           layout='responsive'
-          width={1200}
+          width={1400}
           height={800}
         />
       </div>

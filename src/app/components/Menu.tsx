@@ -1,22 +1,24 @@
 "use client";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import Image from "next/legacy/image";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { Carousel } from "react-responsive-carousel";
 import { Meal } from "../types";
+import { MyContext } from "../context/Context";
 const Menu = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const { serverUrl } = useContext(MyContext);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5000/api/meals");
+      const res = await fetch(`${serverUrl}/api/meals`);
       const data = await res.json();
       setMeals(data.slice(0, 6));
     };
 
     fetchData();
-  }, []);
+  }, [serverUrl]);
   return (
     <div className='container mx-auto py-8 my-12'>
       <div className='text-center mb-12'>
@@ -39,14 +41,17 @@ const Menu = () => {
       >
         {meals?.map((meal) => {
           return (
-            <div className='shadow-sm p-4 mx-8 h-72' key={meal._id}>
-              <Image
-                height={100}
-                width={100}
-                style={{ objectFit: "contain" }}
-                src={"/images/meal1.webp"}
-                alt={meal?.name}
-              />
+            <div className='shadow-sm p-4 mx-8 h-72 ' key={meal._id}>
+              <div>
+                <Image
+                  height={450}
+                  width={450}
+                  src={meal?.imageUrl || "/images/meal1.webp"}
+                  alt={meal?.name}
+                  object-fit='cover'
+                />
+              </div>
+
               <div className='legend'>
                 <h2 className='text-lg font-semibold mb-2'>{meal.name}</h2>
                 <p className='mb-4'>{meal.description}</p>

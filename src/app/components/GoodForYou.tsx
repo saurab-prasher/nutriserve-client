@@ -1,17 +1,17 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 const GoodForYou = () => {
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-100 py-16'>
       <div className=' mx-auto container p-8 grid grid-cols-2 '>
         <div className='image-content relative'>
           <Image
             alt='avatar image'
-            style={{ objectFit: "contain" }}
+            object-fit='contain'
             src={"/images/gfy-1.webp"}
-            width={500}
-            height={500}
+            width={550}
+            height={600}
           />
         </div>
 

@@ -1,23 +1,25 @@
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import Image from "next/legacy/image";
+import { useState, useEffect, useContext } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Testimonial } from "../types";
+import { MyContext } from "../context/Context";
 
 const Testimonial = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const { serverUrl } = useContext(MyContext);
 
   useEffect(() => {
     async function fetchTestimonials() {
-      const response = await fetch("http://localhost:5000/api/testimonials");
+      const response = await fetch(`${serverUrl}/api/testimonials`);
       const data = await response.json();
       setTestimonials(data);
     }
     fetchTestimonials();
-  }, []);
+  }, [serverUrl]);
 
   return (
-    <div className='container mx-auto py-8'>
+    <div className='container mx-auto py-16'>
       <div className='text-center mb-12'>
         <h1 className='text-4xl font-medium mb-4'>
           Snapshots of our community

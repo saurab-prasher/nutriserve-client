@@ -1,7 +1,7 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import { MyContext } from "../context/Context";
 export default function Login() {
@@ -11,7 +11,15 @@ export default function Login() {
     handleLoginSubmit,
     email,
     password,
+    error,
+    setError,
   } = useContext(MyContext);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError("");
+    }, 5000);
+  }, [error]);
 
   return (
     <div className='flex justify-center items-center py-24'>
@@ -24,7 +32,7 @@ export default function Login() {
         />
 
         <div>
-          <div>
+          <div className='relative'>
             <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
               Sign in to your account
             </h2>
@@ -34,7 +42,12 @@ export default function Login() {
                 register a new account
               </Link>
             </p>
+
+            <div className='absolute top-110 -bottom-10 z-40  '>
+              <p className='text-red-500 text-sm font-medium'>{error}</p>
+            </div>
           </div>
+
           <form className='mt-12 ' onSubmit={handleLoginSubmit}>
             <input type='hidden' name='remember' value='true' />
             <div className='rounded-md shadow-sm flex flex-col gap-4'>

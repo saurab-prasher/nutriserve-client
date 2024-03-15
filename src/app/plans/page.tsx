@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { MyContext } from "../context/Context";
 
 const Plans = () => {
   const [numberOfPeople, setNumberOfPeople] = useState(2);
@@ -11,10 +12,12 @@ const Plans = () => {
   const [pricePerServing, setPricePerServing] = useState(0);
   const [shippingPrice, setShippingPrice] = useState(0);
 
+  const { serverUrl } = useContext(MyContext);
+
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/pricing"); // Use your actual backend URL
+        const response = await axios.get(`${serverUrl}/api/pricing`);
 
         console.log(response);
         setPricingPlans(response.data);
@@ -25,7 +28,7 @@ const Plans = () => {
     };
 
     fetchPricing();
-  }, []);
+  }, [serverUrl]);
 
   useEffect(() => {
     // Calculate the total price based on the fetched pricing plans
@@ -146,7 +149,7 @@ const Plans = () => {
         <div className='bg-gray-200 price-summary-footer mb-6'>
           <div className='flex justify-between px-4 py-6'>
             <p className='font-light'>First box total</p>
-            <span>$135.89</span>
+            <span>${totalPrice}</span>
           </div>
         </div>
 

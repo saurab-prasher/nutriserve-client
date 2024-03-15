@@ -2,10 +2,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import Image from "next/image";
 import SingleMeal from "../components/SingleMeal";
-import axios from "../../../node_modules/axios/index";
+import MealFilters from "../components/MealFilters";
+import Image from "next/legacy/image";
+
 import { MyContext } from "../context/Context";
 
 type NutritionalValues = {
@@ -36,30 +36,33 @@ function MealsPage() {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchBy, setSearchBy] = useState<string>("name");
+
   const { handlelikedMeal } = useContext(MyContext);
 
-  const [isVisible, setIsVisible] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
 
   const [showModal, setShowModal] = useState(false); // To toggle the modal
-  const { loggedInUser } = useContext(MyContext);
+  const { loggedInUser, serverUrl } = useContext(MyContext);
+
+  const [filters, setFilters] = useState({ mealType: "", category: "" });
+  const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5000/api/meals");
+      const res = await fetch(`${serverUrl}/api/meals`);
       const data = await res.json();
       setMeals(data);
     };
 
     fetchData();
-  }, []);
+  }, [serverUrl]);
 
-  const totalItems = meals?.length || 0;
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  // const totalItems = meals?.length || 0;
+  // const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber: number) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   const handleViewRecipe = (meal: Meal) => {
     setSelectedMeal(meal);
@@ -70,81 +73,112 @@ function MealsPage() {
     setSearchQuery(e.target.value);
   };
 
-  const handleSearchByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchBy(e.target.value);
+  const handleSearchByChange = () => {
+    if (searchQuery.toLowerCase()) {
+      const filteredMeals = meals?.filter((meal) =>
+        meal.name.toLowerCase().includes(searchQuery)
+      );
+
+      console.log(filteredMeals);
+      setFilteredMeals(filteredMeals);
+    }
   };
 
-  const filteredMeals = meals?.filter((meal) => {
-    if (searchQuery === "") return true;
-    if (searchBy === "name") {
-      return meal.name.toLowerCase().includes(searchQuery.toLowerCase());
-    } else if (searchBy === "category") {
-      return meal.category.toLowerCase().includes(searchQuery.toLowerCase());
-    } else if (searchBy === "ingredient") {
-      return meal.ingredients.some((ingredient) =>
-        ingredient.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    return true;
-  });
+  // const filteredMeals = meals?.filter((meal) => {
+  //   if (searchQuery === "") return true;
+  //   if (searchBy === "name") {
+  //     return meal.name.toLowerCase().includes(searchQuery.toLowerCase());
+  //   } else if (searchBy === "category") {
+  //     return meal.category.toLowerCase().includes(searchQuery.toLowerCase());
+  //   } else if (searchBy === "ingredient") {
+  //     return meal.ingredients.some((ingredient) =>
+  //       ingredient.toLowerCase().includes(searchQuery.toLowerCase())
+  //     );
+  //   }
+  //   return true;
+  // });
 
-  const paginatedMeals = filteredMeals?.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+
+    const { mealType, category } = newFilters;
+
+    console.log(mealType, category);
+
+    if (mealType && category) {
+      const filteredMeals = meals.filter((meal: any) => {
+        console.log(meal);
+        return (
+          meal.category.toLowerCase() === category.toLowerCase() &&
+          meal.mealType.toLowerCase() === mealType.toLowerCase()
+        );
+      });
+
+      console.log(filteredMeals);
+      setFilteredMeals(filteredMeals);
+    }
+  };
 
   return (
-    <div className='max-w-screen-lg mx-auto '>
-      <fieldset className='border border-grey-500 h-[68px] rounded-lg flex items-center mt-1 w-full'>
-        <legend className='text-sm text-black text-opacity-60 px-1'>
-          Search for meals
-        </legend>
-        <input
-          type='text'
-          className='px-3 py-2 w-full'
-          onChange={handleSearch}
-        />
-        <select
-          className='px-3 py-2 text-black font-bold ml-2'
-          onChange={handleSearchByChange}
-          value={searchBy}
-        >
-          <option value='name'>Name</option>
-          <option value='category'>Category</option>
-          <option value='ingredient'>Ingredient</option>
-        </select>
-      </fieldset>
+    <div className='max-w-screen-lg mx-auto mb-60 '>
+      <div className='text-center mb-12'>
+        <h1 className='text-4xl font-normal mb-4'>
+          Recipes for All Tastes and Occasions
+        </h1>
+        <p className='description font-light'>
+          Looking for some tasty recipe inspiration? Browse through our
+          collection of deliciously easy recipes and discover culinary delights
+          guaranteed to please every meat-lover, veg-head, busy parent, and
+          picky eater. We&apos;ve got dinnertime solved!
+        </p>
+      </div>
+      <input
+        type='text'
+        className='px-6 py-2 w-full border rounded-full mb-12'
+        onChange={(e) => {
+          handleSearch(e);
+          handleSearchByChange();
+        }}
+        placeholder='Search for meals...'
+      />
+
+      <MealFilters onFilterChange={handleFilterChange} />
 
       <div className='max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {paginatedMeals?.map((meal: any) => (
+        {filteredMeals?.map((meal: any) => (
           <div
             key={meal._id}
             className='bg-white rounded-lg shadow-md overflow-hidden cursor-pointer'
           >
-            <img
-              src={meal.imageUrl}
+            <Image
+              src={meal?.imageUrl || "/images/meal3.webp"}
               alt={meal.name}
-              className='w-full h-40 object-cover object-center'
+              height={300}
+              width={450}
+              className=' object-cover object-center'
             />
-            <div className='p-4'>
+            <div className='flex flex-col justify-between h-60 p-4'>
               <h2 className='text-lg font-semibold mb-2'>{meal.name}</h2>
               <p className='text-gray-700 mb-4'>{meal.description}</p>
               <div className='flex justify-between'>
                 <button
-                  className='bg-orange-500 text-white px-4 py-2 rounded-md mr-4'
+                  className='bg-orange-500 text-white px-4 w-full py-2 rounded-md mr-4'
                   onClick={() => handleViewRecipe(meal)}
                 >
                   Details
                 </button>
-                <button
-                  className='text-gray-500 focus:outline-none bg-transparent text-xl'
-                  onClick={() => handlelikedMeal(meal)}
-                >
-                  <FontAwesomeIcon
-                    className='transition-colors hover:text-red-500'
-                    icon={faHeart}
-                  />
-                </button>
+
+                {loggedInUser && (
+                  <button
+                    className='text-gray-500 focus:outline-none bg-transparent text-xl'
+                    onClick={() => handlelikedMeal(meal)}
+                  >
+                    <FontAwesomeIcon
+                      className='transition-colors hover:text-red-500'
+                      icon={faHeart}
+                    />
+                  </button>
+                )}
               </div>
             </div>
           </div>

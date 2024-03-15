@@ -1,14 +1,16 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
+import { MyContext } from "../context/Context";
 
 const BlogPage = () => {
+  const { serverUrl } = useContext(MyContext);
   const [blogPosts, setBlogPosts] = useState([]);
-
+  console.log(serverUrl);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/blogPosts"); // Replace with your API endpoint
+        const response = await fetch(`${serverUrl}/api/blogPosts`);
         const data = await response.json();
         setBlogPosts(data);
       } catch (error) {
@@ -17,7 +19,7 @@ const BlogPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [serverUrl]);
 
   return (
     <div className='bg-gray-100 min-h-screen p-8'>

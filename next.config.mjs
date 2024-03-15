@@ -10,6 +10,10 @@ const nextConfig = {
     ];
   },
 
+  env: {
+    SERVER_URL: process.env.SERVER_URL,
+  },
+
   images: {
     // Add the domain from which you want to allow images
     domains: [
@@ -22,6 +26,8 @@ const nextConfig = {
       "joyfoodsunshine.com",
       "img.taste.com.au",
       "www.tasteofhome.com",
+      "thewoodenskillet.com",
+      "www.twopeasandtheirpod.com",
     ],
   },
 };

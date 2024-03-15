@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
+import Image from "next/legacy/image";
+import { MyContext } from "../context/Context";
 type NutritionalValues = {
   calories: number;
   protein: string;
@@ -27,6 +28,7 @@ type MealsListProps = {
 const ITEMS_PER_PAGE = 9;
 
 function MealsPage() {
+  const { serverUrl } = useContext(MyContext);
   const [meals, setMeals] = useState<Meal[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -34,13 +36,13 @@ function MealsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:5000/api/meals");
+      const res = await fetch(`${serverUrl}/api/meals`);
       const data = await res.json();
       setMeals(data);
     };
 
     fetchData();
-  }, []);
+  }, [serverUrl]);
 
   const totalItems = meals?.length || 0;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);

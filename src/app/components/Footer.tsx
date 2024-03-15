@@ -1,8 +1,11 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
+import { MyContext } from "../context/Context";
 
 const Footer = () => {
+  const { loggedInUser } = useContext(MyContext);
   return (
     <footer className='bg-gray-100 text-gray-700 pt-10'>
       <div className='max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-5 gap-10'>

@@ -3,7 +3,9 @@ import React from "react";
 import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-// export const MyContext = createContext("");
+axios.defaults.withCredentials = true;
+
+const serverUrl = process.env.SERVER_URL;
 interface NutritionalValues {
   calories: number;
   protein: string;
@@ -34,9 +36,6 @@ interface User {
 }
 
 interface MyContextType {
-  name: string;
-  age: number;
-  happyBirthday: () => void;
   handleRegisterSubmit: (e: React.FormEvent) => Promise<void>;
   handleEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handlePasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -55,13 +54,15 @@ interface MyContextType {
   selectedRecipes: Meal[];
   handleFirstNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleLastNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  removeSelectedMeal: any;
+  serverUrl: any;
+  setLoggedInUser: any;
+  error: string;
+  setError: any;
 }
 
 // This will be used to initialize context
 const defaultContextValue: MyContextType = {
-  name: "",
-  age: 1,
-  happyBirthday: () => {},
   handleRegisterSubmit: async (e) => {},
   handleEmailChange: (e) => {},
   handlePasswordChange: (e) => {},
@@ -80,6 +81,11 @@ const defaultContextValue: MyContextType = {
   selectedRecipes: [],
   handleFirstNameChange: (e) => {},
   handleLastNameChange: (e) => {},
+  removeSelectedMeal: () => {},
+  serverUrl: "",
+  setLoggedInUser: null,
+  error: "",
+  setError: "",
 };
 
 interface MyContextProviderProps {
@@ -91,10 +97,6 @@ export const MyContext = createContext<MyContextType>(defaultContextValue);
 export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   children,
 }) => {
-  const [name, setName] = useState("John Doe");
-  const [age, setAge] = useState(1);
-  const happyBirthday = () => setAge(age + 1);
-
   // State for storing selected recipes
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
   const [likedRecipes, setlikedRecipes] = useState<any>([]);
@@ -132,7 +134,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/users/register",
+        `${serverUrl}/users/register`,
         {
           email,
           password,
@@ -149,14 +151,19 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
       console.log(data);
       if (data?.msg === "SUCCESS") {
         setLoggedInUser(data.user); // Update UI based on logged-in user
-        localStorage.setItem("token", data.token); // Consider security implications
+
+        router.push("/");
         setEmail("");
         setPassword("");
         setError("");
         router.push("/plans");
       } else {
-        // Handle cases where the message is not "SUCCESS"
         setError("Registration failed. Please try again.");
+        setEmail("");
+        setPassword("");
+
+        router.push("/register");
+        setError("");
       }
     } catch (error: any) {
       setError(
@@ -168,7 +175,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   async function fetchLikedmeals() {
     console.log(loggedInUser);
     const res = await fetch(
-      `http://localhost:5000/api/wishlist/${loggedInUser?.userId}`
+      `${serverUrl}/api/wishlist/${loggedInUser?.userId}`
     );
     const data = await res.json();
     console.log(data.likedMeals);
@@ -180,7 +187,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/users/login",
+        `${serverUrl}/users/login`,
         {
           email,
           password,
@@ -192,25 +199,31 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         }
       );
 
-      console.log(data);
       if (data?.msg === "SUCCESS") {
         setLoggedInUser(data.user);
+        router.push("/");
       }
 
       router.push("/"); // Redirect to homepage or dashboard after successful login
     } catch (error) {
-      setError("Failed to login"); // Update error message based on the actual error from the API
+      setError("Email address or password incorrect, please try again!");
+      // setError("Failed to login"); // Update error message based on the actual error from the API
     }
   }
 
   // Logout
-  function handleLogout() {
-    // Remove token from storage and clear user state
-    localStorage.removeItem("token");
-    setEmail("");
-    setLoggedInUser(undefined);
-    setPassword("");
-    setError(""); // Clear any errors
+  async function handleLogout() {
+    try {
+      await axios.get(`${serverUrl}/users/logout`).then((response) => {
+        setLoggedInUser(null); // Update local state
+        setEmail("");
+        setPassword("");
+        setError("");
+      });
+    } catch (error) {
+      console.error("Logout failed", error);
+      setError("Failed to logout"); // Handle logout error
+    }
     router.push("/login"); // Redirect to login page after logout
   }
 
@@ -226,6 +239,12 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     if (!isAlreadySelected) {
       setSelectedRecipes([...selectedRecipes, selectedMeal]);
     }
+  };
+
+  const removeSelectedMeal = (mealId: any) => {
+    setSelectedRecipes(
+      selectedRecipes.filter((meal: any) => meal._id !== mealId)
+    );
   };
 
   // Function to add a meal to the liked list
@@ -244,7 +263,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
       const mealId = likedMeal._id;
       console.log(likedMeal._id);
       const { data } = await axios.post(
-        "http://localhost:5000/api/wishlist",
+        `${serverUrl}/api/wishlist`,
         {
           userId,
           mealId,
@@ -261,9 +280,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   return (
     <MyContext.Provider
       value={{
-        name,
-        age,
-        happyBirthday,
+        error,
         handleRegisterSubmit,
         handleEmailChange,
         handlePasswordChange,
@@ -282,6 +299,10 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         selectedRecipes,
         handleFirstNameChange,
         handleLastNameChange,
+        removeSelectedMeal,
+        serverUrl,
+        setLoggedInUser,
+        setError,
       }}
     >
       {children}

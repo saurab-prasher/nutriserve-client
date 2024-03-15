@@ -1,5 +1,5 @@
 export interface Meal {
-  _id: string; // Assuming your MongoDB entries have an _id field
+  _id: string;
   name: string;
   description: string;
   category: string;

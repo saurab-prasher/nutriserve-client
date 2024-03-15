@@ -1,20 +1,39 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { MyContext } from "../context/Context";
-// Props are expected to be passed down from a parent component or through a global state manager like Redux or Context API
+
 const Wishlist = () => {
-  const { likedRecipes } = useContext(MyContext);
+  const { likedRecipes, serverUrl } = useContext(MyContext);
+
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    const fetchAllMeals = async () => {
+      const mealData: any = await Promise.all(
+        likedRecipes.map((mealId) =>
+          fetch(`${serverUrl}/api/meals/${mealId}`).then((res) => res.json())
+        )
+      );
+      setMeals(mealData);
+    };
+
+    if (likedRecipes.length > 0) {
+      fetchAllMeals();
+    }
+  }, [likedRecipes, serverUrl]);
+
   const calculateTotal = () => {
-    // This is a placeholder for any calculation, for example, summing up the prices of the selected recipes if they have associated costs
-    return likedRecipes.length; // Simple example, replace with actual calculation
+    return likedRecipes.length;
   };
 
   return (
-    <div className='container mx-auto'>
-      <h2 className='text-2xl text-center font-bold mb-6'>Wishlist</h2>
-      <div className='max-w-screen-lg mx-auto my-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {likedRecipes?.map((meal: any) => (
+    <div className='container mx-auto py-12'>
+      <h2 className='text-6xl text-center font-light mb-20 tracking-wide'>
+        Wishlist
+      </h2>
+      <div className='max-w-screen-lg mx-auto my-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        {meals?.map((meal: any) => (
           <div
             key={meal._id}
             className='bg-white rounded-lg shadow-md overflow-hidden cursor-pointer'

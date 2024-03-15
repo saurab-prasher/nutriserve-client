@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { MyContext } from "../context/Context";
 import { Meal } from "../types";
 

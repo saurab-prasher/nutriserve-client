@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 const HowItWorks = () => {
   return (
-    <div className='container mx-auto py-8 my-12'>
+    <div className='container mx-auto py-16 my-12'>
       <div className='text-center mb-12'>
         <h1 className='text-4xl font-light mb-4'>How it works</h1>
         <p className='description font-light'>
@@ -17,7 +17,7 @@ const HowItWorks = () => {
             {" "}
             <Image
               alt='image of meal'
-              style={{ objectFit: "contain" }}
+              object-fit='contain'
               height={300}
               width={300}
               src={"/images/hiw-1.webp"}
@@ -26,7 +26,7 @@ const HowItWorks = () => {
 
           <div className=' text-center p-6'>
             <h4 className='text-xl mb-4 color-main'>Choose your meals</h4>
-            <p className='block font-thin w-3/5 m-auto'>
+            <p className='block font-light w-3/5 m-auto'>
               Curated, easy-to-follow recipes every week
             </p>
           </div>
@@ -35,7 +35,7 @@ const HowItWorks = () => {
           <div className='h-60 w-64 bg-slate-200 mb-4 mx-auto'>
             <Image
               alt='image of meal'
-              style={{ objectFit: "contain" }}
+              object-fit='contain'
               height={300}
               width={300}
               src={"/images/hiw-2.webp"}
@@ -44,7 +44,7 @@ const HowItWorks = () => {
 
           <div className=' text-center p-6'>
             <h4 className='text-xl mb-4 color-main'>Create the perfect box</h4>
-            <p className='block font-thin w-3/5 m-auto'>
+            <p className='block font-light w-3/5 m-auto'>
               Suit your lifestyle with a variety of Extras, including Garlic
               Bread
             </p>
@@ -54,7 +54,7 @@ const HowItWorks = () => {
           <div className='h-60 w-64 bg-slate-200 mb-4 mx-auto'>
             <Image
               alt='image of meal'
-              style={{ objectFit: "contain" }}
+              object-fit='contain'
               height={300}
               width={300}
               src={"/images/hiw-3.webp"}
@@ -65,7 +65,7 @@ const HowItWorks = () => {
             <h4 className='text-xl mb-4 color-main'>
               Get convenient weekly deliveries
             </h4>
-            <p className='block font-thin w-3/5 m-auto'>
+            <p className='block font-light w-3/5 m-auto'>
               Scheduling made easy, with drop-offs right at your door
             </p>
           </div>
@@ -74,7 +74,7 @@ const HowItWorks = () => {
           <div className='h-60 w-64 bg-slate-200 mb-4 mx-auto'>
             <Image
               alt='image of meal'
-              style={{ objectFit: "contain" }}
+              object-fit='contain'
               height={300}
               width={300}
               src={"/images/hiw-4.webp"}
@@ -85,7 +85,7 @@ const HowItWorks = () => {
             <h4 className='text-xl mb-4 color-main'>
               Cook seasonal, fresh ingredients
             </h4>
-            <p className='block font-thin w-3/5 m-auto'>
+            <p className='block font-light w-3/5 m-auto'>
               Food made from scratch in the comfort of your kitchen
             </p>
           </div>

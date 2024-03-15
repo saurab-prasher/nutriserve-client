@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { MyContext } from "../context/Context";
 
 const ContactUs = () => {
+  const { serverUrl } = useContext(MyContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,7 +21,7 @@ const ContactUs = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/contact", {
+      const response = await fetch(`${serverUrl}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

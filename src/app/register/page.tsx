@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 
 import { MyContext } from "../context/Context";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 const Register = () => {
   const {
