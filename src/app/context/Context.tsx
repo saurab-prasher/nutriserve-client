@@ -89,6 +89,7 @@ const defaultContextValue: MyContextType = {
   setLoggedInUser: () => {},
   error: "",
   isLoading: true,
+
   setError: "",
 };
 
