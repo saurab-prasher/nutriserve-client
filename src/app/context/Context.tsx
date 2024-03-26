@@ -8,6 +8,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+console.log(serverUrl);
 interface NutritionalValues {
   calories: number;
   protein: string;
@@ -57,7 +58,7 @@ interface MyContextType {
   handleFirstNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleLastNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeSelectedMeal: any;
-  serverUrl: string;
+  serverUrl: any;
   setLoggedInUser: React.Dispatch<React.SetStateAction<User | null>>;
   error: string;
   setError: any;
@@ -85,7 +86,7 @@ const defaultContextValue: MyContextType = {
   handleFirstNameChange: (e) => {},
   handleLastNameChange: (e) => {},
   removeSelectedMeal: () => {},
-  serverUrl: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000",
+  serverUrl: process.env.NEXT_PUBLIC_SERVER_URL,
   setLoggedInUser: () => {},
   error: "",
   isLoading: true,
@@ -334,7 +335,8 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         handleFirstNameChange,
         handleLastNameChange,
         removeSelectedMeal,
-        serverUrl: "http://localhost:5000",
+        serverUrl,
+
         setLoggedInUser,
         setError,
         isLoading,
