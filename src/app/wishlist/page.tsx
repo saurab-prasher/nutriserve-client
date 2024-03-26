@@ -1,12 +1,28 @@
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 
+import axios from "axios";
 import { MyContext } from "../context/Context";
 
 const Wishlist = () => {
-  const { likedRecipes, serverUrl } = useContext(MyContext);
+  const { likedRecipes, serverUrl, loggedInUser } = useContext(MyContext);
 
   const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    console.log(loggedInUser);
+    async function fetchWishlist() {
+      // const response = await axios.get(
+      //   `${serverUrl}/api/wishlist/${loggedInUser?.userId}`,
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
+      // console.log(response);
+    }
+
+    fetchWishlist();
+  }, []);
 
   // useEffect(() => {
   //   const fetchAllMeals = async () => {

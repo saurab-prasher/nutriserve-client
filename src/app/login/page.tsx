@@ -1,25 +1,18 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/legacy/image";
 
 import { MyContext } from "../context/Context";
 export default function Login() {
+  const [error, setError] = useState("");
   const {
     handleEmailChange,
     handlePasswordChange,
     handleLoginSubmit,
     email,
     password,
-    error,
-    setError,
   } = useContext(MyContext);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setError("");
-    }, 5000);
-  }, [error]);
 
   return (
     <div className='flex justify-center items-center py-24'>
@@ -44,7 +37,11 @@ export default function Login() {
             </p>
 
             <div className='absolute top-110 -bottom-10 z-40  '>
-              <p className='text-red-500 text-sm font-medium'>{error}</p>
+              <p className='text-red-500 text-sm font-medium'>
+                {/* {setError(
+                  "Email address or password incorrect, please try again!"
+                )} */}
+              </p>
             </div>
           </div>
 
@@ -60,8 +57,7 @@ export default function Login() {
                   name='email'
                   type='email'
                   value={email}
-                  autoComplete='email'
-                  onChange={(e) => handleEmailChange(e)}
+                  onChange={handleEmailChange}
                   required
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                   placeholder='Email address'
@@ -75,8 +71,7 @@ export default function Login() {
                   id='password'
                   name='password'
                   type='password'
-                  autoComplete='current-password'
-                  onChange={(e) => handlePasswordChange(e)}
+                  onChange={handlePasswordChange}
                   required
                   value={password}
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:text-custom-green focus:z-10 sm:text-sm'

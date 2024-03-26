@@ -17,3 +17,7 @@ Text Color: Dark Grey (#424242) - Ensures readability. */
   padding: 0;
   box-sizing: border-box;
 }
+/* In your globals.css or a component-specific file */
+.skeleton {
+  @apply animate-pulse bg-gray-300 rounded-md;
+}

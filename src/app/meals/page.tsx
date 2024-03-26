@@ -57,13 +57,6 @@ function MealsPage() {
     fetchData();
   }, [serverUrl]);
 
-  // const totalItems = meals?.length || 0;
-  // const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-
-  // const handlePageChange = (pageNumber: number) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
   const handleViewRecipe = (meal: Meal) => {
     setSelectedMeal(meal);
     setShowModal(true);
@@ -79,31 +72,14 @@ function MealsPage() {
         meal.name.toLowerCase().includes(searchQuery)
       );
 
-      console.log(filteredMeals);
       setFilteredMeals(filteredMeals);
     }
   };
-
-  // const filteredMeals = meals?.filter((meal) => {
-  //   if (searchQuery === "") return true;
-  //   if (searchBy === "name") {
-  //     return meal.name.toLowerCase().includes(searchQuery.toLowerCase());
-  //   } else if (searchBy === "category") {
-  //     return meal.category.toLowerCase().includes(searchQuery.toLowerCase());
-  //   } else if (searchBy === "ingredient") {
-  //     return meal.ingredients.some((ingredient) =>
-  //       ingredient.toLowerCase().includes(searchQuery.toLowerCase())
-  //     );
-  //   }
-  //   return true;
-  // });
 
   const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
 
     const { mealType, category } = newFilters;
-
-    console.log(mealType, category);
 
     if (mealType && category) {
       const filteredMeals = meals.filter((meal: any) => {
@@ -114,7 +90,6 @@ function MealsPage() {
         );
       });
 
-      console.log(filteredMeals);
       setFilteredMeals(filteredMeals);
     }
   };

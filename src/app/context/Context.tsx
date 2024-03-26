@@ -2,10 +2,12 @@
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
+import { verifyUser } from "../utils/verifyUserUtils";
+import { fetchUserData } from "../utils/fetchUserDataUtils";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-const serverUrl = process.env.SERVER_URL;
+export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 interface NutritionalValues {
   calories: number;
   protein: string;
@@ -55,10 +57,11 @@ interface MyContextType {
   handleFirstNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleLastNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeSelectedMeal: any;
-  serverUrl: any;
-  setLoggedInUser: any;
+  serverUrl: string;
+  setLoggedInUser: React.Dispatch<React.SetStateAction<User | null>>;
   error: string;
   setError: any;
+  isLoading: any;
 }
 
 // This will be used to initialize context
@@ -82,9 +85,10 @@ const defaultContextValue: MyContextType = {
   handleFirstNameChange: (e) => {},
   handleLastNameChange: (e) => {},
   removeSelectedMeal: () => {},
-  serverUrl: "",
-  setLoggedInUser: null,
+  serverUrl: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000",
+  setLoggedInUser: () => {},
   error: "",
+  isLoading: true,
   setError: "",
 };
 
@@ -102,60 +106,36 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   const [loggedInUser, setLoggedInUser] = useState<any>();
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [likedMealIds, setLikedMealIds] = useState([]);
+  // In your context initialization
+  const [isLoading, setIsLoading] = useState(true); // Add this line
 
-  const [password, setPassword] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        const response = await axios.get(`${serverUrl}/users/auth/verify`, {
-          withCredentials: true,
+    setIsLoading(true); // Before making API calls
+    if (serverUrl) {
+      // You can chain these if one depends on the other, or run them independently if they do not
+      verifyUser(serverUrl, setLoggedInUser).then(() => {
+        fetchUserData(serverUrl, setLoggedInUser).finally(() => {
+          setIsLoading(false); // After all async operations are complete
         });
+      });
+    }
+  }, [serverUrl, setLoggedInUser]); // Adding dependencies to ensure it re-runs only if these values change
 
-        if (response.status === 200) {
-          setLoggedInUser(response.data.user);
-        } else {
-          setLoggedInUser(null);
-        }
-      } catch (error) {
-        console.error("Error verifying user:", error);
-        setLoggedInUser(null);
-      }
-    };
-
-    if (!loggedInUser) verifyUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedInUser, setLoggedInUser, serverUrl]);
-
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Define the function inside the effect to avoid issues with missing dependencies
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${serverUrl}/users/auth/user`, {
-          withCredentials: true,
-        });
-
-        setLoggedInUser(response.data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serverUrl]); // Empty dependency array means this runs once on component mount
-  // State for storing selected recipes
-
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value);
+  const handleEmailChange = (event: any) => {
+    setEmail(event.target.value);
   };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
   const handleError = (e: any) => {
     setError(e.target.value);
   };
@@ -166,9 +146,6 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
   const handleLastNameChange = (e: any) => {
     setLastName(e.target.value);
-  };
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value);
   };
 
   async function handleRegisterSubmit(e: any) {
@@ -227,6 +204,9 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   // Login submission
   async function handleLoginSubmit(e: any) {
     e.preventDefault();
+
+    console.log("I'm working");
+
     try {
       const { data } = await axios.post(
         `${serverUrl}/users/login`,
@@ -240,8 +220,9 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
           },
         }
       );
-
-      if (data?.msg === "SUCCESS") {
+      console.log(data);
+      if (data?.msg === "Successfully signed") {
+        console.log(data);
         setLoggedInUser(data.user);
         router.push("/");
       }
@@ -342,9 +323,10 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         handleFirstNameChange,
         handleLastNameChange,
         removeSelectedMeal,
-        serverUrl,
+        serverUrl: "http://localhost:5000",
         setLoggedInUser,
         setError,
+        isLoading,
       }}
     >
       {children}
