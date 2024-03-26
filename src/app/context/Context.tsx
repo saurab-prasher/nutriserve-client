@@ -119,15 +119,25 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   useEffect(() => {
     setIsLoading(true); // Before making API calls
     if (serverUrl) {
-      // You can chain these if one depends on the other, or run them independently if they do not
-      verifyUser(serverUrl, setLoggedInUser).then(() => {
-        fetchUserData(serverUrl, setLoggedInUser).finally(() => {
-          setIsLoading(false); // After all async operations are complete
+      // Fetch user data first
+      fetchUserData(serverUrl, setLoggedInUser)
+        .then(() => {
+          // Once user data is fetched, verify user
+          // Only if the user is present (i.e., not null)
+          if (loggedInUser) {
+            verifyUser(serverUrl, setLoggedInUser).finally(() => {
+              setIsLoading(false); // After all async operations are complete
+            });
+          } else {
+            setIsLoading(false); // No user data fetched, stop loading
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+          setIsLoading(false); // Error occurred, stop loading
         });
-      });
     }
-  }, [serverUrl, setLoggedInUser]); // Adding dependencies to ensure it re-runs only if these values change
-
+  }, [serverUrl, loggedInUser, setLoggedInUser]); // Dependencies ensure it re-runs only if these values change
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };

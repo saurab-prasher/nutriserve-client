@@ -13,8 +13,12 @@ export const fetchUserData = async (serverUrl: any, setLoggedInUser: any) => {
     } else {
       setLoggedInUser(null);
     }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    setLoggedInUser(null);
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      setLoggedInUser(null); // Handle unauthorized user
+    } else {
+      console.error("Error fetching user data:", error); // Log other errors
+      setLoggedInUser(null);
+    }
   }
 };

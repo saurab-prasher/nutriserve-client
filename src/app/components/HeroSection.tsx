@@ -12,6 +12,7 @@ const HeroSection = () => {
           layout='fill'
           objectFit='cover'
           quality={100}
+          priority
         />
 
         <div className='absolute top-0 left-0 w-full h-full bg-black opacity-60'></div>
