@@ -137,7 +137,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
           setIsLoading(false); // Error occurred, stop loading
         });
     }
-  }, [serverUrl, loggedInUser, setLoggedInUser]); // Dependencies ensure it re-runs only if these values change
+  }, [serverUrl]); // Dependencies ensure it re-runs only if these values change≈
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };
