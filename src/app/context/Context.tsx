@@ -8,7 +8,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-console.log(serverUrl);
+
 interface NutritionalValues {
   calories: number;
   protein: string;
@@ -41,7 +41,7 @@ interface User {
 interface MyContextType {
   handleRegisterSubmit: (e: React.FormEvent) => Promise<void>;
   handleEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handlePasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
   handleError: (e: React.ChangeEvent<HTMLInputElement>) => void;
   email: string;
   handleSelectMeal: (selectedMeal: Meal) => void;
@@ -69,7 +69,7 @@ interface MyContextType {
 const defaultContextValue: MyContextType = {
   handleRegisterSubmit: async (e) => {},
   handleEmailChange: (e) => {},
-  handlePasswordChange: (e) => {},
+
   handleError: (e) => {},
   email: "",
   handleSelectMeal: (selectedMeal) => {},
@@ -98,18 +98,22 @@ interface MyContextProviderProps {
   children: React.ReactNode;
 }
 
-export const MyContext = createContext<MyContextType>(defaultContextValue);
-
+// export const MyContext = createContext<MyContextType>(defaultContextValue);
+export const MyContext = createContext<any>("");
 export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   children,
 }) => {
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
   const [likedRecipes, setlikedRecipes] = useState<any>([]);
   const [loggedInUser, setLoggedInUser] = useState<any>();
-
+  const [avatarImg, setAvatarImg] = useState<any>([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState({
+    visible: false,
+    content: "",
+  });
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [likedMealIds, setLikedMealIds] = useState([]);
@@ -144,14 +148,6 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleError = (e: any) => {
-    setError(e.target.value);
-  };
-
   const handleFirstNameChange = (e: any) => {
     setFirstName(e.target.value);
   };
@@ -163,43 +159,49 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   async function handleRegisterSubmit(e: any) {
     e.preventDefault();
 
+    if (!avatarImg) {
+      alert("Please select an image first.");
+      return;
+    }
+
     try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("firstname", firstName);
+      formData.append("lastname", lastName);
+      formData.append("avatarImg", avatarImg); // Assuming avatarImg is a
       const { data } = await axios.post(
         `${serverUrl}/users/register`,
-        {
-          email,
-          password,
-          firstname: firstName,
-          lastname: lastName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        formData
       );
 
       console.log(data);
-      if (data?.msg === "SUCCESS") {
+      if (data?.msg === "Success") {
         setLoggedInUser(data.user); // Update UI based on logged-in user
 
         router.push("/");
         setEmail("");
         setPassword("");
-        setError("");
+        setError({ visible: false, content: "" });
         router.push("/plans");
       } else {
-        setError("Registration failed. Please try again.");
+        setError({
+          visible: true,
+          content: "Registration failed. Please try again.",
+        });
+
         setEmail("");
         setPassword("");
 
         router.push("/register");
-        setError("");
+        setError({ visible: false, content: "" });
       }
     } catch (error: any) {
-      setError(
-        `Failed to register: ${error.response?.data?.error || error.message}`
-      );
+      setError({
+        visible: true,
+        content: "Registration failed. Please try again.",
+      });
     }
   }
 
@@ -241,7 +243,11 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
       router.push("/"); // Redirect to homepage or dashboard after successful login
     } catch (error) {
-      setError("Email address or password incorrect, please try again!");
+      setError({
+        visible: true,
+        content: "Email address or password incorrect, please try again!",
+      });
+
       // setError("Failed to login"); // Update error message based on the actual error from the API
     }
   }
@@ -253,11 +259,9 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         setLoggedInUser(null); // Update local state
         setEmail("");
         setPassword("");
-        setError("");
       });
     } catch (error) {
       console.error("Logout failed", error);
-      setError("Failed to logout"); // Handle logout error
     }
     router.push("/login"); // Redirect to login page after logout
   }
@@ -312,6 +316,33 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     }
   };
 
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  function handleConfirmPassword(event: React.ChangeEvent<HTMLInputElement>) {
+    const confirmPasswordValue = event.target.value;
+    console.log(confirmPasswordValue);
+    console.log(password);
+    if (password === confirmPasswordValue) {
+      setConfirmPassword(confirmPasswordValue);
+      setError({ visible: false, content: "" }); // Reset error if passwords match
+    } else {
+      setError({
+        visible: true,
+        content: "Passwords do not match",
+      });
+    }
+  }
+
+  const handleAvatarImageChange = (e) => {
+    // Get the files from the event object
+    const files = e.target.files;
+    if (files && files[0]) {
+      setAvatarImg(files[0]);
+    }
+  };
+
   return (
     <MyContext.Provider
       value={{
@@ -319,7 +350,8 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         handleRegisterSubmit,
         handleEmailChange,
         handlePasswordChange,
-        handleError,
+        handleConfirmPassword,
+        handleAvatarImageChange,
         email,
         handleSelectMeal,
         handlelikedMeal,

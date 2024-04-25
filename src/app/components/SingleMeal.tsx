@@ -25,24 +25,25 @@ const SingleMeal = ({ meal }: any) => {
         />
 
         <div className='meal-content w-full h-36 absolute left-0 bottom-0 p-4 px-8 bg-gradient-to-b  from-transparent to-black'>
-          <div className='flex items-center mt-12'>
-            <h3 className='text-white text-3xl font-light tracking-wide mr-2'>
+          <div className='flex items-center mt-12 gap-2'>
+            <h3 className='text-white text-2xl font-light tracking-wide mr-2'>
               {meal.name}
             </h3>
             <span className='bg-custom-green text-xs text-white p-2  font-bold tracking-wider rounded-full'>
               {meal.category}
             </span>
-          </div>
-          <div className='flex justify-between items-center'>
-            <span className=' text-gray-50 block text-sm mt-2'>
-              {meal.description}
-            </span>
+
             <button
               onClick={() => handleSelectMeal(meal)}
               className='text-white p-2 text-sm w-20 block font-bold tracking-wider rounded-full bg-[#FFA726] hover:bg-[#FB8C00]'
             >
               Add +
             </button>
+          </div>
+          <div>
+            {/* <span className=' text-black block text-sm mt-2'>
+              {meal.description}
+            </span> */}
           </div>
         </div>
       </div>
@@ -59,7 +60,7 @@ const SingleMeal = ({ meal }: any) => {
         </ul>
       </div>
       <div className=''>
-        <table className='w-full text-sm text-left text-gray-100 dark:text-gray-400 '>
+        <table className='w-full text-sm text-center text-gray-100 dark:text-gray-400 '>
           <thead className='text-xs uppercase bg-gray-50 dark:bg-gray-700 text-white'>
             <tr>
               <th scope='col' className='py-3 px-12'>

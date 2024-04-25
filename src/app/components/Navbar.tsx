@@ -11,12 +11,18 @@ export default function Navbar() {
     handleLogout,
     selectedRecipes,
     likedRecipes,
+    serverUrl,
     isLoading,
   } = useContext(MyContext);
   const [recipeCount, setRecipeCount] = useState(0);
 
   const [isHovered, setIsHovered] = useState(false);
+
   console.log(loggedInUser);
+
+  const avatarUrl = `${serverUrl}/${loggedInUser?.avatarImg}`;
+  console.log(avatarUrl);
+
   useEffect(() => {
     setRecipeCount(selectedRecipes?.length);
 
@@ -28,14 +34,17 @@ export default function Navbar() {
       <div className='mx-auto flex items-center justify-between px-20'>
         {isLoading ? (
           <>
-            <div className='skeleton w-36 h-10 rounded-md'></div>
-            <div className='hidden md:flex space-x-4'>
-              {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index} className='skeleton w-20 h-6 rounded-md'></div>
+            <div className='skeleton w-36 h-10 rounded-md py-16 my-4'></div>
+            <div className='hidden md:flex space-x-6'>
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={index}
+                  className='skeleton w-20 h-8 rounded-md py-5'
+                ></div>
               ))}
             </div>
             <div className='flex items-center'>
-              <div className='skeleton w-24 h-8 rounded-md'></div>
+              <div className='skeleton w-24 h-8 rounded-md py-6'></div>
             </div>
           </>
         ) : (
@@ -49,7 +58,7 @@ export default function Navbar() {
               />
             </Link>
             <nav className={`${isNavOpen ? "block" : "hidden"} md:block`}>
-              <ul className='flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10'>
+              <ul className='flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10 items-center'>
                 <li>
                   <Link
                     className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
@@ -141,9 +150,14 @@ export default function Navbar() {
                     <div
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
-                      className='flex gap-2 cursor-pointer'
+                      className='flex gap-2 cursor-pointer items-center'
                     >
-                      <svg
+                      <img
+                        className='w-10  rounded-full'
+                        src={avatarUrl}
+                        alt='avatar img'
+                      />
+                      {/* <svg
                         xmlns='http://www.w3.org/2000/svg'
                         fill='none'
                         viewBox='0 0 24 24'
@@ -156,7 +170,7 @@ export default function Navbar() {
                           strokeLinejoin='round'
                           d='M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z'
                         />
-                      </svg>
+                      </svg> */}
 
                       <div className=' z-100 '>
                         <div className='flex items-end gap-2  '>

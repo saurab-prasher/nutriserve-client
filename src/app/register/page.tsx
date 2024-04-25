@@ -10,13 +10,17 @@ const Register = () => {
   const {
     handleRegisterSubmit,
     handleEmailChange,
-    handlePasswordChange,
     email,
-    password,
     firstName,
     lastName,
+    password,
+    confirmPassword,
+    error,
     handleFirstNameChange,
     handleLastNameChange,
+    handlePasswordChange,
+    handleConfirmPassword,
+    handleAvatarImageChange,
   } = useContext(MyContext);
 
   return (
@@ -41,7 +45,10 @@ const Register = () => {
               </Link>
             </p>
           </div>
-          <form className='mt-12' onSubmit={handleRegisterSubmit}>
+          <form onSubmit={handleRegisterSubmit}>
+            <div className='text-red-400 text-sm text-center font-medium my-4'>
+              {error.visible ? error.content : ""}
+            </div>
             <input type='hidden' name='remember' value='true' />
             <div className='rounded-md shadow-sm flex flex-col gap-4'>
               <div>
@@ -103,9 +110,39 @@ const Register = () => {
                   autoComplete='password'
                   required
                   value={password}
-                  onChange={(e) => handlePasswordChange(e)}
+                  onChange={handlePasswordChange}
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                   placeholder='Password'
+                />
+              </div>
+              <div>
+                <label htmlFor='confirm-password' className='sr-only'>
+                  Confirm Password
+                </label>
+                <input
+                  id='confirm-password'
+                  name='confirm-password'
+                  type='password'
+                  autoComplete='confirm-password'
+                  required
+                  value={confirmPassword}
+                  onChange={handleConfirmPassword}
+                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                  placeholder='confirm password'
+                />
+              </div>
+
+              <div>
+                <label htmlFor='confirm-password' className='sr-only'>
+                  Confirm Password
+                </label>
+                <input
+                  id='upload-avatar'
+                  name='upload-avatar'
+                  type='file'
+                  onChange={handleAvatarImageChange}
+                  autoComplete='upload-avatar'
+                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 />
               </div>
             </div>
