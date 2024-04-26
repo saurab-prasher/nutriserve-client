@@ -1,4 +1,3 @@
-// Use 'use client' for Edge Functions in Next.js to run the code client-side
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
@@ -8,21 +7,32 @@ import { MyContext } from "../context/Context"; // Importing context for global 
 
 const Plans = () => {
   // State variables for the component
-  const [numberOfPeople, setNumberOfPeople] = useState(2); // Number of people for the plan
+  const [numOfPeople, setNumOfPeople] = useState(2); // Number of people for the plan
   const [recipesPerWeek, setRecipesPerWeek] = useState(3); // Number of recipes per week
   const [pricingPlans, setPricingPlans] = useState([]); // Array to hold pricing plans fetched from the server
   const [totalPrice, setTotalPrice] = useState(0); // Total price for the selected plan
   const [pricePerServing, setPricePerServing] = useState(0); // Price per serving based on the selected plan
   const [shippingPrice, setShippingPrice] = useState(0); // Shipping price based on the selected plan
+  const [planName, setPlanName] = useState("Duo Delight");
+  const [planDescription, setPlanDescription] = useState("");
 
-  const { serverUrl } = useContext(MyContext); // Getting the server URL from context
+  const { serverUrl, loggedInUser } = useContext(MyContext);
 
-  // Fetch pricing plans from the server
   useEffect(() => {
     const fetchPricing = async () => {
       try {
         const response = await axios.get(`${serverUrl}/api/pricing`); // Fetching pricing plans
-        setPricingPlans(response.data); // Setting the fetched plans to state
+        const data = response.data;
+        setPricingPlans(data);
+
+        data.map((plan) => {
+          if (planName === plan.planName) {
+            setPricePerServing(plan.pricePerServing);
+            setShippingPrice(plan.shippingPrice);
+            setTotalPrice(plan.totalPrice);
+            setPlanDescription(plan.description);
+          }
+        });
       } catch (error) {
         console.error("Error fetching pricing data:", error); // Logging any errors
       }
@@ -34,21 +44,22 @@ const Plans = () => {
   // Calculate total price whenever the number of people, recipes per week, or pricing plans change
   useEffect(() => {
     const selectedPlan = pricingPlans.find(
-      (plan) =>
-        plan.numberOfPeople === numberOfPeople &&
-        plan.recipesPerWeek === recipesPerWeek
+      (plan) => plan.numberOfPeople === numOfPeople
     ); // Find the pricing plan that matches user selection
 
     // If a matching plan is found, update pricing information in the state
     if (selectedPlan) {
+      setPlanName(selectedPlan.planName);
       setPricePerServing(selectedPlan.pricePerServing);
       setShippingPrice(selectedPlan.shipping);
       setTotalPrice(
-        selectedPlan.pricePerServing * numberOfPeople * recipesPerWeek +
+        selectedPlan.pricePerServing * numOfPeople * recipesPerWeek +
           selectedPlan.shipping
       );
+
+      setPlanDescription(selectedPlan.description);
     }
-  }, [numberOfPeople, recipesPerWeek, pricingPlans]);
+  }, [numOfPeople, recipesPerWeek, pricingPlans]);
 
   // The rendered component
   return (
@@ -64,22 +75,31 @@ const Plans = () => {
 
       {/* Buttons for selecting the number of people and recipes per week */}
       <div className='flex flex-col gap-5'>
+        <div className='flex justify-between items-center'>
+          <span className='block w-3/6 font-light'>Plan name</span>
+          <p>{planName}</p>
+        </div>
+
+        <div className='flex justify-between items-center'>
+          <span className='block w-3/6 font-light'>Plan description</span>
+          <p className='font-light text-sm'>{planDescription}</p>
+        </div>
         {/* Selection for number of people */}
         <div className='flex justify-between items-center'>
           <span className='block w-3/6 font-light'>Number of people</span>
           <div className='flex w-9/12'>
             {/* Buttons to select the number of people */}
-            {[2, 4].map((num) => (
+            {pricingPlans.map(({ numberOfPeople }) => (
               <button
-                key={num}
-                onClick={() => setNumberOfPeople(num)}
+                key={numberOfPeople}
+                onClick={() => setNumOfPeople(numberOfPeople)}
                 className={`border cursor-pointer w-3/6 py-2 rounded-sm ${
-                  numberOfPeople === num
+                  numberOfPeople === numOfPeople
                     ? "bg-custom-green text-white"
                     : "color-main"
                 }`}
               >
-                {num}
+                {numberOfPeople}
               </button>
             ))}
           </div>
@@ -104,16 +124,15 @@ const Plans = () => {
         </div>
       </div>
 
-      {/* Price summary section */}
       <div>
         <div className='price-summary border border-gray-200 rounded-sm p-4 border-b-0 rounded-b-none'>
           <div className='flex flex-col gap-2 price-summary-header border-b border-gray-300'>
             <h5 className='font-semibold'>Price Summary</h5>
             <p className='font-thin block'>
-              {recipesPerWeek} meals for {numberOfPeople} people per week
+              {recipesPerWeek} meals for {numOfPeople} people per week
             </p>
             <p className='font-thin block pb-2'>
-              {recipesPerWeek * numberOfPeople} total servings
+              {recipesPerWeek * numOfPeople} total servings
             </p>
           </div>
           <div className='flex gap-2 flex-col price-summary-description'>
@@ -142,12 +161,21 @@ const Plans = () => {
         </div>
 
         {/* Link to select the plan and proceed */}
-        <Link
-          href='/login'
-          className='border block w-full text-center bg-custom-green py-2 text-md text-white border-custom-green rounded-sm'
-        >
-          Select this plan
-        </Link>
+        {loggedInUser?.userId ? (
+          <Link
+            className='border block w-full text-center bg-custom-green py-2 text-md text-white border-custom-green rounded-sm'
+            href='/delivery'
+          >
+            Select this plan
+          </Link>
+        ) : (
+          <Link
+            href='/login'
+            className='border block w-full text-center bg-custom-green py-2 text-md text-white border-custom-green rounded-sm'
+          >
+            Select this plan
+          </Link>
+        )}
       </div>
     </div>
   );

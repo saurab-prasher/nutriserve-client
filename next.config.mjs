@@ -28,6 +28,7 @@ const nextConfig = {
       "www.tasteofhome.com",
       "thewoodenskillet.com",
       "www.twopeasandtheirpod.com",
+      "localhost",
     ],
   },
 };
