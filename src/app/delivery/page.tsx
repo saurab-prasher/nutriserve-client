@@ -1,6 +1,8 @@
 "use client";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
+import axios from "axios";
+import { MyContext } from "../context/Context";
 const Page = () => {
   const [address, setAddress] = useState({
     street: "",
@@ -11,6 +13,9 @@ const Page = () => {
     country: "",
   });
 
+  const { serverUrl } = useContext(MyContext);
+  const router = useRouter(); // Create a router instance
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAddress((prevAddress) => ({
@@ -19,10 +24,35 @@ const Page = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitted Address: ", address);
-    // Additional submit logic here
+    // You might want to integrate here your API call for saving the address
+    try {
+      // Simulating a save operation
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate an API call delay
+      // Navigate to the checkout page after saving the address
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`, // Assuming JWT token is used for authentication
+          "Content-Type": "application/json",
+        },
+      };
+
+      // Send a POST request to your backend API to save the address
+      const response = await axios.post(
+        `${serverUrl}/users/updateAddress`,
+        address,
+        config
+      );
+      console.log("Address saved:", response.data);
+
+      router.push("/checkout");
+    } catch (error) {
+      console.error("Failed to save the address", error);
+      // Handle errors here, such as displaying a user notification
+    }
   };
   return (
     <div className='max-w-screen-lg mx-auto px-4 py-8'>
