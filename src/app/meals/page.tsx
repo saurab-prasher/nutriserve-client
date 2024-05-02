@@ -83,7 +83,6 @@ function MealsPage() {
 
     if (mealType && category) {
       const filteredMeals = meals.filter((meal: any) => {
-        console.log(meal);
         return (
           meal.category.toLowerCase() === category.toLowerCase() &&
           meal.mealType.toLowerCase() === mealType.toLowerCase()

@@ -6,7 +6,7 @@ import { MyContext } from "../context/Context";
 const BlogPage = () => {
   const { serverUrl } = useContext(MyContext);
   const [blogPosts, setBlogPosts] = useState([]);
-  console.log(serverUrl);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

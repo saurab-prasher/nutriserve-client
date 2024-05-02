@@ -10,7 +10,6 @@ const Wishlist = () => {
   const [meals, setMeals] = useState([]);
 
   useEffect(() => {
-    console.log(loggedInUser);
     async function fetchWishlist() {
       // const response = await axios.get(
       //   `${serverUrl}/api/wishlist/${loggedInUser?.userId}`,
@@ -18,7 +17,6 @@ const Wishlist = () => {
       //     withCredentials: true,
       //   }
       // );
-      // console.log(response);
     }
 
     fetchWishlist();

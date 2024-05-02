@@ -13,7 +13,7 @@ const Page = () => {
     country: "",
   });
 
-  const { serverUrl } = useContext(MyContext);
+  const { serverUrl, loggedInUser } = useContext(MyContext);
   const router = useRouter(); // Create a router instance
 
   const handleChange = (e) => {
@@ -26,7 +26,7 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Address: ", address);
+
     // You might want to integrate here your API call for saving the address
     try {
       // Simulating a save operation
@@ -46,7 +46,6 @@ const Page = () => {
         address,
         config
       );
-      console.log("Address saved:", response.data);
 
       router.push("/checkout");
     } catch (error) {

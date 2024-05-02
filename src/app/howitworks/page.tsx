@@ -17,7 +17,7 @@ const HowItWorks = () => {
               <Image
                 alt='how it works plan'
                 src={"/images/hiw-plan.avif"}
-                height={450}
+                height={400}
                 width={550}
                 object-fit='contain'
               />
@@ -59,7 +59,7 @@ const HowItWorks = () => {
               <Image
                 alt='how it works plan'
                 src={"/images/hiw-delivery.avif"}
-                height={450}
+                height={400}
                 width={550}
                 object-fit='contain'
               />
@@ -70,7 +70,7 @@ const HowItWorks = () => {
               <Image
                 alt='how it works plan'
                 src={"/images/hiw-family.avif"}
-                height={450}
+                height={400}
                 width={550}
                 object-fit='contain'
               />

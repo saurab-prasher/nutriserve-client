@@ -36,6 +36,7 @@ interface User {
   preferences: string[];
   createdAt?: string;
   updatedAt?: string;
+  address?: any;
 }
 
 interface MyContextType {
@@ -170,13 +171,12 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
       formData.append("password", password);
       formData.append("firstname", firstName);
       formData.append("lastname", lastName);
-      formData.append("avatarImg", avatarImg); // Assuming avatarImg is a
+      formData.append("avatarImg", avatarImg);
       const { data } = await axios.post(
         `${serverUrl}/users/register`,
         formData
       );
 
-      console.log(data);
       if (data?.msg === "Success") {
         setLoggedInUser(data.user); // Update UI based on logged-in user
 
@@ -206,20 +206,17 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   }
 
   async function fetchLikedmeals() {
-    console.log(loggedInUser);
     const res = await fetch(
       `${serverUrl}/api/wishlist/${loggedInUser?.userId}`
     );
     const data = await res.json();
-    console.log(data.likedMeals);
+
     setLikedMealIds(data.likedMeals);
   }
 
   // Login submission
   async function handleLoginSubmit(e: any) {
     e.preventDefault();
-
-    console.log("I'm working");
 
     try {
       const { data } = await axios.post(
@@ -234,9 +231,8 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
           },
         }
       );
-      console.log(data);
+
       if (data?.msg === "Successfully signed") {
-        console.log(data);
         setLoggedInUser(data.user);
         router.push("/");
       }
@@ -274,7 +270,6 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
       (meal: any) => meal._id === selectedMeal._id
     );
 
-    console.log(selectedRecipes);
     if (!isAlreadySelected) {
       setSelectedRecipes([...selectedRecipes, selectedMeal]);
     }
@@ -300,7 +295,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     if (loggedInUser) {
       const userId = loggedInUser.userId;
       const mealId = likedMeal._id;
-      console.log(likedMeal._id);
+
       const { data } = await axios.post(
         `${serverUrl}/api/wishlist`,
         {
@@ -322,8 +317,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
   function handleConfirmPassword(event: React.ChangeEvent<HTMLInputElement>) {
     const confirmPasswordValue = event.target.value;
-    console.log(confirmPasswordValue);
-    console.log(password);
+
     if (password === confirmPasswordValue) {
       setConfirmPassword(confirmPasswordValue);
       setError({ visible: false, content: "" }); // Reset error if passwords match

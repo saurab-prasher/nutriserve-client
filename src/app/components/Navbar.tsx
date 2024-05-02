@@ -85,7 +85,7 @@ export default function Navbar() {
                     className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
                     href='/meals'
                   >
-                    Meal Plans
+                    Our Meals
                   </Link>
                 </li>
 

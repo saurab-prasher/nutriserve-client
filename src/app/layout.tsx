@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { useContext, useEffect } from "react";
 
 import { Poppins } from "next/font/google";
@@ -18,14 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <MyContextProvider>
-      <html lang='en'>
-        <body className={poppins.className}>
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
-      </html>
-    </MyContextProvider>
+    <React.StrictMode>
+      <MyContextProvider>
+        <html lang='en'>
+          <body className={poppins.className}>
+            <Navbar />
+            {children}
+            <Footer />
+          </body>
+        </html>
+      </MyContextProvider>
+    </React.StrictMode>
   );
 }
