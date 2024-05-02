@@ -37,6 +37,7 @@ interface User {
   createdAt?: string;
   updatedAt?: string;
   address?: any;
+  plan?: any;
 }
 
 interface MyContextType {
@@ -231,7 +232,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
           },
         }
       );
-
+      console.log(data);
       if (data?.msg === "Successfully signed") {
         setLoggedInUser(data.user);
         router.push("/");

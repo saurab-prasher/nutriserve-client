@@ -9,6 +9,7 @@ import { MyContext } from "../context/Context"; // Importing context for global 
 const Plans = () => {
   const router = useRouter();
   // State variables for the component
+  const [currentPlan, setCurrentPlan] = useState("");
   const [numOfPeople, setNumOfPeople] = useState(2); // Number of people for the plan
   const [recipesPerWeek, setRecipesPerWeek] = useState(3); // Number of recipes per week
   const [pricingPlans, setPricingPlans] = useState([]); // Array to hold pricing plans fetched from the server
@@ -19,6 +20,18 @@ const Plans = () => {
   const [planDescription, setPlanDescription] = useState("");
 
   const { serverUrl, loggedInUser } = useContext(MyContext);
+
+  async function getPlanDetails() {
+    try {
+      const response = await axios.get(`${serverUrl}/users/getplan`); // Fetching pricing plans
+      const data = response.data;
+      setCurrentPlan(data);
+    } catch (err) {}
+  }
+
+  useEffect(() => {
+    getPlanDetails();
+  }, [serverUrl, loggedInUser]);
 
   useEffect(() => {
     const fetchPricing = async () => {
@@ -68,7 +81,7 @@ const Plans = () => {
 
     try {
       const formData = new FormData();
-      console.log(planName);
+
       formData.append("planName", planName);
       formData.append("numOfPeople", numOfPeople);
       formData.append("recipesPerWeek", recipesPerWeek);
@@ -85,14 +98,40 @@ const Plans = () => {
   return (
     <div className='flex flex-col gap-8 shadow-md w-9/12 m-auto py-12 px-48 mb-12'>
       {/* Title and introductory text */}
-      <h2 className='text-4xl text-center font-light tracking-wide mb-2'>
-        Choose your plan size
-      </h2>
-      <p className='font-light'>
-        We&apos;ll set this as your default plan size, but you can always change
-        it later from week to week.
-      </p>
+      {loggedInUser ? (
+        <div className=' shadow-sm mb-24'>
+          <h2 className='text-4xl text-center font-light tracking-wide mb-6'>
+            Your current plan details
+          </h2>
 
+          <div className=' shadow-sm flex flex-col gap-6  border-b-2 border-custom-green   p-6 '>
+            <div className='flex justify-between items-center '>
+              <span className='block w-50 font-light '>Plan name</span>
+              <p>{currentPlan?.plan?.planName}</p>
+            </div>
+            <div className='flex justify-between items-center'>
+              <span className='block w-50 font-light'>Recipes per week</span>
+              <p>{currentPlan?.plan?.recipesPerWeek}</p>
+            </div>
+            <div className='flex justify-between items-center'>
+              <span className='block w-50 font-light'>Total weekly price</span>
+              <p>{currentPlan?.plan?.totalPricePerWeek}</p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
+      <div>
+        <h2 className='text-4xl text-center font-light tracking-wide mb-6'>
+          {true ? "Update your plan details" : "     Choose your plan"}
+        </h2>
+        <p className='font-light'>
+          We&apos;ll set this as your default plan size, but you can always
+          change it later from week to week.
+        </p>
+      </div>
       <form action='' onSubmit={handlePlanSubmit}>
         {/* Buttons for selecting the number of people and recipes per week */}
         <div className='flex flex-col gap-5'>
@@ -189,12 +228,12 @@ const Plans = () => {
               Select this plan
             </button>
           ) : (
-            <button
-              // href='/login'
+            <Link
+              href='/login'
               className='border block w-full text-center bg-custom-green py-2 text-md text-white border-custom-green rounded-sm'
             >
               Select this plan
-            </button>
+            </Link>
           )}
         </div>
       </form>
