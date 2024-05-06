@@ -80,7 +80,7 @@ const SingleMeal = ({ meal }: any) => {
               </button>
             )}
 
-            <span className='absolute text-white top-15 right-20 text-sm'>
+            <span className='absolute text-white top-5 right-16 text-sm my-4'>
               {recipeUpdateMsg}
             </span>
           </div>
