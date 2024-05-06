@@ -29,6 +29,8 @@ const Plans = () => {
     } catch (err) {}
   }
 
+  console.log(currentPlan);
+
   useEffect(() => {
     getPlanDetails();
   }, [serverUrl, loggedInUser]);
@@ -86,6 +88,7 @@ const Plans = () => {
       formData.append("numOfPeople", numOfPeople);
       formData.append("recipesPerWeek", recipesPerWeek);
       formData.append("totalPrice", totalPrice);
+      formData.append("planDescription", planDescription);
 
       const { data } = await axios.post(`${serverUrl}/users/setplan`, formData);
       router.push("/meals");
@@ -137,12 +140,14 @@ const Plans = () => {
         <div className='flex flex-col gap-5'>
           <div className='flex justify-between items-center'>
             <span className='block w-3/6 font-light'>Plan name</span>
-            <p>{planName}</p>
+            <p>{currentPlan?.plan?.planName}</p>
           </div>
 
           <div className='flex justify-between items-center'>
             <span className='block max-w-26 font-light'>Plan description</span>
-            <p className='font-light text-sm'>{planDescription}</p>
+            <p className='font-light text-sm'>
+              {currentPlan?.plan?.description}
+            </p>
           </div>
           {/* Selection for number of people */}
           <div className='flex justify-between items-center'>

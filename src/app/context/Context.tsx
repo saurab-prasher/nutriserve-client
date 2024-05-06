@@ -9,102 +9,9 @@ axios.defaults.withCredentials = true;
 
 export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-interface NutritionalValues {
-  calories: number;
-  protein: string;
-  carbs: string;
-  fat: string;
-}
-
-interface Meal {
-  _id: string;
-  name: string;
-  description: string;
-  category: string;
-  ingredients: string[];
-  mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack";
-  nutritionalValues: NutritionalValues;
-  imageUrl?: string;
-}
-
-interface User {
-  userId: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string; // Note: You might not always want to include this in frontend types
-  preferences: string[];
-  createdAt?: string;
-  updatedAt?: string;
-  address?: any;
-  plan?: any;
-}
-
-interface MyContextType {
-  handleRegisterSubmit: (e: React.FormEvent) => Promise<void>;
-  handleEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-
-  handleError: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  email: string;
-  handleSelectMeal: (selectedMeal: Meal) => void;
-  handlelikedMeal: (likedMeal: Meal) => Promise<void>;
-  handleLoginSubmit: (e: React.FormEvent) => Promise<void>;
-  password: string;
-  handleLogout: () => void;
-  firstName: string;
-  lastName: string;
-  likedMealIds: string[];
-  loggedInUser: User | null;
-  likedRecipes: string[]; // Assuming just the IDs, adjust if it's full recipes
-  selectedRecipes: Meal[];
-  handleFirstNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleLastNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removeSelectedMeal: any;
-  serverUrl: any;
-  setLoggedInUser: React.Dispatch<React.SetStateAction<User | null>>;
-  error: string;
-  setError: any;
-  isLoading: any;
-}
-
-// This will be used to initialize context
-const defaultContextValue: MyContextType = {
-  handleRegisterSubmit: async (e) => {},
-  handleEmailChange: (e) => {},
-
-  handleError: (e) => {},
-  email: "",
-  handleSelectMeal: (selectedMeal) => {},
-  handlelikedMeal: async (likedMeal) => {},
-  handleLoginSubmit: async (e) => {},
-  password: "",
-  handleLogout: () => {},
-  firstName: "",
-  lastName: "",
-  likedMealIds: [],
-  loggedInUser: null,
-  likedRecipes: [],
-  selectedRecipes: [],
-  handleFirstNameChange: (e) => {},
-  handleLastNameChange: (e) => {},
-  removeSelectedMeal: () => {},
-  serverUrl: process.env.NEXT_PUBLIC_SERVER_URL,
-  setLoggedInUser: () => {},
-  error: "",
-  isLoading: true,
-
-  setError: "",
-};
-
-interface MyContextProviderProps {
-  children: React.ReactNode;
-}
-
 // export const MyContext = createContext<MyContextType>(defaultContextValue);
 export const MyContext = createContext<any>("");
-export const MyContextProvider: React.FC<MyContextProviderProps> = ({
-  children,
-}) => {
+export const MyContextProvider = ({ children }) => {
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
   const [likedRecipes, setlikedRecipes] = useState<any>([]);
   const [loggedInUser, setLoggedInUser] = useState<any>();
@@ -121,7 +28,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   const [likedMealIds, setLikedMealIds] = useState([]);
   // In your context initialization
   const [isLoading, setIsLoading] = useState(true); // Add this line
-
+  const [recipeUpdateMsg, setRecipeUpdateMsg] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -273,6 +180,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
     if (!isAlreadySelected) {
       setSelectedRecipes([...selectedRecipes, selectedMeal]);
+      handleRecipeUpdateMessage("Recipe added to cart");
     }
   };
 
@@ -280,6 +188,10 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     setSelectedRecipes(
       selectedRecipes.filter((meal: any) => meal._id !== mealId)
     );
+    handleRecipeUpdateMessage("Recipe removed from cart");
+  };
+  const handleRecipeUpdateMessage = (message) => {
+    setRecipeUpdateMsg(message);
   };
 
   // Function to add a meal to the liked list
@@ -354,8 +266,10 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         password,
         handleLogout,
         firstName,
+        handleRecipeUpdateMessage,
         lastName,
         likedMealIds,
+        recipeUpdateMsg,
         loggedInUser,
         likedRecipes,
         selectedRecipes,

@@ -33,7 +33,7 @@ export default function Navbar() {
           <>
             <div className='skeleton w-36 h-10 rounded-md py-16 my-4'></div>
             <div className='hidden md:flex space-x-6'>
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
                   className='skeleton w-20 h-8 rounded-md py-5'
@@ -58,7 +58,7 @@ export default function Navbar() {
               <ul className='flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10 items-center'>
                 <li>
                   <Link
-                    className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                    className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
                     href='/'
                   >
                     Home
@@ -66,45 +66,38 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                    className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
                     href='/about'
                   >
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                    href='/howitworks'
-                  >
-                    How It Works
-                  </Link>
+                  {loggedInUser ? (
+                    <Link
+                      className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
+                      href='/plans'
+                    >
+                      Manage Your Plan
+                    </Link>
+                  ) : (
+                    <Link
+                      className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
+                      href='/howitworks'
+                    >
+                      How It Works
+                    </Link>
+                  )}
                 </li>
                 <li>
                   <Link
-                    className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                    className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
                     href='/meals'
                   >
                     Our Meals
                   </Link>
                 </li>
 
-                <li>
-                  <Link
-                    className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                    href='/blog'
-                  >
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
-                    href='/contact'
-                  >
-                    Contact Us
-                  </Link>
-                </li>
                 <div className='cart relative'>
                   <Link href='/checkout'>
                     <svg
@@ -129,7 +122,7 @@ export default function Navbar() {
                 </div>
                 {/* <li>
               <Link
-                className='text-gray-700 hover:text-gray-900 transition duration-150 ease-in-out'
+                className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
                 href='/search'
               >
                 Search
@@ -174,7 +167,7 @@ export default function Navbar() {
                       <div>
                         <div className=' z-100 '>
                           <div className='flex items-end gap-2  '>
-                            <span className='capitalize'>
+                            <span className='capitalize hover:text-custom-green'>
                               {loggedInUser?.firstname}
                             </span>
                             {isHovered ? (

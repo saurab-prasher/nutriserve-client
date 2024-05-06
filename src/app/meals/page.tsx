@@ -25,12 +25,6 @@ type Meal = {
   imageUrl: string;
 };
 
-type MealsListProps = {
-  meals: Meal[];
-};
-
-const ITEMS_PER_PAGE = 9;
-
 function MealsPage() {
   const [meals, setMeals] = useState<Meal[]>([]);
 
@@ -42,7 +36,7 @@ function MealsPage() {
   const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
 
   const [showModal, setShowModal] = useState(false); // To toggle the modal
-  const { loggedInUser, serverUrl } = useContext(MyContext);
+  const { loggedInUser, serverUrl, selectedRecipes } = useContext(MyContext);
 
   const [filters, setFilters] = useState({ mealType: "", category: "" });
   const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
@@ -94,7 +88,7 @@ function MealsPage() {
   };
 
   return (
-    <div className='max-w-screen-lg mx-auto mb-60 '>
+    <div className='container py-16 mx-auto mb-60 '>
       <div className='text-center mb-12'>
         <h1 className='text-4xl font-normal mb-4'>
           Recipes for All Tastes and Occasions
@@ -106,6 +100,7 @@ function MealsPage() {
           picky eater. We&apos;ve got dinnertime solved!
         </p>
       </div>
+
       <input
         type='text'
         className='px-6 py-2 w-full border rounded-full mb-12'
@@ -118,7 +113,7 @@ function MealsPage() {
 
       <MealFilters onFilterChange={handleFilterChange} />
 
-      <div className='max-w-screen-lg mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+      <div className='container mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20'>
         {filteredMeals?.map((meal: any) => (
           <div
             key={meal._id}
@@ -131,12 +126,14 @@ function MealsPage() {
               width={450}
               className=' object-cover object-center'
             />
-            <div className='flex flex-col justify-between h-60 p-4'>
-              <h2 className='text-lg font-semibold mb-2'>{meal.name}</h2>
-              <p className='text-gray-700 mb-4'>{meal.description}</p>
+            <div className='flex flex-col justify-between  gap-2 p-8'>
+              <h2 className='text-3xl text-center font-light mb-4'>
+                {meal.name}
+              </h2>
+              <p className='text-gray-700 text-sm mb-4'>{meal.description}</p>
               <div className='flex justify-between'>
                 <button
-                  className='bg-orange-500 text-white px-4 w-full py-2 rounded-md mr-4'
+                  className='bg-custom-green text-white px-4 w-full py-2 rounded-md mr-4'
                   onClick={() => handleViewRecipe(meal)}
                 >
                   Details
@@ -165,7 +162,7 @@ function MealsPage() {
             <SingleMeal meal={selectedMeal} />
             <button
               onClick={() => setShowModal(false)}
-              className=' text-custom-green bg-white px-4 py-2 rounded-full focus:outline-none absolute right-5 top-5 hover:bg-custom-green hover:text-white font-thin text-xl'
+              className=' text-custom-green bg-white px-4 py-2 rounded-full focus:outline-none absolute right-5 top-5 hover:bg-custom-green hover:text-white  text-xl font-normal'
             >
               X
             </button>
