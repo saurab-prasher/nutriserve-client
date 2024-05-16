@@ -2,11 +2,11 @@ import Image from "next/legacy/image";
 import { useState, useEffect, useContext } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Testimonial } from "../types";
+
 import { MyContext } from "../context/Context";
 
 const Testimonial = () => {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonials, setTestimonials] = useState<any>([]);
   const { serverUrl } = useContext(MyContext);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Testimonial = () => {
         centerMode={true}
         centerSlidePercentage={50}
       >
-        {testimonials.map((testimonial, index) => (
+        {testimonials.map((testimonial: any, index: any) => (
           <div key={index} className='bg-slate-200 shadow-sm p-4 mx-8 h-72'>
             <div>
               <div className='w-14 h-14 block bg-gray-700 rounded-full'>

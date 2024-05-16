@@ -16,7 +16,7 @@ const Page = () => {
   const { serverUrl, loggedInUser } = useContext(MyContext);
   const router = useRouter(); // Create a router instance
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setAddress((prevAddress) => ({
       ...prevAddress,
@@ -24,7 +24,7 @@ const Page = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     // You might want to integrate here your API call for saving the address

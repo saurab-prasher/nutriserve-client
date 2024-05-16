@@ -33,6 +33,8 @@ const Plans = () => {
 
   useEffect(() => {
     getPlanDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serverUrl, loggedInUser]);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ const Plans = () => {
         const data = response.data;
         setPricingPlans(data);
 
-        data.map((plan) => {
+        data.map((plan: any) => {
           if (planName === plan.planName) {
             setPricePerServing(plan.pricePerServing);
             setShippingPrice(plan.shippingPrice);
@@ -56,25 +58,27 @@ const Plans = () => {
     };
 
     fetchPricing();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serverUrl]);
 
   // Calculate total price whenever the number of people, recipes per week, or pricing plans change
   useEffect(() => {
     const selectedPlan = pricingPlans.find(
-      (plan) => plan.numberOfPeople === numOfPeople
+      (plan) => plan?.numberOfPeople === numOfPeople
     ); // Find the pricing plan that matches user selection
 
     // If a matching plan is found, update pricing information in the state
     if (selectedPlan) {
-      setPlanName(selectedPlan.planName);
-      setPricePerServing(selectedPlan.pricePerServing);
-      setShippingPrice(selectedPlan.shipping);
+      setPlanName(selectedPlan?.planName);
+      setPricePerServing(selectedPlan?.pricePerServing);
+      setShippingPrice(selectedPlan?.shipping);
       setTotalPrice(
-        selectedPlan.pricePerServing * numOfPeople * recipesPerWeek +
-          selectedPlan.shipping
+        selectedPlan?.pricePerServing * numOfPeople * recipesPerWeek +
+          selectedPlan?.shipping
       );
 
-      setPlanDescription(selectedPlan.description);
+      setPlanDescription(selectedPlan?.description);
     }
   }, [numOfPeople, recipesPerWeek, pricingPlans]);
 
