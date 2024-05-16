@@ -15,7 +15,7 @@ interface Plan {
   shippingPrice: number;
   pricePerServing: number;
   totalPrice: number;
-  numOfPeoples: number;
+  numOfPeople: number;
 }
 
 const Plans = () => {
