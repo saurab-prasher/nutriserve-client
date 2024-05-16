@@ -1,10 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import Image from "next/legacy/image";
 import { MyContext } from "../context/Context";
 import { Meal } from "../types";
 
 const SingleMeal = ({ meal }: any) => {
   const [mealIsSelected, setmealIsSelected] = useState(false);
+  const recipeUpdateMsgRef = useRef("");
 
   const {
     handleSelectMeal,
@@ -15,27 +16,21 @@ const SingleMeal = ({ meal }: any) => {
   } = useContext(MyContext);
 
   useEffect(() => {
-    checkSelectedRecipe();
+    recipeUpdateMsgRef.current = recipeUpdateMsg;
+  }, [recipeUpdateMsg]);
 
-    const id = setTimeout(() => {
-      handleRecipeUpdateMessage("");
-    }, 3000);
+  useEffect(() => {
+    if (recipeUpdateMsg !== "") {
+      const timer = setTimeout(() => {
+        handleRecipeUpdateMessage("");
+      }, 3000);
 
-    return () => {
-      clearTimeout(id);
-    };
-  }, [selectedRecipes]);
-
-  function checkSelectedRecipe() {
-    const isAlreadySelected = selectedRecipes.some(
-      (recipe) => recipe._id === meal._id
-    );
-    if (isAlreadySelected) {
-      setmealIsSelected(true);
-    } else {
-      setmealIsSelected(false);
+      return () => {
+        clearTimeout(timer);
+        handleRecipeUpdateMessage("");
+      };
     }
-  }
+  }, [recipeUpdateMsg, handleRecipeUpdateMessage]);
 
   return (
     <div className='overflow-hidden rounded-lg'>

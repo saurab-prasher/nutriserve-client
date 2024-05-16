@@ -45,7 +45,6 @@ const Testimonial = () => {
               <div className='w-14 h-14 block bg-gray-700 rounded-full'>
                 <Image
                   alt='avatar image'
-                  style={{ objectFit: "contain" }}
                   src={"/images/avatar-img.webp"}
                   height={300}
                   width={300}

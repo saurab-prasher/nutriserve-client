@@ -64,14 +64,7 @@ export default function Navbar() {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
-                    href='/about'
-                  >
-                    About Us
-                  </Link>
-                </li>
+
                 <li>
                   {loggedInUser ? (
                     <Link
@@ -89,6 +82,7 @@ export default function Navbar() {
                     </Link>
                   )}
                 </li>
+
                 <li>
                   <Link
                     className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
@@ -98,6 +92,14 @@ export default function Navbar() {
                   </Link>
                 </li>
 
+                <li>
+                  <Link
+                    className='text-gray-700 hover:text-custom-green transition duration-150 ease-in-out'
+                    href='/about'
+                  >
+                    About Us
+                  </Link>
+                </li>
                 <div className='cart relative'>
                   <Link href='/checkout'>
                     <svg

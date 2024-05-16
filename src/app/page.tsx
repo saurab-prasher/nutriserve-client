@@ -11,10 +11,10 @@ export default function Home() {
   return (
     <div className='m-auto'>
       <HeroSection />
-      <Testimonial />
       <HowItWorks />
       <GoodForYou />
       <Menu />
+      <Testimonial />
     </div>
   );
 }

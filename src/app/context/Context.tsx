@@ -26,9 +26,10 @@ export const MyContextProvider = ({ children }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [likedMealIds, setLikedMealIds] = useState([]);
-  // In your context initialization
-  const [isLoading, setIsLoading] = useState(true); // Add this line
+
+  const [isLoading, setIsLoading] = useState(true);
   const [recipeUpdateMsg, setRecipeUpdateMsg] = useState("");
+  const [likedRecipeMsg, setLikedRecipeMsg] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -194,17 +195,23 @@ export const MyContextProvider = ({ children }) => {
     setRecipeUpdateMsg(message);
   };
 
+  const handleLikedRecipeMsg = (message) => {
+    setLikedRecipeMsg(message);
+  };
+
   // Function to add a meal to the liked list
   const handlelikedMeal = async (likedMeal: any) => {
     // Check if the meal is already in the selected recipes
 
     const isAlreadySelected = likedRecipes.some(
-      (meal: any) => meal._id === likedMeal._id
+      (meal: any) => meal === likedMeal._id
     );
 
     if (!isAlreadySelected) {
       setlikedRecipes([...likedRecipes, likedMeal._id]);
+      handleLikedRecipeMsg("Recipe added to favorites!");
     }
+
     if (loggedInUser) {
       const userId = loggedInUser.userId;
       const mealId = likedMeal._id;
@@ -277,7 +284,8 @@ export const MyContextProvider = ({ children }) => {
         handleLastNameChange,
         removeSelectedMeal,
         serverUrl,
-
+        likedRecipeMsg,
+        handleLikedRecipeMsg,
         setLoggedInUser,
         setError,
         isLoading,

@@ -36,10 +36,32 @@ function MealsPage() {
   const [selectedMeal, setSelectedMeal] = useState<Meal | null>(null);
 
   const [showModal, setShowModal] = useState(false); // To toggle the modal
-  const { loggedInUser, serverUrl, selectedRecipes } = useContext(MyContext);
+  const {
+    loggedInUser,
+    serverUrl,
+    selectedRecipes,
+    likedRecipes,
+    handleLikedRecipeMsg,
+    likedRecipeMsg,
+  } = useContext(MyContext);
 
   const [filters, setFilters] = useState({ mealType: "", category: "" });
   const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
+  const [color, setColor] = useState("red");
+
+  useEffect(() => {
+    console.log(likedRecipes);
+    if (likedRecipeMsg !== "") {
+      const timer = setTimeout(() => {
+        handleLikedRecipeMsg("");
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+        handleLikedRecipeMsg("");
+      };
+    }
+  }, [likedRecipeMsg, handleLikedRecipeMsg]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,9 +92,12 @@ function MealsPage() {
     }
   };
 
+  useEffect(() => {}, []);
+
   const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
 
+    test();
     const { mealType, category } = newFilters;
 
     if (mealType && category) {
@@ -86,6 +111,15 @@ function MealsPage() {
       setFilteredMeals(filteredMeals);
     }
   };
+
+  function test() {
+    console.log("acb");
+    const likedFilteredMeals = filteredMeals.filter((meal) => {
+      // Check if the meal's ID is in the likedRecipes array
+      return likedRecipes.some((likedMeal) => likedMeal === meal._id);
+    });
+    console.log(likedFilteredMeals); // This will show the filtered array of liked meals
+  }
 
   return (
     <div className='container py-16 mx-auto mb-60 '>
@@ -131,7 +165,10 @@ function MealsPage() {
                 {meal.name}
               </h2>
               <p className='text-gray-700 text-sm mb-4'>{meal.description}</p>
-              <div className='flex justify-between'>
+              <span className=' text-red-500 text-sm h-5 font-medium '>
+                {likedRecipeMsg}
+              </span>
+              <div className='flex justify-between relative'>
                 <button
                   className='bg-custom-green text-white px-4 w-full py-2 rounded-md mr-4'
                   onClick={() => handleViewRecipe(meal)}
@@ -145,7 +182,7 @@ function MealsPage() {
                     onClick={() => handlelikedMeal(meal)}
                   >
                     <FontAwesomeIcon
-                      className='transition-colors hover:text-red-500'
+                      className={`transition-colors hover:text-red-500`}
                       icon={faHeart}
                     />
                   </button>

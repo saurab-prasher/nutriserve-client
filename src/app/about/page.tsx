@@ -9,8 +9,8 @@ const AboutUs = () => {
           src='/images/about-us.png'
           alt='Sample Image'
           layout='responsive'
-          width={1400}
-          height={800}
+          width={1800}
+          height={1200}
         />
       </div>
 
