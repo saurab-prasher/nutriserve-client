@@ -116,7 +116,7 @@ function MealsPage() {
     console.log("acb");
     const likedFilteredMeals = filteredMeals.filter((meal) => {
       // Check if the meal's ID is in the likedRecipes array
-      return likedRecipes.some((likedMeal) => likedMeal === meal._id);
+      return likedRecipes.some((likedMeal: any) => likedMeal === meal._id);
     });
     console.log(likedFilteredMeals); // This will show the filtered array of liked meals
   }

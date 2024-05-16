@@ -11,7 +11,7 @@ export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
 // export const MyContext = createContext<MyContextType>(defaultContextValue);
 export const MyContext = createContext<any>("");
-export const MyContextProvider = ({ children }) => {
+export const MyContextProvider = ({ children }: any) => {
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
   const [likedRecipes, setlikedRecipes] = useState<any>([]);
   const [loggedInUser, setLoggedInUser] = useState<any>();
@@ -191,11 +191,11 @@ export const MyContextProvider = ({ children }) => {
     );
     handleRecipeUpdateMessage("Recipe removed from cart");
   };
-  const handleRecipeUpdateMessage = (message) => {
+  const handleRecipeUpdateMessage = (message: any) => {
     setRecipeUpdateMsg(message);
   };
 
-  const handleLikedRecipeMsg = (message) => {
+  const handleLikedRecipeMsg = (message: any) => {
     setLikedRecipeMsg(message);
   };
 
@@ -249,7 +249,7 @@ export const MyContextProvider = ({ children }) => {
     }
   }
 
-  const handleAvatarImageChange = (e) => {
+  const handleAvatarImageChange = (e: any) => {
     // Get the files from the event object
     const files = e.target.files;
     if (files && files[0]) {
