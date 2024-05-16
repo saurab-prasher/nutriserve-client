@@ -15,7 +15,7 @@ interface Plan {
   shippingPrice: number;
   pricePerServing: number;
   totalPrice: number;
-  numOfPeople: number;
+  numberOfPeople: number;
 }
 
 const Plans = () => {
@@ -41,8 +41,6 @@ const Plans = () => {
       setCurrentPlan(data.plan);
     } catch (err) {}
   }
-
-  console.log(currentPlan);
 
   useEffect(() => {
     getPlanDetails();
@@ -77,7 +75,7 @@ const Plans = () => {
 
   // Calculate total price whenever the number of people, recipes per week, or pricing plans change
   useEffect(() => {
-    const selectedPlan = pricingPlans.find(
+    const selectedPlan: any = pricingPlans.find(
       (plan: Plan) => plan?.numberOfPeople === numOfPeople
     ); // Find the pricing plan that matches user selection
 
@@ -95,7 +93,7 @@ const Plans = () => {
     }
   }, [numOfPeople, recipesPerWeek, pricingPlans]);
 
-  async function handlePlanSubmit(e) {
+  async function handlePlanSubmit(e: any) {
     e.preventDefault();
 
     try {
