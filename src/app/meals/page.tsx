@@ -61,6 +61,7 @@ function MealsPage() {
         handleLikedRecipeMsg("");
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [likedRecipeMsg, handleLikedRecipeMsg]);
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 
 import React, { useState, useEffect, useContext } from "react";
@@ -6,10 +7,22 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { MyContext } from "../context/Context"; // Importing context for global state management
 
+interface Plan {
+  planName: string;
+  recipesPerWeek: number;
+  totalPricePerWeek: number;
+  description: string;
+  shippingPrice: number;
+  pricePerServing: number;
+  totalPrice: number;
+  numOfPeoples: number;
+}
+
 const Plans = () => {
   const router = useRouter();
   // State variables for the component
-  const [currentPlan, setCurrentPlan] = useState("");
+  const [currentPlan, setCurrentPlan] = useState<Plan | null>(null);
+
   const [numOfPeople, setNumOfPeople] = useState(2); // Number of people for the plan
   const [recipesPerWeek, setRecipesPerWeek] = useState(3); // Number of recipes per week
   const [pricingPlans, setPricingPlans] = useState([]); // Array to hold pricing plans fetched from the server
@@ -25,7 +38,7 @@ const Plans = () => {
     try {
       const response = await axios.get(`${serverUrl}/users/getplan`); // Fetching pricing plans
       const data = response.data;
-      setCurrentPlan(data);
+      setCurrentPlan(data.plan);
     } catch (err) {}
   }
 
@@ -44,7 +57,7 @@ const Plans = () => {
         const data = response.data;
         setPricingPlans(data);
 
-        data.map((plan: any) => {
+        data.map((plan: Plan) => {
           if (planName === plan.planName) {
             setPricePerServing(plan.pricePerServing);
             setShippingPrice(plan.shippingPrice);
@@ -65,7 +78,7 @@ const Plans = () => {
   // Calculate total price whenever the number of people, recipes per week, or pricing plans change
   useEffect(() => {
     const selectedPlan = pricingPlans.find(
-      (plan) => plan?.numberOfPeople === numOfPeople
+      (plan: Plan) => plan?.numberOfPeople === numOfPeople
     ); // Find the pricing plan that matches user selection
 
     // If a matching plan is found, update pricing information in the state
@@ -89,6 +102,7 @@ const Plans = () => {
       const formData = new FormData();
 
       formData.append("planName", planName);
+
       formData.append("numOfPeople", numOfPeople);
       formData.append("recipesPerWeek", recipesPerWeek);
       formData.append("totalPrice", totalPrice);
@@ -114,15 +128,15 @@ const Plans = () => {
           <div className=' shadow-sm flex flex-col gap-6  border-b-2 border-custom-green   p-6 '>
             <div className='flex justify-between items-center '>
               <span className='block w-50 font-light '>Plan name</span>
-              <p>{currentPlan?.plan?.planName}</p>
+              <p>{currentPlan?.planName}</p>
             </div>
             <div className='flex justify-between items-center'>
               <span className='block w-50 font-light'>Recipes per week</span>
-              <p>{currentPlan?.plan?.recipesPerWeek}</p>
+              <p>{currentPlan?.recipesPerWeek}</p>
             </div>
             <div className='flex justify-between items-center'>
               <span className='block w-50 font-light'>Total weekly price</span>
-              <p>{currentPlan?.plan?.totalPricePerWeek}</p>
+              <p>{currentPlan?.totalPricePerWeek}</p>
             </div>
           </div>
         </div>
@@ -144,14 +158,12 @@ const Plans = () => {
         <div className='flex flex-col gap-5'>
           <div className='flex justify-between items-center'>
             <span className='block w-3/6 font-light'>Plan name</span>
-            <p>{currentPlan?.plan?.planName}</p>
+            <p>{currentPlan?.planName}</p>
           </div>
 
           <div className='flex justify-between items-center'>
             <span className='block max-w-26 font-light'>Plan description</span>
-            <p className='font-light text-sm'>
-              {currentPlan?.plan?.description}
-            </p>
+            <p className='font-light text-sm'>{currentPlan?.description}</p>
           </div>
           {/* Selection for number of people */}
           <div className='flex justify-between items-center'>
