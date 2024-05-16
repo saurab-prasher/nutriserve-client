@@ -101,9 +101,9 @@ const Plans = () => {
 
       formData.append("planName", planName);
 
-      formData.append("numOfPeople", numOfPeople);
-      formData.append("recipesPerWeek", recipesPerWeek);
-      formData.append("totalPrice", totalPrice);
+      formData.append("numOfPeople", numOfPeople.toString());
+      formData.append("recipesPerWeek", recipesPerWeek.toString());
+      formData.append("totalPrice", totalPrice.toString());
       formData.append("planDescription", planDescription);
 
       const { data } = await axios.post(`${serverUrl}/users/setplan`, formData);
