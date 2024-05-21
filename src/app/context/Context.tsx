@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { verifyUser } from "../utils/verifyUserUtils";
+import { usePathname } from "next/navigation";
 import { fetchUserData } from "../utils/fetchUserDataUtils";
+import { verifyUser } from "../utils/verifyUserUtils";
+
 import axios from "axios";
+
 axios.defaults.withCredentials = true;
 
 export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -23,6 +27,7 @@ export const MyContextProvider = ({ children }: any) => {
     visible: false,
     content: "",
   });
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [likedMealIds, setLikedMealIds] = useState([]);
@@ -30,30 +35,35 @@ export const MyContextProvider = ({ children }: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const [recipeUpdateMsg, setRecipeUpdateMsg] = useState("");
   const [likedRecipeMsg, setLikedRecipeMsg] = useState("");
+  const [pathname, setPathname] = useState<string>(usePathname());
+
   const router = useRouter();
 
-  useEffect(() => {
-    setIsLoading(true); // Before making API calls
+  const fetchData = useCallback(() => {
+    // Use pathname here
     if (serverUrl) {
-      // Fetch user data first
+      setIsLoading(true);
       fetchUserData(serverUrl, setLoggedInUser)
         .then(() => {
-          // Once user data is fetched, verify user
-          // Only if the user is present (i.e., not null)
           if (loggedInUser) {
             verifyUser(serverUrl, setLoggedInUser).finally(() => {
-              setIsLoading(false); // After all async operations are complete
+              setIsLoading(false);
             });
           } else {
-            setIsLoading(false); // No user data fetched, stop loading
+            setIsLoading(false);
           }
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
-          setIsLoading(false); // Error occurred, stop loading
+          setIsLoading(false);
         });
     }
-  }, [serverUrl]); // Dependencies ensure it re-runs only if these values change≈
+  }, [pathname, serverUrl]);
+
+  useEffect(() => {
+    fetchData(); // Initial data fetch
+  }, [fetchData]); // Empty dependency array ensures this effect runs only once
+
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };
@@ -289,6 +299,8 @@ export const MyContextProvider = ({ children }: any) => {
         setLoggedInUser,
         setError,
         isLoading,
+        pathname,
+        setIsLoading,
       }}
     >
       {children}

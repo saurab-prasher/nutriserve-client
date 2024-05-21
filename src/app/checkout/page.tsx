@@ -19,8 +19,6 @@ const CheckoutPage = () => {
 
   async function getMealPlan() {
     const response = await axios.get(`${serverUrl}/users/getplan`);
-
-    console.log(response);
   }
 
   return (

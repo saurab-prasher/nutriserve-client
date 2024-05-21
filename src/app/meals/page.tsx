@@ -50,7 +50,6 @@ function MealsPage() {
   const [color, setColor] = useState("red");
 
   useEffect(() => {
-    console.log(likedRecipes);
     if (likedRecipeMsg !== "") {
       const timer = setTimeout(() => {
         handleLikedRecipeMsg("");

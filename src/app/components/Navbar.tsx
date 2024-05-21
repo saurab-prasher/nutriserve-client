@@ -51,6 +51,7 @@ export default function Navbar() {
                 src='/images/logo/logo-nutriserve.png'
                 alt='NutriServe logo'
                 width={150}
+                priority
                 height={150}
               />
             </Link>

@@ -1,12 +1,9 @@
-"use client";
 import React from "react";
-import { useContext, useEffect } from "react";
-
 import { Poppins } from "next/font/google";
 import "./globals.css";
+
+import { MyContextProvider } from "./context/Context";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import { MyContext, MyContextProvider } from "./context/Context";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,16 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <React.StrictMode>
-      <MyContextProvider>
-        <html lang='en'>
-          <body className={poppins.className}>
-            <Navbar />
-            {children}
-            <Footer />
-          </body>
-        </html>
-      </MyContextProvider>
-    </React.StrictMode>
+    <MyContextProvider>
+      <html lang='en'>
+        <body className={poppins.className}>
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </MyContextProvider>
   );
 }

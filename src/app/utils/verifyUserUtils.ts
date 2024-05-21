@@ -16,7 +16,6 @@ export const verifyUser = async (serverUrl: any, setLoggedInUser: any) => {
     if (error.response && error.response.status === 401) {
       setLoggedInUser(null); // Handle unauthorized user
     } else {
-      console.error("Error verifying user:", error); // Log other errors
       setLoggedInUser(null);
     }
   }
