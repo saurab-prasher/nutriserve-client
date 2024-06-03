@@ -25,7 +25,7 @@ const Plans = () => {
 
   const [numOfPeople, setNumOfPeople] = useState(2); // Number of people for the plan
   const [recipesPerWeek, setRecipesPerWeek] = useState(3); // Number of recipes per week
-  const [pricingPlans, setPricingPlans] = useState([]); // Array to hold pricing plans fetched from the server
+  // const [pricingPlans, setPricingPlans] = useState([]); // Array to hold pricing plans fetched from the server
   const [totalPrice, setTotalPrice] = useState(0); // Total price for the selected plan
   const [pricePerServing, setPricePerServing] = useState(0); // Price per serving based on the selected plan
   const [shippingPrice, setShippingPrice] = useState(0); // Shipping price based on the selected plan
@@ -33,8 +33,9 @@ const Plans = () => {
   const [planDescription, setPlanDescription] = useState("");
 
   const { serverUrl, loggedInUser } = useContext(MyContext);
+  const [fullPlan, setFullPlan] = useState([]);
 
-  async function getPlanDetails() {
+  async function getUserPlanDetails() {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(`${serverUrl}/users/getplan`, {
@@ -50,39 +51,36 @@ const Plans = () => {
   }
 
   useEffect(() => {
-    getPlanDetails();
+    getUserPlanDetails();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serverUrl, loggedInUser]);
 
+  async function getAllPlans() {
+    try {
+      const response = await axios.get(`${serverUrl}/api/pricing`); // Fetching pricing plans
+      const data = response.data;
+      setFullPlan(data);
+
+      data.map((plan: Plan) => {
+        if (planName === plan.planName) {
+          setPricePerServing(plan.pricePerServing);
+          setShippingPrice(plan.shippingPrice);
+          setTotalPrice(plan.totalPrice);
+          setPlanDescription(plan.description);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching pricing data:", error); // Logging any errors
+    }
+  }
+
   useEffect(() => {
-    const fetchPricing = async () => {
-      try {
-        const response = await axios.get(`${serverUrl}/api/pricing`); // Fetching pricing plans
-        const data = response.data;
-        setPricingPlans(data);
-
-        data.map((plan: Plan) => {
-          if (planName === plan.planName) {
-            setPricePerServing(plan.pricePerServing);
-            setShippingPrice(plan.shippingPrice);
-            setTotalPrice(plan.totalPrice);
-            setPlanDescription(plan.description);
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching pricing data:", error); // Logging any errors
-      }
-    };
-
-    fetchPricing();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serverUrl]);
-
+    getAllPlans();
+  }, []);
   // Calculate total price whenever the number of people, recipes per week, or pricing plans change
   useEffect(() => {
-    const selectedPlan: any = pricingPlans.find(
+    const selectedPlan: any = fullPlan.find(
       (plan: Plan) => plan?.numberOfPeople === numOfPeople
     ); // Find the pricing plan that matches user selection
 
@@ -98,10 +96,12 @@ const Plans = () => {
 
       setPlanDescription(selectedPlan?.description);
     }
-  }, [numOfPeople, recipesPerWeek, pricingPlans]);
+  }, [numOfPeople, recipesPerWeek, fullPlan]);
 
   async function handlePlanSubmit(e: any) {
     e.preventDefault();
+
+    const token = localStorage.getItem("token");
 
     try {
       const formData = new FormData();
@@ -113,7 +113,16 @@ const Plans = () => {
       formData.append("totalPrice", totalPrice.toString());
       formData.append("planDescription", planDescription);
 
-      const { data } = await axios.post(`${serverUrl}/users/setplan`, formData);
+      const { data } = await axios.post(
+        `${serverUrl}/users/setuserplan`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       router.push("/meals");
     } catch (error) {
       console.log(error);
@@ -158,12 +167,12 @@ const Plans = () => {
           change it later from week to week.
         </p>
       </div>
-      <form action='' onSubmit={handlePlanSubmit}>
+      <form onSubmit={handlePlanSubmit}>
         {/* Buttons for selecting the number of people and recipes per week */}
         <div className='flex flex-col gap-5'>
           <div className='flex justify-between items-center'>
             <span className='block w-3/6 font-light'>Plan name</span>
-            <p>{currentPlan?.planName}</p>
+            <p>{planName}</p>
           </div>
 
           <div className='flex justify-between items-center'>
@@ -175,7 +184,7 @@ const Plans = () => {
             <span className='block w-3/6 font-light'>Number of people</span>
             <div className='flex w-9/12'>
               {/* Buttons to select the number of people */}
-              {pricingPlans.map(({ numberOfPeople }) => (
+              {fullPlan.map(({ numberOfPeople }) => (
                 <div
                   key={numberOfPeople}
                   onClick={() => setNumOfPeople(numberOfPeople)}
