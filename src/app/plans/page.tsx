@@ -35,8 +35,15 @@ const Plans = () => {
   const { serverUrl, loggedInUser } = useContext(MyContext);
 
   async function getPlanDetails() {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`${serverUrl}/users/getplan`); // Fetching pricing plans
+      const response = await axios.get(`${serverUrl}/users/getplan`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }); // Fetching pricing plans
+
       const data = response.data;
       setCurrentPlan(data.plan);
     } catch (err) {}
