@@ -39,16 +39,14 @@ export const MyContextProvider = ({ children }: any) => {
 
   const router = useRouter();
 
-  const fetchData = useCallback(() => {
+  const fetchData = useCallback(async () => {
     // Use pathname here
     if (serverUrl) {
       setIsLoading(true);
-      fetchUserData(serverUrl, setLoggedInUser)
+      verifyUser(serverUrl, setLoggedInUser)
         .then(() => {
           if (loggedInUser) {
-            verifyUser(serverUrl, setLoggedInUser).finally(() => {
-              setIsLoading(false);
-            });
+            setIsLoading(false);
           } else {
             setIsLoading(false);
           }
@@ -57,6 +55,21 @@ export const MyContextProvider = ({ children }: any) => {
           console.error("Error fetching user data:", error);
           setIsLoading(false);
         });
+      // fetchUserData(serverUrl, setLoggedInUser)
+      //   .then(() => {
+      //     console.log(loggedInUser);
+      //     if (loggedInUser) {
+      //       verifyUser(serverUrl, setLoggedInUser).finally(() => {
+      //         setIsLoading(false);
+      //       });
+      //     } else {
+      //       setIsLoading(false);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching user data:", error);
+      //     setIsLoading(false);
+      //   });
     }
   }, [pathname, serverUrl]);
 
@@ -98,6 +111,8 @@ export const MyContextProvider = ({ children }: any) => {
 
       if (data?.msg === "Success") {
         setLoggedInUser(data.user); // Update UI based on logged-in user
+        const { token } = data;
+        localStorage.setItem("token", token); // Store the token in local storage
 
         router.push("/");
         setEmail("");
@@ -153,6 +168,9 @@ export const MyContextProvider = ({ children }: any) => {
       console.log(data);
       if (data?.msg === "Successfully signed") {
         setLoggedInUser(data.user);
+        const { token } = data;
+
+        localStorage.setItem("token", token); // Store the token in local storage
         router.push("/");
       }
 
@@ -171,6 +189,7 @@ export const MyContextProvider = ({ children }: any) => {
   async function handleLogout() {
     try {
       await axios.get(`${serverUrl}/users/logout`).then((response) => {
+        localStorage.removeItem("token"); // Remove the token from local storage
         setLoggedInUser(null); // Update local state
         setEmail("");
         setPassword("");
