@@ -2,17 +2,32 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/legacy/image";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 import { MyContext } from "../context/Context";
 export default function Login() {
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const {
     handleEmailChange,
     handlePasswordChange,
     handleLoginSubmit,
     email,
     password,
+    loginError,
+    handleLoginMsg,
   } = useContext(MyContext);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      handleLoginMsg("");
+    }, 4000);
+
+    return () => clearTimeout(id);
+  });
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className='flex justify-center items-center py-24'>
@@ -37,11 +52,7 @@ export default function Login() {
             </p>
 
             <div className='absolute top-110 -bottom-10 z-40  '>
-              <p className='text-red-500 text-sm font-medium'>
-                {/* {setError(
-                  "Email address or password incorrect, please try again!"
-                )} */}
-              </p>
+              <p className='text-red-500 text-sm font-medium'>{loginError}</p>
             </div>
           </div>
 
@@ -63,19 +74,24 @@ export default function Login() {
                   placeholder='Email address'
                 />
               </div>
-              <div>
+              <div className='relative'>
                 <label htmlFor='password' className='sr-only'>
                   Password
                 </label>
                 <input
                   id='password'
                   name='password'
-                  type='password'
+                  type={showPassword ? "text" : "password"}
                   onChange={handlePasswordChange}
                   required
                   value={password}
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:text-custom-green focus:z-10 sm:text-sm'
                   placeholder='Password'
+                />
+                <MdOutlineRemoveRedEye
+                  onClick={handleShowPassword}
+                  className='absolute top-1/4 right-2 cursor-pointer hover:text-custom-green z-50 '
+                  size={18}
                 />
               </div>
             </div>

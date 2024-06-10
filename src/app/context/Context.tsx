@@ -28,6 +28,8 @@ export const MyContextProvider = ({ children }: any) => {
     content: "",
   });
 
+  const [loginError, setLoginError] = useState("");
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [likedMealIds, setLikedMealIds] = useState([]);
@@ -166,7 +168,15 @@ export const MyContextProvider = ({ children }: any) => {
         }
       );
       console.log(data);
+
+      if (data.msg === "Invalid credentials") {
+        handleLoginMsg(
+          "Email address or password incorrect, please try again!"
+        );
+        return;
+      }
       if (data?.msg === "Successfully signed") {
+        setLoginError("");
         setLoggedInUser(data.user);
         const { token } = data;
 
@@ -286,9 +296,14 @@ export const MyContextProvider = ({ children }: any) => {
     }
   };
 
+  const handleLoginMsg = (msg: string) => {
+    setLoginError(msg);
+  };
   return (
     <MyContext.Provider
       value={{
+        loginError,
+        handleLoginMsg,
         error,
         handleRegisterSubmit,
         handleEmailChange,
