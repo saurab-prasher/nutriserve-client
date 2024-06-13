@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useContext, useState } from "react";
+import axios from "axios";
 
 import { MyContext } from "../context/Context";
 
@@ -16,6 +17,7 @@ const Register = () => {
     password,
     confirmPassword,
     error,
+    serverUrl,
     handleFirstNameChange,
     handleLastNameChange,
     handlePasswordChange,

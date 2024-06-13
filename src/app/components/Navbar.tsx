@@ -18,7 +18,9 @@ export default function Navbar() {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  const avatarUrl = `${serverUrl}/${loggedInUser?.avatarImg}`;
+  console.log(loggedInUser);
+
+  const avatarUrl = loggedInUser?.avatarUrl;
 
   useEffect(() => {
     setRecipeCount(selectedRecipes?.length);
@@ -149,7 +151,7 @@ export default function Navbar() {
                         width={56}
                         height={58}
                         className='rounded-full'
-                        src={avatarUrl}
+                        src={loggedInUser?.avatarUrl}
                         alt='avatar img'
                       />
                       {/* <svg

@@ -93,6 +93,7 @@ export const MyContextProvider = ({ children }: any) => {
 
   async function handleRegisterSubmit(e: any) {
     e.preventDefault();
+    console.log(avatarImg);
 
     if (!avatarImg) {
       alert("Please select an image first.");
@@ -108,7 +109,12 @@ export const MyContextProvider = ({ children }: any) => {
       formData.append("avatarImg", avatarImg);
       const { data } = await axios.post(
         `${serverUrl}/users/register`,
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       if (data?.msg === "Success") {
@@ -167,7 +173,6 @@ export const MyContextProvider = ({ children }: any) => {
           },
         }
       );
-      console.log(data);
 
       if (data.msg === "Invalid credentials") {
         handleLoginMsg(
