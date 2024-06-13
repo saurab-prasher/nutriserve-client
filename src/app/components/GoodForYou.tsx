@@ -9,7 +9,7 @@ const GoodForYou = () => {
           <Image
             alt='avatar image'
             object-fit='contain'
-            src={"/images/gfy-1.webp"}
+            src='https://nutriserve-images.s3.us-east-2.amazonaws.com/gfy-1.webp'
             width={550}
             height={600}
           />

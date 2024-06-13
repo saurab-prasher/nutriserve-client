@@ -18,10 +18,6 @@ export default function Navbar() {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  console.log(loggedInUser);
-
-  const avatarUrl = loggedInUser?.avatarUrl;
-
   useEffect(() => {
     setRecipeCount(selectedRecipes?.length);
 
@@ -50,7 +46,7 @@ export default function Navbar() {
           <>
             <Link href='/'>
               <Image
-                src='/images/logo/logo-nutriserve.png'
+                src='https://nutriserve-images.s3.us-east-2.amazonaws.com/logo-nutriserve.png'
                 alt='NutriServe logo'
                 width={150}
                 priority
@@ -150,9 +146,11 @@ export default function Navbar() {
                       <Image
                         width={56}
                         height={58}
+                        loading='lazy'
                         className='rounded-full'
-                        src={loggedInUser?.avatarUrl}
+                        src={loggedInUser?.avatarImg}
                         alt='avatar img'
+                        objectFit='cover'
                       />
                       {/* <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -229,7 +227,9 @@ export default function Navbar() {
                                     d='M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
                                   />
                                 </svg>
-                                <p>Account Settings</p>
+                                <Link href='/accountsetting'>
+                                  Account Settings
+                                </Link>
                               </div>
 
                               <div className='flex gap-4 hover:text-custom-green'>

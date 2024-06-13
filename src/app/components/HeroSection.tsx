@@ -7,7 +7,7 @@ const HeroSection = () => {
     <section className='relative h-max '>
       <div className='absolute top-0 left-0 w-full h-full'>
         <Image
-          src='/images/heroSection.jpg'
+          src='https://nutriserve-images.s3.us-east-2.amazonaws.com/heroSection.jpg'
           alt='Healthy Food'
           layout='fill'
           objectFit='cover'

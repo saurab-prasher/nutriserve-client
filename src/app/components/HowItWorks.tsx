@@ -20,7 +20,8 @@ const HowItWorks = () => {
               object-fit='contain'
               height={300}
               width={300}
-              src={"/images/hiw-1.webp"}
+              src='https://nutriserve-images.s3.us-east-2.amazonaws.com/hiw-1.webp'
+              loading='lazy'
             />
           </div>
 
@@ -38,7 +39,8 @@ const HowItWorks = () => {
               object-fit='contain'
               height={300}
               width={300}
-              src={"/images/hiw-2.webp"}
+              loading='lazy'
+              src='https://nutriserve-images.s3.us-east-2.amazonaws.com/hiw-2.webp'
             />
           </div>
 
@@ -57,7 +59,8 @@ const HowItWorks = () => {
               object-fit='contain'
               height={300}
               width={300}
-              src={"/images/hiw-3.webp"}
+              loading='lazy'
+              src='https://nutriserve-images.s3.us-east-2.amazonaws.com/hiw-3.webp'
             />
           </div>
 
@@ -77,7 +80,8 @@ const HowItWorks = () => {
               object-fit='contain'
               height={300}
               width={300}
-              src={"/images/hiw-4.webp"}
+              loading='lazy'
+              src='https://nutriserve-images.s3.us-east-2.amazonaws.com/hiw-4.webp'
             />
           </div>
 

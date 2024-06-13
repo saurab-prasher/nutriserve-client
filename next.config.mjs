@@ -34,6 +34,8 @@ const nextConfig = {
       "thewoodenskillet.com",
       "www.twopeasandtheirpod.com",
       "localhost",
+      "nutriserve-images.s3.us-east-2.amazonaws.com",
+      "nutriserve-images.s3.amazonaws.com",
     ],
   },
 };

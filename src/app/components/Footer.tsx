@@ -5,9 +5,8 @@ import Image from "next/legacy/image";
 import { MyContext } from "../context/Context";
 
 const Footer = () => {
-  const { loggedInUser } = useContext(MyContext);
   return (
-    <footer className='bg-gray-100 text-gray-700 pt-10'>
+    <footer className='bg-[#3D8F40] text-white py-10'>
       <div className='max-w-6xl mx-auto px-5 grid grid-cols-1 md:grid-cols-5 gap-10'>
         <div className='space-y-4'>
           <Image
@@ -57,7 +56,7 @@ const Footer = () => {
           <h3 className='font-semibold'>Company</h3>
           <ul className='space-y-1'>
             <li>
-              <Link href='#'>About NutriServe</Link>
+              <Link href='/about'>About NutriServe</Link>
             </li>
             <li>
               <Link href='#'>For Business</Link>

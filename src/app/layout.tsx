@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { MyContextProvider } from "./context/Context";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,6 +22,7 @@ export default function RootLayout({
         <body className={poppins.className}>
           <Navbar />
           {children}
+          <Footer />
         </body>
       </html>
     </MyContextProvider>

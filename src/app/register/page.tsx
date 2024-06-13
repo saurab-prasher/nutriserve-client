@@ -26,7 +26,7 @@ const Register = () => {
   } = useContext(MyContext);
 
   return (
-    <div className='flex justify-center items-center py-24'>
+    <div className='flex justify-center items-center py-24 mb-24'>
       <div className=' grid grid-cols-2 gap-12'>
         <Image
           alt='register account image'

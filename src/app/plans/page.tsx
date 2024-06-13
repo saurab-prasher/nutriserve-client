@@ -131,7 +131,7 @@ const Plans = () => {
 
   // The rendered component
   return (
-    <div className='flex flex-col gap-8 shadow-md w-9/12 m-auto py-12 px-48 mb-12'>
+    <div className='flex flex-col gap-8 shadow-md w-9/12 m-auto py-24 px-48 mb-24'>
       {/* Title and introductory text */}
       {loggedInUser ? (
         <div className=' shadow-sm mb-24'>
