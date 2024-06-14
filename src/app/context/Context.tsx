@@ -19,7 +19,7 @@ export const MyContextProvider = ({ children }: any) => {
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
   const [likedRecipes, setlikedRecipes] = useState<any>([]);
   const [loggedInUser, setLoggedInUser] = useState<any>();
-  const [avatarImg, setAvatarImg] = useState<any>([]);
+  const [avatarImg, setAvatarImg] = useState<any>("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
