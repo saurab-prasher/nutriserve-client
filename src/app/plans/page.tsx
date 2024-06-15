@@ -46,6 +46,7 @@ const Plans = () => {
       }); // Fetching pricing plans
 
       const data = response.data;
+
       setCurrentPlan(data.plan);
     } catch (err) {}
   }
@@ -129,11 +130,31 @@ const Plans = () => {
     }
   }
 
+  console.log(currentPlan);
+
   // The rendered component
   return (
-    <div className='flex flex-col gap-8 shadow-md w-9/12 m-auto py-24 px-48 mb-24'>
+    <div className='flex flex-col gap-8 shadow-md w-9/12 m-auto py-24 pt-12 px-48 mb-24'>
       {/* Title and introductory text */}
-      {loggedInUser ? (
+
+      {!currentPlan ? (
+        <div className=' mb-12 py-6'>
+          <h2 className='text-4xl text-center font-light tracking-wide mb-6  '>
+            Please select a plan
+          </h2>
+
+          <p className='font-light'>
+            Welcome to our "Select Your Plan" page! Here, you can customize your
+            meal plan to fit your lifestyle. Choose the number of people and the
+            number of recipes per week, and see the price summary instantly.
+            Whether you're cooking for yourself or your family, we've got the
+            perfect plan for you.
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
+      {loggedInUser && currentPlan ? (
         <div className=' shadow-sm mb-24'>
           <h2 className='text-4xl text-center font-light tracking-wide mb-6'>
             Your current plan details
@@ -160,7 +181,7 @@ const Plans = () => {
 
       <div>
         <h2 className='text-4xl text-center font-light tracking-wide mb-6'>
-          {true ? "Update your plan details" : "     Choose your plan"}
+          {currentPlan ? "Update your plan details" : "     Choose your plan"}
         </h2>
         <p className='font-light'>
           We&apos;ll set this as your default plan size, but you can always

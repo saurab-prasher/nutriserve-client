@@ -7,11 +7,15 @@ import { IoMdSettings } from "react-icons/io";
 import { MyContext } from "../context/Context";
 import axios from "axios";
 import Image from "next/image";
+import UserInfo from "../components/UserInfo";
+import UserAddress from "../components/UserAddress";
 const Page = () => {
   const [image, setImage] = useState<any>("");
   const [previewImg, setPreviewImg] = useState<any>("");
 
   const { loggedInUser, serverUrl, setLoggedInUser } = useContext(MyContext);
+
+  const [activeTab, setActiveTab] = useState("userinfo");
 
   const handleImageChange = (e: any) => {
     setImage(e.target.files[0]);
@@ -43,11 +47,19 @@ const Page = () => {
     }
   };
 
+  function setVisibleComponent() {
+    if (activeTab === "userinfo") {
+      return <UserInfo />;
+    } else if (activeTab === "user-address") {
+      return <UserAddress />;
+    }
+  }
+
   return (
     <div className='flex '>
       <aside
         id='sidebar '
-        className='flex gap-10 flex-col h-full px-24 py-12 mb-24 mx-auto'
+        className='flex gap-4 flex-col h-full px-24 py-12 mb-24 mx-auto'
       >
         <section id='user-avatar'>
           <div className='relative'>
@@ -75,7 +87,7 @@ const Page = () => {
                   onChange={handleImageChange}
                   className='hidden'
                 />
-                <MdEdit className='text-2xl  text-custom-green  ' />
+                <MdEdit className='text-2xl  text-custom-green' />
               </label>
               {image && (
                 <button
@@ -89,105 +101,52 @@ const Page = () => {
           </div>
         </section>
 
-        <section className='mt-8' id='user-info '>
-          <div className='flex items-center gap-3 '>
+        <section
+          className={`mt-8  cursor-pointer w-full p-2
+${activeTab === "userinfo" ? "bg-custom-green  text-white" : ""} `}
+          id='user-info'
+          onClick={() => setActiveTab("userinfo")}
+        >
+          <div className='flex items-center gap-3   '>
             <FaRegUserCircle size={24} />
-            <p>User Info</p>
+            <button className=''>User Info</button>
           </div>
         </section>
-        <section id='user-dashboard'>
+        <section
+          className={`cursor-pointer w-full p-2  ${
+            activeTab === "user-address" ? "bg-custom-green text-white" : ""
+          } `}
+          onClick={() => setActiveTab("user-address")}
+          id='user-address'
+        >
           <div className='flex items-center gap-3'>
             <MdOutlineSpaceDashboard size={24} />
-            <p>Dashboard</p>
+            <button>Address Information</button>
           </div>
         </section>
-        <section id='user-favourites'>
+        <section
+          className={` cursor-pointer w-full p-2 ${
+            activeTab === "user-favourites" ? "bg-custom-green text-white" : ""
+          } `}
+          onClick={() => setActiveTab("user-favourites")}
+          id='user-favourites'
+        >
           <div className='flex items-center gap-3'>
             <FaRegHeart size={24} />
-            <p>Favourites</p>
+            <button>Favourites</button>
           </div>
         </section>
         <section id='user-settings'>
           <div className='flex items-center gap-3'>
             <IoMdSettings size={24} />
 
-            <p>Settings</p>
+            <button>Settings</button>
           </div>
         </section>
       </aside>
 
       <div className=' flex-1 max-w-screen-lg mx-auto px-4 py-8'>
-        <main>
-          <div>
-            <h3 className='text-2xl font-bold mb-4'>Your Profile</h3>
-          </div>
-
-          <div className='user-info'>
-            <div className='grid grid-flow-col gap-12'>
-              <div>
-                <label htmlFor='firstname'>firstname</label>
-
-                <input
-                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                  type='text'
-                  value={loggedInUser?.firstname}
-                  id='firstname'
-                />
-              </div>
-              <div>
-                <label htmlFor='lastname'>lastname</label>
-                <input
-                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                  type='text'
-                  value={loggedInUser?.lastname}
-                  id='lastname'
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor='email'>email</label>
-              <input
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                type='text'
-                id='email'
-              />
-            </div>
-
-            <div>
-              <label htmlFor='gender'>gender</label>
-              <input
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                type='text'
-                id='gender'
-              />
-            </div>
-
-            <div>
-              <label htmlFor='birthday'>Birthday</label>
-              <input
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                type='text'
-                id='month'
-              />
-              <input
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                type='text'
-                id='day'
-              />
-              <input
-                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
-                type='text'
-                id='year'
-              />
-            </div>
-
-            <div>
-              <label htmlFor='password'>password</label>
-              <input type='text' />
-            </div>
-          </div>
-        </main>
+        <main>{setVisibleComponent()}</main>
       </div>
     </div>
   );
