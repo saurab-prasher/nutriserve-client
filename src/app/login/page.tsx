@@ -7,6 +7,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { MyContext } from "../context/Context";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     handleEmailChange,
     handlePasswordChange,
@@ -31,12 +32,12 @@ export default function Login() {
 
   return (
     <div className='flex justify-center items-center py-24 mb-24'>
-      <div className=' grid grid-cols-2 gap-12'>
+      <div className='grid grid-cols-2 gap-12'>
         <Image
           alt='register account image'
           height={400}
           width={400}
-          src={"/images/signin.webp"}
+          src='https://nutriserve-images.s3.us-east-2.amazonaws.com/signin.webp'
         />
 
         <div>
@@ -45,8 +46,9 @@ export default function Login() {
               Sign in to your account
             </h2>
             <p className='mt-2 text-center text-sm text-gray-600'>
-              Or{" "}
+              Or
               <Link className='font-medium text-custom-green' href='/register'>
+                {" "}
                 register a new account
               </Link>
             </p>
