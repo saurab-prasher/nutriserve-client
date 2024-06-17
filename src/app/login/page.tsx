@@ -85,7 +85,7 @@ export default function Login() {
                   onChange={handlePasswordChange}
                   required
                   value={password}
-                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:text-custom-green focus:z-10 sm:text-sm'
+                  className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:custom-green focus:custom-green focus:z-10 sm:text-sm'
                   placeholder='Password'
                 />
                 <MdOutlineRemoveRedEye
@@ -114,7 +114,10 @@ export default function Login() {
               </div>
 
               <div className='text-sm'>
-                <Link href='#' className='font-medium text-custom-green'>
+                <Link
+                  href='/forgetpassword'
+                  className='font-medium text-custom-green'
+                >
                   Forgot your password?
                 </Link>
               </div>
