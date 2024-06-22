@@ -13,7 +13,7 @@ const UserAddress = () => {
     country: "",
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAddress((prevAddress) => ({
       ...prevAddress,
@@ -24,7 +24,6 @@ const UserAddress = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    // You might want to integrate here your API call for saving the address
     try {
       // Simulating a save operation
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate an API call delay
@@ -37,7 +36,6 @@ const UserAddress = () => {
         },
       };
 
-      // Send a POST request to your backend API to save the address
       const response = await axios.post(
         `${serverUrl}/users/updateAddress`,
         address,
@@ -47,7 +45,6 @@ const UserAddress = () => {
       console.log(response);
     } catch (error) {
       console.error("Failed to save the address", error);
-      // Handle errors here, such as displaying a user notification
     }
   };
   return (

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaRegUserCircle, FaRegHeart } from "react-icons/fa";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
@@ -9,6 +9,8 @@ import axios from "axios";
 import Image from "next/image";
 import UserInfo from "../components/UserInfo";
 import UserAddress from "../components/UserAddress";
+import { isAuthenticated } from "../utils/Auth";
+import { redirect } from "next/navigation";
 const Page = () => {
   const [image, setImage] = useState<any>("");
   const [previewImg, setPreviewImg] = useState<any>("");
@@ -16,7 +18,12 @@ const Page = () => {
   const { loggedInUser, serverUrl, setLoggedInUser } = useContext(MyContext);
 
   const [activeTab, setActiveTab] = useState("userinfo");
-
+  // useEffect(() => {
+  //   const isAuth = isAuthenticated;
+  //   if (!isAuth) {
+  //     redirect("/");
+  //   }
+  // }, []);
   const handleImageChange = (e: any) => {
     setImage(e.target.files[0]);
     setPreviewImg(URL.createObjectURL(e.target.files[0]));
