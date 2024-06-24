@@ -7,6 +7,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { MyContext } from "../context/Context"; // Importing context for global state management
 
+import MealDetail from "../components/MealDetail";
+
 interface Plan {
   planName: string;
   recipesPerWeek: number;
@@ -35,24 +37,10 @@ const Plans = () => {
   const { serverUrl, loggedInUser } = useContext(MyContext);
   const [fullPlan, setFullPlan] = useState([]);
 
-  async function getUserPlanDetails() {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.get(`${serverUrl}/users/getplan`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }); // Fetching pricing plans
-
-      const data = response.data;
-
-      setCurrentPlan(data.plan);
-    } catch (err) {}
-  }
-
   useEffect(() => {
-    getUserPlanDetails();
+    if (loggedInUser) {
+      setCurrentPlan(loggedInUser.plan);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serverUrl, loggedInUser]);
@@ -130,13 +118,8 @@ const Plans = () => {
     }
   }
 
-  console.log(currentPlan);
-
-  // The rendered component
   return (
-    <div className='flex flex-col gap-8 shadow-md w-9/12 m-auto py-24 pt-12 px-48 mb-24'>
-      {/* Title and introductory text */}
-
+    <div className='flex flex-col gap-8 shadow-md  m-auto py-24 pt-12 px-48 mb-24'>
       {!currentPlan ? (
         <div className=' mb-12 py-6'>
           <h2 className='text-4xl text-center font-light tracking-wide mb-6  '>
@@ -154,6 +137,7 @@ const Plans = () => {
       ) : (
         ""
       )}
+
       {loggedInUser && currentPlan ? (
         <div className=' shadow-sm mb-24'>
           <h2 className='text-4xl text-center font-light tracking-wide mb-6'>
@@ -178,6 +162,10 @@ const Plans = () => {
       ) : (
         ""
       )}
+
+      <div>
+        <MealDetail />
+      </div>
 
       <div>
         <h2 className='text-4xl text-center font-light tracking-wide mb-6'>

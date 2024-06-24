@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import SingleMeal from "@/app/components/SingleMeal";
 import { MyContext } from "@/app/context/Context";
 
-const Page = () => {
+const Page = ({ width, height }: any) => {
   const { serverUrl } = useContext(MyContext);
   const [meal, setMeal] = useState();
 
@@ -20,7 +20,7 @@ const Page = () => {
     fetchData();
   }, [urlParam, serverUrl]);
 
-  return <SingleMeal meal={meal} />;
+  return <SingleMeal width={width} height={height} meal={meal} />;
 };
 
 export default Page;

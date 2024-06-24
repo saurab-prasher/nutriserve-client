@@ -194,8 +194,8 @@ function MealsPage() {
       </div>
 
       {showModal && selectedMeal && (
-        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50 '>
-          <div className='bg-white rounded-lg w-5/12 max-h-[90%]  relative'>
+        <div className=' bg-black bg-opacity-50 flex justify-center items-center z-50 '>
+          <div className='bg-white rounded-lg '>
             <SingleMeal meal={selectedMeal} />
             <button
               onClick={() => setShowModal(false)}

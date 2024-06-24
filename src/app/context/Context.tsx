@@ -4,7 +4,7 @@ import React, { useEffect, useCallback } from "react";
 import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { fetchUserData } from "../utils/fetchUserDataUtils";
+
 import { verifyUser } from "../utils/verifyUserUtils";
 
 import axios from "axios";
@@ -13,7 +13,6 @@ axios.defaults.withCredentials = true;
 
 export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-// export const MyContext = createContext<MyContextType>(defaultContextValue);
 export const MyContext = createContext<any>("");
 export const MyContextProvider = ({ children }: any) => {
   const [selectedRecipes, setSelectedRecipes] = useState<any>([]);
@@ -57,21 +56,6 @@ export const MyContextProvider = ({ children }: any) => {
           console.error("Error fetching user data:", error);
           setIsLoading(false);
         });
-      // fetchUserData(serverUrl, setLoggedInUser)
-      //   .then(() => {
-      //     console.log(loggedInUser);
-      //     if (loggedInUser) {
-      //       verifyUser(serverUrl, setLoggedInUser).finally(() => {
-      //         setIsLoading(false);
-      //       });
-      //     } else {
-      //       setIsLoading(false);
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching user data:", error);
-      //     setIsLoading(false);
-      //   });
     }
   }, [pathname, serverUrl]);
 
@@ -93,7 +77,6 @@ export const MyContextProvider = ({ children }: any) => {
 
   async function handleRegisterSubmit(e: any) {
     e.preventDefault();
-    console.log(avatarImg);
 
     if (!avatarImg) {
       alert("Please select an image first.");
@@ -215,20 +198,24 @@ export const MyContextProvider = ({ children }: any) => {
     router.push("/login"); // Redirect to login page after logout
   }
 
-  // Function to add a meal to the selected recipes
-  const handleSelectMeal = (selectedMeal: any) => {
-    // Check if the meal is already in the selected recipes
+  const handleAddMeal = async (selectedMeal: any) => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const isAlreadySelected = selectedRecipes.some(
-      (meal: any) => meal._id === selectedMeal._id
-    );
-
-    if (!isAlreadySelected) {
-      setSelectedRecipes([...selectedRecipes, selectedMeal]);
-      handleRecipeUpdateMessage("Recipe added to cart");
+      const response = await axios.post(
+        `${serverUrl}/api/meals/addMeal`,
+        { mealId: selectedMeal._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error adding meal to plan:", error);
     }
   };
-
   const removeSelectedMeal = (mealId: any) => {
     setSelectedRecipes(
       selectedRecipes.filter((meal: any) => meal._id !== mealId)
@@ -316,7 +303,7 @@ export const MyContextProvider = ({ children }: any) => {
         handleConfirmPassword,
         handleAvatarImageChange,
         email,
-        handleSelectMeal,
+        handleAddMeal,
         handlelikedMeal,
         handleLoginSubmit,
         password,

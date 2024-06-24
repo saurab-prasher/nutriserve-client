@@ -35,10 +35,6 @@ const UserInfo = () => {
     }
   }, [loggedInUser]);
 
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleChange = (e: any) => {
     const { id, value } = e.target;
     if (id === "month" || id === "day" || id === "year") {
@@ -79,6 +75,10 @@ const UserInfo = () => {
     }
   };
 
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <div className='max-w-screen-lg mx-auto px-12 pr-36 mt-8 mb-16'>
       <div className='flex justify-between items-center mb-8'>
@@ -88,7 +88,7 @@ const UserInfo = () => {
         <button>
           <FaRegEdit
             className='hover:text-custom-green cursor-pointer'
-            size={28}
+            size={24}
             onClick={handleEditClick}
           />
         </button>
@@ -180,7 +180,7 @@ const UserInfo = () => {
 
         {isEditing && (
           <button
-            className='w-full mt-8 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-green hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 my-auto'
+            className='w-full mt-8 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-custom-green hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700 my-auto'
             type='submit'
           >
             Save Information
