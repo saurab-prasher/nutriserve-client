@@ -119,7 +119,7 @@ const Plans = () => {
   }
 
   return (
-    <div className='flex flex-col gap-8 shadow-md  m-auto py-24 pt-12 px-48 mb-24'>
+    <div className='flex flex-col gap-8 container py-16 mx-auto mb-24'>
       {!currentPlan ? (
         <div className=' mb-12 py-6'>
           <h2 className='text-4xl text-center font-light tracking-wide mb-6  '>

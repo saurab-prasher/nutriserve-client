@@ -7,6 +7,7 @@ import MealFilters from "../components/MealFilters";
 import Image from "next/legacy/image";
 
 import { MyContext } from "../context/Context";
+import Link from "next/link";
 
 type NutritionalValues = {
   calories: number;
@@ -122,7 +123,7 @@ function MealsPage() {
   }
 
   return (
-    <div className='container py-16 mx-auto mb-60 '>
+    <div className='container py-16 mx-auto mb-60'>
       <div className='text-center mb-12'>
         <h1 className='text-4xl font-normal mb-4'>
           Recipes for All Tastes and Occasions
@@ -169,12 +170,13 @@ function MealsPage() {
                 {likedRecipeMsg}
               </span>
               <div className='flex justify-between relative'>
-                <button
-                  className='bg-custom-green text-white px-4 w-full py-2 rounded-md mr-4'
+                <Link
+                  href={`/meals/${meal._id}/`}
+                  className='bg-custom-green text-white px-4 w-full py-2 rounded-md mr-4 text-center'
                   onClick={() => handleViewRecipe(meal)}
                 >
                   Details
-                </button>
+                </Link>
 
                 {loggedInUser && (
                   <button
@@ -194,15 +196,15 @@ function MealsPage() {
       </div>
 
       {showModal && selectedMeal && (
-        <div className=' bg-black bg-opacity-50 flex justify-center items-center z-50 '>
-          <div className='bg-white rounded-lg '>
+        <div className=''>
+          <div className=''>
             <SingleMeal meal={selectedMeal} />
-            <button
+            {/* <button
               onClick={() => setShowModal(false)}
               className=' text-custom-green bg-white px-4 py-2 rounded-full focus:outline-none absolute right-5 top-5 hover:bg-custom-green hover:text-white  text-xl font-normal'
             >
               X
-            </button>
+            </button> */}
           </div>
         </div>
       )}

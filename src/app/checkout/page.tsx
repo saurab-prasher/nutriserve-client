@@ -13,16 +13,8 @@ const CheckoutPage = () => {
   //   return selectedRecipes.length;
   // };
 
-  useEffect(() => {
-    getMealPlan();
-  }, [serverUrl]);
-
-  async function getMealPlan() {
-    const response = await axios.get(`${serverUrl}/users/getplan`);
-  }
-
   return (
-    <div className='container mx-auto  my-12'>
+    <div className='container mx-auto  my-12 min-h-screen'>
       <div className='text-center mb-12'>
         <h1 className='text-4xl font-light mb-4'> Order Summary Page</h1>
 

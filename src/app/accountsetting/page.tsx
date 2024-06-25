@@ -63,13 +63,13 @@ const Page = () => {
   }
 
   return (
-    <div className='flex '>
+    <div className='flex'>
       <aside
-        id='sidebar '
+        id='sidebar'
         className='flex gap-4 flex-col h-full px-24 py-12 mb-24 mx-auto'
       >
         <section id='user-avatar'>
-          <div className='relative'>
+          <div className='relative mb-6'>
             <div className='relative rounded-full h-40 w-40 overflow-hidden '>
               <Image
                 loading='lazy'
@@ -81,7 +81,7 @@ const Page = () => {
             </div>
 
             <form
-              className='absolute bottom-2 right-2 flex items-center border bg-white w-fit border-custom-green rounded-full p-2 z-50  '
+              className='absolute  border bg-white w-fit border-custom-green rounded-full p-2 z-50  '
               onSubmit={handleUpload}
             >
               <label
@@ -99,7 +99,7 @@ const Page = () => {
               {image && (
                 <button
                   type='submit'
-                  className='absolute top-12  left-2 mx-auto cursor-pointer text-center block w-max text-xs  border m-auto bg-custom-green  text-white border-custom-green rounded-sm my-2 p-2'
+                  className='cursor-pointer text-center block w-max text-xs  border m-auto bg-custom-green  text-white border-custom-green rounded-sm my-2 p-2'
                 >
                   Upload New Image
                 </button>
